@@ -14,14 +14,14 @@ GameObject:
   - component: {fileID: 8110767081086769957}
   - component: {fileID: 7864967722009798677}
   - component: {fileID: 4783064713162434699}
-  - component: {fileID: 1149672965064325779}
+  - component: {fileID: 5871681665095210616}
   m_Layer: 0
   m_Name: MagicBall
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5500678964347952397
 Transform:
   m_ObjectHideFlags: 0
@@ -104,8 +104,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _layerEffectNames:
   - Ground
-  _delayEffectTime: 0.2
-  _range: 100
+  _delayEffectTime: 1.2
 --- !u!58 &8110767081086769957
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -188,9 +187,9 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
---- !u!58 &1149672965064325779
-CircleCollider2D:
+  m_Constraints: 4
+--- !u!61 &5871681665095210616
+BoxCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -221,9 +220,19 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0.024416924}
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 4, y: 4}
+    newSize: {x: 1, y: 1}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
   serializedVersion: 2
-  m_Radius: 0.5838152
+  m_Size: {x: 1, y: 1}
+  m_EdgeRadius: 0
 --- !u!1001 &3002812073900993488
 PrefabInstance:
   m_ObjectHideFlags: 0

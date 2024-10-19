@@ -32,7 +32,7 @@ public class Toxic : MonoBehaviour, IBaseSkill
 
     private IEnumerator PerformSkill()
     {
-        _animator.StopRecording();
+        // _animator.StopRecording();
         if (_vfx != null) _vfx.Play();
         yield return new WaitForSeconds(_vfxDuration);
         EndSkill();

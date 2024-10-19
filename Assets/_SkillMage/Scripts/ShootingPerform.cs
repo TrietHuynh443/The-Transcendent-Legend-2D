@@ -78,6 +78,7 @@ public class ShootingPerform : MonoBehaviour
         if(_objectShootingBody != null){
             objectShooting.SetActive(true);
             objectShooting.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+            _direction.x = transform.right.x;
             _objectShootingBody.AddForce(_direction*_force, ForceMode2D.Impulse);
             _objectsShootingInProgress.Add(objectShooting);
         }

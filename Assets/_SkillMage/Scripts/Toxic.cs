@@ -8,11 +8,12 @@ public class Toxic : MonoBehaviour, IBaseSkill
 {
     [SerializeField] private string[] _layerEffectNames;
     [SerializeField] private float _delayEffectTime = 0.2f;
-
+    private SkillData _skillData;
     private ParticleSystem _vfx;
     private Animator _animator;
     private Rigidbody2D _rigidbody;
     private float _vfxDuration;
+
     
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -58,7 +59,10 @@ public class Toxic : MonoBehaviour, IBaseSkill
 
     public void SetData(object skillData)
     {
-
+        object[] toxicParam = new object[2];
+        toxicParam[0] = GameDataType.SKILL;
+        toxicParam[1] = "Toxic";
+        _skillData = GameDataManager.Instance.GetData(toxicParam);
     }
 
     public void Hit()

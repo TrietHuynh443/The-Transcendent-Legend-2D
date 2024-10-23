@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 public enum SkillType
@@ -13,7 +14,7 @@ public enum SkillType
 }
 
 [Serializable]
-public class SkillData
+public class SkillData : BaseData
 {
     public int Id;
     public string Name;
@@ -28,24 +29,45 @@ public class SkillData
 }
 
 
-public class SkillDataContainer : GameData
+public class SkillDataContainer : GameDataContainer
 {
     private SkillData[] _allSkillDatas;
-    private Dictionary<string, SkillData> _skillDictionary;
+    //private Dictionary<string, SkillData> _skillDictionary;
+
+    public SkillDataContainer(GameDataType gameDataType) : base(gameDataType)
+    {
+        //SetType(GameDataType.SKILL);
+    }
+
     public override void SetData(object rawData)
     {
         Debug.Log((string)rawData);
         _allSkillDatas = JsonConvert.DeserializeObject<SkillData[]>((string)rawData);
-        _skillDictionary = _allSkillDatas
-                                .Where(o => o.Name != null) // Filter out nulls
-                                .ToDictionary(o => o.Name, o => o); ;
+
         //_data = JsonUtility.FromJson<SkillData>(rawData.ToString());
     }
 
-    public SkillData GetSkill(string name)
+    public override List<BaseData> GetData(DataFilterParams @params)
     {
-        _skillDictionary.TryGetValue(name, out SkillData skillData);
+        if (!IsMatchDataType(@params.Type)) {
+            return null;
+        }
+        List<SkillData> res = new List<SkillData>();
+        if(@params.Id != DataFilterParams.DEFAULT_ID && @params.Name != DataFilterParams.DEFAULT_NAME)
+        {
+            res = _allSkillDatas.Where(o => o.Id == @params.Id && o.Name == @params.Name).ToList();
+        }
+        else if (@params.Id != DataFilterParams.DEFAULT_ID) { 
+            res = _allSkillDatas.Where(o=>o.Id == @params.Id).ToList();
+        }
+        else if (@params.Name != DataFilterParams.DEFAULT_NAME) { 
+            res = _allSkillDatas.Where(o=>o.Name == @params.Name).ToList();
+        }
+        else
+        {
+            res = _allSkillDatas.ToList();
+        }
 
-        return skillData;
+        return res.Cast<BaseData>().ToList();
     }
 }

@@ -6,7 +6,6 @@ using UnityEngine;
 public class GameDataManager : UnitySingleton<GameDataManager>
 {
     private SkillDataContainer _skillDataContainer;
-    
     private Dictionary<GameDataType, GameDataContainer> _gameDataContainers = new Dictionary<GameDataType, GameDataContainer>();
     
     public void LoadSkillData()

@@ -5,18 +5,19 @@ using UnityEngine;
 public class GameManager : UnitySingleton<GameManager> 
 {
     private ResourcesRoute routes;
-    public static GameDataManager GameDataManagerInstance { get; private set; }
+    private GameDataManager _gameDataManagerInstance;
 
     protected override void SingletonAwake()
     {
         routes = ResourcesRoute.Instance;
+        _gameDataManagerInstance = GameDataManager.Instance;
     }
     protected override void SingletonStarted()
     {
-        GameDataManagerInstance = GameDataManager.Instance;
-        GameDataManagerInstance.gameObject.transform.SetParent(transform);
 
-        GameDataManagerInstance.LoadSkillData();
+        _gameDataManagerInstance.gameObject.transform.SetParent(transform);
+
+        _gameDataManagerInstance.LoadSkillData();
     }
 
 }

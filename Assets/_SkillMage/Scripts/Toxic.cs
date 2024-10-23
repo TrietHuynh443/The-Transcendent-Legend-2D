@@ -57,12 +57,17 @@ public class Toxic : MonoBehaviour, IBaseSkill
         _rigidbody = GetComponent<Rigidbody2D>();
     }
 
-    public void SetData(object skillData)
+    public void SetData()
     {
-        object[] toxicParam = new object[2];
-        toxicParam[0] = GameDataType.SKILL;
-        toxicParam[1] = "Toxic";
-        _skillData = GameDataManager.Instance.GetData(toxicParam);
+        var toxicParam = new DataFilterParams();
+        toxicParam.Name = "Toxic";
+        toxicParam.Type = GameDataType.SKILL;
+        var res = GameDataManager.Instance.GetData(toxicParam);
+        if (res.Count >= 1)
+        {
+            _skillData = (SkillData)res[0];
+        }
+        Debug.Log(_skillData.Name);
     }
 
     public void Hit()
@@ -79,5 +84,10 @@ public class Toxic : MonoBehaviour, IBaseSkill
     {
         gameObject.SetActive(false);
         _animator.SetBool("IsExplode", false);
+    }
+
+    private void Start()
+    {
+        SetData();
     }
 }

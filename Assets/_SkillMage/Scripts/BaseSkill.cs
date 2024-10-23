@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IBaseSkill
 {
-    public void SetData(object skillData);
+    public void SetData();
     public void Hit();
     public void SetDamage();
     public void EndSkill();

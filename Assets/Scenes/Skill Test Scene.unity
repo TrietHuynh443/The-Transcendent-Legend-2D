@@ -489,6 +489,8 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   _animator: {fileID: 0}
   _speed: 5
+  _jumpSpeed: 5
+  _maxJump: 2
 --- !u!50 &1921135305
 Rigidbody2D:
   serializedVersion: 4

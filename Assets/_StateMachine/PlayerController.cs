@@ -11,11 +11,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpSpeed;
     [SerializeField] private int _maxJump;
+    [SerializeField] private float _onJumpGravityScale = 3f;
+    [SerializeField] private float _originGravityScale = 1f;
+
+
 
     private float _horizontalInput;
     private float _currentJumpSpeed;
     private int _jumpCount; 
     private SpriteRenderer _spriteRenderer;
+
+    private bool _isGrounded = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +30,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _rigidbody.gravityScale = _originGravityScale;
     }
 
     // Update is called once per frame
@@ -32,19 +40,39 @@ public class PlayerController : MonoBehaviour
 
         float velocityY = _rigidbody.velocity.y;
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-            && (_jumpCount < _maxJump))
+        CheckGrounded();
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            _currentJumpSpeed = _jumpSpeed;
-            _animator.SetBool("Jumping", true);
-            _jumpCount++;
+            if(_isGrounded || _animator.GetBool("Jumping") && _jumpCount < _maxJump)
+            {
+                _currentJumpSpeed = _jumpSpeed;
+                _animator.SetBool("Jumping", true);
+                _jumpCount++;
+                _isGrounded = false;
+            }
         }
 
         if (velocityY == 0 && _currentJumpSpeed != _jumpSpeed)
         {
             _animator.SetBool("Jumping", false);
             _jumpCount = 0;
+            _rigidbody.gravityScale = _originGravityScale;
         }
+        else if(velocityY > 0)
+            HandleOnJumping();
+    }
+
+    private void CheckGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
+        _isGrounded = hit.collider != null;
+        // Debug.Log(hit.collider);
+    }
+
+    private void HandleOnJumping()
+    {
+       _rigidbody.gravityScale = _onJumpGravityScale;
     }
 
     void FixedUpdate()

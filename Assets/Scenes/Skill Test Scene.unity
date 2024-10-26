@@ -414,6 +414,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 499456925878664334, guid: 700827559ea40574999dc155d05a0f42, type: 3}
+      propertyPath: _jumpSpeed
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 499456925878664334, guid: 700827559ea40574999dc155d05a0f42, type: 3}
+      propertyPath: _onJumpGravityScale
+      value: 2.5
+      objectReference: {fileID: 0}
     - target: {fileID: 771799019750022714, guid: 700827559ea40574999dc155d05a0f42, type: 3}
       propertyPath: _objectShootingPrefab
       value: 

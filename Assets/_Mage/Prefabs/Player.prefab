@@ -167,8 +167,10 @@ MonoBehaviour:
   _rigidbody: {fileID: 0}
   _animator: {fileID: 0}
   _speed: 5
-  _jumpSpeed: 5
+  _jumpSpeed: 8
   _maxJump: 2
+  _onJumpGravityScale: 2.5
+  _originGravityScale: 1
 --- !u!70 &6922663607990445191
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -11,11 +11,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _jumpSpeed;
     [SerializeField] private int _maxJump;
+    [SerializeField] private float _onJumpGravityScale = 3f;
+    [SerializeField] private float _originGravityScale = 1f;
+
+
 
     private float _horizontalInput;
     private float _currentJumpSpeed;
     private int _jumpCount; 
     private SpriteRenderer _spriteRenderer;
+
 
     // Start is called before the first frame update
     void Start()
@@ -23,6 +28,7 @@ public class PlayerController : MonoBehaviour
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _rigidbody.gravityScale = _originGravityScale;
     }
 
     // Update is called once per frame
@@ -44,7 +50,15 @@ public class PlayerController : MonoBehaviour
         {
             _animator.SetBool("Jumping", false);
             _jumpCount = 0;
+            _rigidbody.gravityScale = _originGravityScale;
         }
+        else if(velocityY > 0)
+            HandleOnJumping();
+    }
+
+    private void HandleOnJumping()
+    {
+       _rigidbody.gravityScale = _onJumpGravityScale;
     }
 
     void FixedUpdate()

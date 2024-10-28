@@ -1,0 +1,1415 @@
+fileFormatVersion: 2
+guid: b89c877fc339aec41a224db5d4b19c1c
+ScriptedImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 2
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+  script: {fileID: 11500000, guid: 62a9f0aa5b59740cfbadc7e5f9823bb0, type: 3}
+  textureImporterSettings:
+    alphaSource: 1
+    mipMapMode: 0
+    enableMipMap: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+    convertToNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+    swizzle: 50462976
+    isReadable: 0
+    streamingMipmaps: 0
+    streamingMipmapsPriority: 0
+    vTOnly: 0
+    ignoreMipmapLimit: 0
+    nPOTScale: 1
+    sRGBTexture: 1
+    spriteMode: 2
+    spriteExtrude: 1
+    spriteMeshType: 1
+    alignment: 0
+    spritePivot: {x: 0.5, y: 0.5}
+    spritePixelsToUnits: 100
+    spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+    spriteGenerateFallbackPhysicsShape: 0
+    generateCubemap: 6
+    cubemapConvolution: 0
+    seamlessCubemap: 0
+    alphaIsTransparency: 1
+    spriteTessellationDetail: -1
+    textureType: 8
+    textureShape: 1
+    singleChannelComponent: 0
+    flipbookRows: 0
+    flipbookColumns: 0
+    ignorePngGamma: 0
+    cookieMode: 0
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+    normalMap: 0
+    textureFormat: 0
+    maxTextureSize: 0
+    lightmap: 0
+    compressionQuality: 0
+    linearTexture: 0
+    grayScaleToAlpha: 0
+    rGBM: 0
+    cubemapConvolutionSteps: 0
+    cubemapConvolutionExponent: 0
+    maxTextureSizeSet: 0
+    compressionQualitySet: 0
+    textureFormatSet: 0
+    applyGammaDecoding: 0
+  previousAsepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  asepriteImporterSettings:
+    fileImportMode: 1
+    importHiddenLayers: 0
+    layerImportMode: 1
+    defaultPivotSpace: 0
+    defaultPivotAlignment: 7
+    customPivotPosition: {x: 0.5, y: 0.5}
+    mosaicPadding: 4
+    spritePadding: 0
+    generateModelPrefab: 1
+    generateAnimationClips: 1
+    addSortingGroup: 1
+    addShadowCasters: 0
+  importFileNodeState: 1
+  platformSettingsDirtyTick: 0
+  textureAssetName: 
+  singleSpriteImportData:
+  - name: 
+    originalName: 
+    pivot: {x: 0, y: 0}
+    alignment: 0
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 0
+      y: 0
+      width: 0
+      height: 0
+    spriteID: 
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 0, y: 0}
+  animatedSpriteImportData:
+  - name: Monster5Pack_Frame_0
+    originalName: 
+    pivot: {x: 0.33333334, y: -0.058823533}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 178
+      width: 42
+      height: 51
+    spriteID: 3bd663a640c786649b96a24c668540eb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 178}
+  - name: Monster5Pack_Frame_1
+    originalName: 
+    pivot: {x: 0.27659574, y: -0.07692308}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 197
+      y: 4
+      width: 47
+      height: 52
+    spriteID: 8e4b2919f4d1edb4bb162ecb8438be86
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 197, y: 4}
+  - name: Monster5Pack_Frame_2
+    originalName: 
+    pivot: {x: 0.25, y: -0.121951215}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 346
+      width: 48
+      height: 41
+    spriteID: ca300942b03ee454d861ede74481667c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 346}
+  - name: Monster5Pack_Frame_3
+    originalName: 
+    pivot: {x: 0.25, y: -0.017857144}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 408
+      width: 48
+      height: 56
+    spriteID: 4a37975cbc97647409972f17a7a46ded
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 408}
+  - name: Monster5Pack_Frame_4
+    originalName: 
+    pivot: {x: 0.31707317, y: -0.058823533}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 237
+      width: 41
+      height: 51
+    spriteID: df9d57285c8293540bf59e72ac628452
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 237}
+  - name: Monster5Pack_Frame_5
+    originalName: 
+    pivot: {x: 0.27659574, y: -0.07692308}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 118
+      width: 47
+      height: 52
+    spriteID: cb4c17dcbc5062b47b5917d31254c56c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 118}
+  - name: Monster5Pack_Frame_6
+    originalName: 
+    pivot: {x: 0.26530612, y: -0.0952381}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 296
+      width: 49
+      height: 42
+    spriteID: 239507f13e1042842983b60fb8549d6d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 296}
+  - name: Monster5Pack_Frame_7
+    originalName: 
+    pivot: {x: 0.25, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 343
+      width: 48
+      height: 57
+    spriteID: e1d9b6d1e0984e44fab60a5300b73727
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 343}
+  - name: Monster5Pack_Frame_8
+    originalName: 
+    pivot: {x: 0.3125, y: -0.46511626}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 60
+      y: 343
+      width: 32
+      height: 43
+    spriteID: 31ce573c878fec3409355a00eb18e242
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 60, y: 343}
+  - name: Monster5Pack_Frame_9
+    originalName: 
+    pivot: {x: 0.33333334, y: -0.5405406}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 242
+      width: 24
+      height: 37
+    spriteID: f1989544607f2a349b3836958414057c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 242}
+  - name: Monster5Pack_Frame_10
+    originalName: 
+    pivot: {x: 0.2857143, y: -0.55263156}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 110
+      width: 28
+      height: 38
+    spriteID: 06024e396ee8f824cb3bfacf66d44dbc
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 110}
+  - name: Monster5Pack_Frame_11
+    originalName: 
+    pivot: {x: 0.2962963, y: -0.55}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 60
+      y: 408
+      width: 27
+      height: 40
+    spriteID: 7eb54cc1cff9fbf4f9e407b558839f8e
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 60, y: 408}
+  - name: Monster5Pack_Frame_12
+    originalName: 
+    pivot: {x: 0.25925925, y: -0.6216216}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 156
+      width: 27
+      height: 37
+    spriteID: 9e0bbcbdd5db22b4487e2fe1c51df9b5
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 156}
+  - name: Monster5Pack_Frame_13
+    originalName: 
+    pivot: {x: 0.375, y: -0.88}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 439
+      width: 24
+      height: 25
+    spriteID: 8436476645c3db64b96e9607e3a5ff9f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 439}
+  - name: Monster5Pack_Frame_14
+    originalName: 
+    pivot: {x: 0.2857143, y: -1.2941177}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 142
+      y: 489
+      width: 21
+      height: 17
+    spriteID: bc6328f4b2685ed4497668644d87a31b
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 142, y: 489}
+  - name: Monster5Pack_Frame_15
+    originalName: 
+    pivot: {x: 0.2857143, y: -1.375}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 217
+      y: 167
+      width: 21
+      height: 16
+    spriteID: 1dfaba22aa7454f4a893fb66af816a50
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 217, y: 167}
+  - name: Monster5Pack_Frame_16
+    originalName: 
+    pivot: {x: 0.47619048, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 217
+      y: 191
+      width: 21
+      height: 15
+    spriteID: fdd7bc95f039ddb4da5dc751b28ed589
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 217, y: 191}
+  - name: Monster5Pack_Frame_17
+    originalName: 
+    pivot: {x: 0.47619048, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 217
+      y: 214
+      width: 21
+      height: 10
+    spriteID: 7b5e4d5469b8efb49a144793a2812d33
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 217, y: 214}
+  - name: Monster5Pack_Frame_18
+    originalName: 
+    pivot: {x: 0.47619048, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 60
+      y: 394
+      width: 21
+      height: 6
+    spriteID: eb2d1e24b340db949abb70bc4d76aae0
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 60, y: 394}
+  - name: Monster5Pack_Frame_19
+    originalName: 
+    pivot: {x: 0.47619048, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 60
+      y: 456
+      width: 21
+      height: 3
+    spriteID: 37e5639c71ab8e449947563684048157
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 60, y: 456}
+  - name: Monster5Pack_Frame_20
+    originalName: 
+    pivot: {x: 0.3, y: -0.27659574}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 395
+      width: 40
+      height: 47
+    spriteID: 56731243ecc3856459dd48498b76298c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 395}
+  - name: Monster5Pack_Frame_21
+    originalName: 
+    pivot: {x: 0.35714287, y: -0.4848485}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 201
+      width: 28
+      height: 33
+    spriteID: b6640e021fd8e8640ade975f02c95c54
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 201}
+  - name: Monster5Pack_Frame_22
+    originalName: 
+    pivot: {x: 0.42857143, y: -0.8181819}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 217
+      y: 137
+      width: 21
+      height: 22
+    spriteID: 7b9e9619723861b468e511714b0406a9
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 217, y: 137}
+  - name: Monster5Pack_Frame_23
+    originalName: 
+    pivot: {x: 0.44444445, y: -0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 51
+      y: 472
+      width: 36
+      height: 32
+    spriteID: a3c7db4ea3974484d99f2ae1fdc9f4ab
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 51, y: 472}
+  - name: Monster5Pack_Frame_24
+    originalName: 
+    pivot: {x: 0.44444445, y: -0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 70
+      width: 36
+      height: 32
+    spriteID: bd8732980b05ef2498b769efc88c3664
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 70}
+  - name: Monster5Pack_Frame_25
+    originalName: 
+    pivot: {x: 0.47727275, y: -0.032258064}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 4
+      width: 88
+      height: 62
+    spriteID: fe88ad5c66cc6e74a84df927164ddf7f
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 4}
+  - name: Monster5Pack_Frame_26
+    originalName: 
+    pivot: {x: 0.44705883, y: -0.016129032}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 215
+      width: 85
+      height: 62
+    spriteID: 5792b5525747a5c47a9ed9b601971d8c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 215}
+  - name: Monster5Pack_Frame_27
+    originalName: 
+    pivot: {x: 0.47727275, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 74
+      width: 88
+      height: 62
+    spriteID: 656f0fc934e9e034b97e8ec76b5c0476
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 74}
+  - name: Monster5Pack_Frame_28
+    originalName: 
+    pivot: {x: 0.41025642, y: -0.5}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 472
+      width: 39
+      height: 34
+    spriteID: 4285b9d773428b346811826eb44c21eb
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 472}
+  - name: Monster5Pack_Frame_29
+    originalName: 
+    pivot: {x: 0.4074074, y: -0.95652175}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 408
+      width: 27
+      height: 23
+    spriteID: 4afb29cb6705ba141a49c7363046dd62
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 408}
+  - name: Monster5Pack_Frame_30
+    originalName: 
+    pivot: {x: 0.4117647, y: -1.2105263}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 148
+      y: 395
+      width: 17
+      height: 19
+    spriteID: f05f0aa26919cd7468bf18e3aa1146aa
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 148, y: 395}
+  - name: Monster5Pack_Frame_31
+    originalName: 
+    pivot: {x: 0.5555556, y: -0.9259259}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 217
+      y: 70
+      width: 18
+      height: 27
+    spriteID: eb0801236dbacd540a5c74ac6aaa058d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 217, y: 70}
+  - name: Monster5Pack_Frame_32
+    originalName: 
+    pivot: {x: 0.42857143, y: -0.61764705}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 323
+      width: 21
+      height: 34
+    spriteID: bd1473b30f64d214d9ac15856cca739c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 323}
+  - name: Monster5Pack_Frame_33
+    originalName: 
+    pivot: {x: 0.5263158, y: -0.62857145}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 365
+      width: 19
+      height: 35
+    spriteID: 0f102d6fd915d9741bb3f71600761c46
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 365}
+  - name: Monster5Pack_Frame_34
+    originalName: 
+    pivot: {x: 0.5, y: -0.9583334}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 217
+      y: 105
+      width: 20
+      height: 24
+    spriteID: cb818ae804714174fa4f9335a5bcaab8
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 217, y: 105}
+  - name: Monster5Pack_Frame_35
+    originalName: 
+    pivot: {x: 0.44117647, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 472
+      width: 34
+      height: 15
+    spriteID: c737f3d3f57b51142a0cb26ab872f6ad
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 472}
+  - name: Monster5Pack_Frame_36
+    originalName: 
+    pivot: {x: 0.44117647, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 489
+      width: 34
+      height: 15
+    spriteID: 03fce5849c4d8b44881855429aa62d55
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 489}
+  - name: Monster5Pack_Frame_37
+    originalName: 
+    pivot: {x: 0.5116279, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 144
+      width: 86
+      height: 63
+    spriteID: 22c50f458b509134db76d0456a300e4c
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 144}
+  - name: Monster5Pack_Frame_38
+    originalName: 
+    pivot: {x: 0.505618, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 4
+      width: 89
+      height: 58
+    spriteID: 64d4ecc82de240b448bb5c3618a6960d
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 4}
+  - name: Monster5Pack_Frame_39
+    originalName: 
+    pivot: {x: 0.48101267, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 4
+      y: 285
+      width: 79
+      height: 50
+    spriteID: 6a73fd6b20407ad4693d9d0e579c8f37
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 4, y: 285}
+  - name: Monster5Pack_Frame_40
+    originalName: 
+    pivot: {x: 0.53846157, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 70
+      width: 65
+      height: 40
+    spriteID: 5df47c2d61bda0746a85b178ff895425
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 70}
+  - name: Monster5Pack_Frame_41
+    originalName: 
+    pivot: {x: 0.43478262, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 100
+      y: 450
+      width: 46
+      height: 31
+    spriteID: b8bb643fc0bc56142840078e334d4301
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 100, y: 450}
+  - name: Monster5Pack_Frame_42
+    originalName: 
+    pivot: {x: 0.516129, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 287
+      width: 31
+      height: 28
+    spriteID: 278e70f87f871dd45b1c546521c2fbfa
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 287}
+  - name: Monster5Pack_Frame_43
+    originalName: 
+    pivot: {x: 0.47619048, y: 0}
+    alignment: 9
+    border: {x: 0, y: 0, z: 0, w: 0}
+    rect:
+      serializedVersion: 2
+      x: 173
+      y: 495
+      width: 21
+      height: 13
+    spriteID: c75d0ea13e396f24da3863b37f520049
+    spriteBone: []
+    spriteOutline: []
+    vertices: []
+    spritePhysicsOutline: []
+    indices: 
+    edges: []
+    tessellationDetail: 0
+    uvTransform: {x: 173, y: 495}
+  spriteSheetImportData: []
+  asepriteLayers:
+  - layerIndex: 0
+    guid: -1045533350
+    name: Monster5Pack
+    layerFlags: 0
+    layerType: 0
+    blendMode: 0
+    cells:
+    - name: Monster5Pack_Frame_0
+      frameIndex: 0
+      additiveSortOrder: 0
+      cellRect:
+        x: 50
+        y: 3
+        width: 42
+        height: 51
+      spriteId: 3bd663a640c786649b96a24c668540eb
+    - name: Monster5Pack_Frame_1
+      frameIndex: 1
+      additiveSortOrder: 0
+      cellRect:
+        x: 51
+        y: 4
+        width: 47
+        height: 52
+      spriteId: 8e4b2919f4d1edb4bb162ecb8438be86
+    - name: Monster5Pack_Frame_2
+      frameIndex: 2
+      additiveSortOrder: 0
+      cellRect:
+        x: 52
+        y: 5
+        width: 48
+        height: 41
+      spriteId: ca300942b03ee454d861ede74481667c
+    - name: Monster5Pack_Frame_3
+      frameIndex: 3
+      additiveSortOrder: 0
+      cellRect:
+        x: 52
+        y: 1
+        width: 48
+        height: 56
+      spriteId: 4a37975cbc97647409972f17a7a46ded
+    - name: Monster5Pack_Frame_4
+      frameIndex: 4
+      additiveSortOrder: 0
+      cellRect:
+        x: 51
+        y: 3
+        width: 41
+        height: 51
+      spriteId: df9d57285c8293540bf59e72ac628452
+    - name: Monster5Pack_Frame_5
+      frameIndex: 5
+      additiveSortOrder: 0
+      cellRect:
+        x: 51
+        y: 4
+        width: 47
+        height: 52
+      spriteId: cb4c17dcbc5062b47b5917d31254c56c
+    - name: Monster5Pack_Frame_6
+      frameIndex: 6
+      additiveSortOrder: 0
+      cellRect:
+        x: 51
+        y: 4
+        width: 49
+        height: 42
+      spriteId: 239507f13e1042842983b60fb8549d6d
+    - name: Monster5Pack_Frame_7
+      frameIndex: 7
+      additiveSortOrder: 0
+      cellRect:
+        x: 52
+        y: 0
+        width: 48
+        height: 57
+      spriteId: e1d9b6d1e0984e44fab60a5300b73727
+    - name: Monster5Pack_Frame_8
+      frameIndex: 8
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 20
+        width: 32
+        height: 43
+      spriteId: 31ce573c878fec3409355a00eb18e242
+    - name: Monster5Pack_Frame_9
+      frameIndex: 9
+      additiveSortOrder: 0
+      cellRect:
+        x: 56
+        y: 20
+        width: 24
+        height: 37
+      spriteId: f1989544607f2a349b3836958414057c
+    - name: Monster5Pack_Frame_10
+      frameIndex: 10
+      additiveSortOrder: 0
+      cellRect:
+        x: 56
+        y: 21
+        width: 28
+        height: 38
+      spriteId: 06024e396ee8f824cb3bfacf66d44dbc
+    - name: Monster5Pack_Frame_11
+      frameIndex: 11
+      additiveSortOrder: 0
+      cellRect:
+        x: 56
+        y: 22
+        width: 27
+        height: 40
+      spriteId: 7eb54cc1cff9fbf4f9e407b558839f8e
+    - name: Monster5Pack_Frame_12
+      frameIndex: 12
+      additiveSortOrder: 0
+      cellRect:
+        x: 57
+        y: 23
+        width: 27
+        height: 37
+      spriteId: 9e0bbcbdd5db22b4487e2fe1c51df9b5
+    - name: Monster5Pack_Frame_13
+      frameIndex: 13
+      additiveSortOrder: 0
+      cellRect:
+        x: 55
+        y: 22
+        width: 24
+        height: 25
+      spriteId: 8436476645c3db64b96e9607e3a5ff9f
+    - name: Monster5Pack_Frame_14
+      frameIndex: 14
+      additiveSortOrder: 0
+      cellRect:
+        x: 58
+        y: 22
+        width: 21
+        height: 17
+      spriteId: bc6328f4b2685ed4497668644d87a31b
+    - name: Monster5Pack_Frame_15
+      frameIndex: 15
+      additiveSortOrder: 0
+      cellRect:
+        x: 58
+        y: 22
+        width: 21
+        height: 16
+      spriteId: 1dfaba22aa7454f4a893fb66af816a50
+    - name: Monster5Pack_Frame_16
+      frameIndex: 16
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 0
+        width: 21
+        height: 15
+      spriteId: fdd7bc95f039ddb4da5dc751b28ed589
+    - name: Monster5Pack_Frame_17
+      frameIndex: 17
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 0
+        width: 21
+        height: 10
+      spriteId: 7b5e4d5469b8efb49a144793a2812d33
+    - name: Monster5Pack_Frame_18
+      frameIndex: 18
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 0
+        width: 21
+        height: 6
+      spriteId: eb2d1e24b340db949abb70bc4d76aae0
+    - name: Monster5Pack_Frame_19
+      frameIndex: 19
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 0
+        width: 21
+        height: 3
+      spriteId: 37e5639c71ab8e449947563684048157
+    - name: Monster5Pack_Frame_20
+      frameIndex: 20
+      additiveSortOrder: 0
+      cellRect:
+        x: 52
+        y: 13
+        width: 40
+        height: 47
+      spriteId: 56731243ecc3856459dd48498b76298c
+    - name: Monster5Pack_Frame_21
+      frameIndex: 21
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 16
+        width: 28
+        height: 33
+      spriteId: b6640e021fd8e8640ade975f02c95c54
+    - name: Monster5Pack_Frame_22
+      frameIndex: 22
+      additiveSortOrder: 0
+      cellRect:
+        x: 55
+        y: 18
+        width: 21
+        height: 22
+      spriteId: 7b9e9619723861b468e511714b0406a9
+    - name: Monster5Pack_Frame_23
+      frameIndex: 23
+      additiveSortOrder: 0
+      cellRect:
+        x: 48
+        y: 16
+        width: 36
+        height: 32
+      spriteId: a3c7db4ea3974484d99f2ae1fdc9f4ab
+    - name: Monster5Pack_Frame_24
+      frameIndex: 24
+      additiveSortOrder: 0
+      cellRect:
+        x: 48
+        y: 16
+        width: 36
+        height: 32
+      spriteId: bd8732980b05ef2498b769efc88c3664
+    - name: Monster5Pack_Frame_25
+      frameIndex: 25
+      additiveSortOrder: 0
+      cellRect:
+        x: 22
+        y: 2
+        width: 88
+        height: 62
+      spriteId: fe88ad5c66cc6e74a84df927164ddf7f
+    - name: Monster5Pack_Frame_26
+      frameIndex: 26
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 1
+        width: 85
+        height: 62
+      spriteId: 5792b5525747a5c47a9ed9b601971d8c
+    - name: Monster5Pack_Frame_27
+      frameIndex: 27
+      additiveSortOrder: 0
+      cellRect:
+        x: 22
+        y: 0
+        width: 88
+        height: 62
+      spriteId: 656f0fc934e9e034b97e8ec76b5c0476
+    - name: Monster5Pack_Frame_28
+      frameIndex: 28
+      additiveSortOrder: 0
+      cellRect:
+        x: 48
+        y: 17
+        width: 39
+        height: 34
+      spriteId: 4285b9d773428b346811826eb44c21eb
+    - name: Monster5Pack_Frame_29
+      frameIndex: 29
+      additiveSortOrder: 0
+      cellRect:
+        x: 53
+        y: 22
+        width: 27
+        height: 23
+      spriteId: 4afb29cb6705ba141a49c7363046dd62
+    - name: Monster5Pack_Frame_30
+      frameIndex: 30
+      additiveSortOrder: 0
+      cellRect:
+        x: 57
+        y: 23
+        width: 17
+        height: 19
+      spriteId: f05f0aa26919cd7468bf18e3aa1146aa
+    - name: Monster5Pack_Frame_31
+      frameIndex: 31
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 25
+        width: 18
+        height: 27
+      spriteId: eb0801236dbacd540a5c74ac6aaa058d
+    - name: Monster5Pack_Frame_32
+      frameIndex: 32
+      additiveSortOrder: 0
+      cellRect:
+        x: 55
+        y: 21
+        width: 21
+        height: 34
+      spriteId: bd1473b30f64d214d9ac15856cca739c
+    - name: Monster5Pack_Frame_33
+      frameIndex: 33
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 22
+        width: 19
+        height: 35
+      spriteId: 0f102d6fd915d9741bb3f71600761c46
+    - name: Monster5Pack_Frame_34
+      frameIndex: 34
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 23
+        width: 20
+        height: 24
+      spriteId: cb818ae804714174fa4f9335a5bcaab8
+    - name: Monster5Pack_Frame_35
+      frameIndex: 35
+      additiveSortOrder: 0
+      cellRect:
+        x: 49
+        y: 0
+        width: 34
+        height: 15
+      spriteId: c737f3d3f57b51142a0cb26ab872f6ad
+    - name: Monster5Pack_Frame_36
+      frameIndex: 36
+      additiveSortOrder: 0
+      cellRect:
+        x: 49
+        y: 0
+        width: 34
+        height: 15
+      spriteId: 03fce5849c4d8b44881855429aa62d55
+    - name: Monster5Pack_Frame_37
+      frameIndex: 37
+      additiveSortOrder: 0
+      cellRect:
+        x: 20
+        y: 0
+        width: 86
+        height: 63
+      spriteId: 22c50f458b509134db76d0456a300e4c
+    - name: Monster5Pack_Frame_38
+      frameIndex: 38
+      additiveSortOrder: 0
+      cellRect:
+        x: 19
+        y: 0
+        width: 89
+        height: 58
+      spriteId: 64d4ecc82de240b448bb5c3618a6960d
+    - name: Monster5Pack_Frame_39
+      frameIndex: 39
+      additiveSortOrder: 0
+      cellRect:
+        x: 26
+        y: 0
+        width: 79
+        height: 50
+      spriteId: 6a73fd6b20407ad4693d9d0e579c8f37
+    - name: Monster5Pack_Frame_40
+      frameIndex: 40
+      additiveSortOrder: 0
+      cellRect:
+        x: 29
+        y: 0
+        width: 65
+        height: 40
+      spriteId: 5df47c2d61bda0746a85b178ff895425
+    - name: Monster5Pack_Frame_41
+      frameIndex: 41
+      additiveSortOrder: 0
+      cellRect:
+        x: 44
+        y: 0
+        width: 46
+        height: 31
+      spriteId: b8bb643fc0bc56142840078e334d4301
+    - name: Monster5Pack_Frame_42
+      frameIndex: 42
+      additiveSortOrder: 0
+      cellRect:
+        x: 48
+        y: 0
+        width: 31
+        height: 28
+      spriteId: 278e70f87f871dd45b1c546521c2fbfa
+    - name: Monster5Pack_Frame_43
+      frameIndex: 43
+      additiveSortOrder: 0
+      cellRect:
+        x: 54
+        y: 0
+        width: 21
+        height: 13
+      spriteId: c75d0ea13e396f24da3863b37f520049
+    linkedCells: []
+    parentIndex: -1
+  platformSettings: []
+  generatePhysicsShape: 0
+  secondarySpriteTextures: []
+  spritePackingTag: 
+  canvasSize: {x: 128, y: 64}

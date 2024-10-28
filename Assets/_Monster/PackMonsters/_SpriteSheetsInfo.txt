@@ -1,0 +1,103 @@
+Here are the animations and frame numbers.
+
+Monster 1 Animations.
+
+Attack: 1 - 5
+Charge: 6 - 12
+Charge Loop: 13 - 15
+Flying Boost: 16 - 18
+Walk: 19 - 22
+Hit: 23 - 24
+Death: 25 - 32
+
+Monster 2 Animations.
+
+Idle: 1 - 4
+Born: 5 - 17
+Hit: 18 -19
+Death: 20 - 24
+
+Monster 3 Animations.
+
+Walk: 1 - 4
+Fright: 5 - 6
+Run: 7 - 12
+Prepare Lay: 13 - 15
+Lay Spawn: 16 - 30
+Spawn: 31 -36
+Attack: 37 - 43
+Death: 44 -52
+
+Monster 4 Animations.
+
+Idle: 1 - 4
+Fly: 5 - 8
+Attack: 9 - 16
+Hit: 17
+Death: 18 - 25
+Corpse: 26 - 28
+Corpse Death: 29 - 35
+
+Monster 4 Projectile Animations.
+
+Shoted: 36 - 38
+Death: 39 - 43
+
+Monster 5 Animations.
+
+Fly: 1 - 4
+Idle: 5 - 8
+Death: 9 -14
+Corpse: 15 - 16
+Corpse Death: 17 - 20
+Explosion: 21 - 31
+
+Monster 5 Bomb Animations.
+
+Falling: 32 - 35
+Explosion Ground: 36 - 44
+
+Monster 6 Animations.
+
+Walk: 1 - 6
+Explosion: 7 - 18
+Death: 19 - 26
+Corpse: 27
+
+Monster 6 Bomb Animations.
+
+OnGround: 28 - 31
+Explosion: Same as monster 5 bomb animation.
+
+Monster 7 Animations.
+
+Walk: 1 - 4
+Idle: 5 - 8
+Hit: 9
+Death: 10 - 17
+Attack: 18 - 25
+
+Monster 8 Animations.
+
+Idle Stand: 1 - 4
+Walk Stand: 5 - 10
+Hurt Stand: 11 
+Atack Stand: 12 - 19
+Death Stand: 20 - 30
+Stand to Down: 31 - 36
+Idle Down: 37 - 40
+Walk Down: 41 - 44
+Hurt Down: 45 - 50 
+Atack Down: 51 -59
+Death Down: 60 - 69
+Down To Stand: 70 -75
+Stun Stand: 76 - 79
+
+Monster 9 Animations.
+Idle: 1 - 4
+Hit: 5
+Run: 6 - 9 
+Emote: 10 - 21
+Death: 22 - 36 
+ 
+

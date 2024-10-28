@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -22,6 +23,7 @@ public class PlayerController : MonoBehaviour
     private SpriteRenderer _spriteRenderer;
 
     private bool _isGrounded = false;
+    private bool _isAttacking = false;
 
 
     // Start is called before the first frame update
@@ -61,6 +63,11 @@ public class PlayerController : MonoBehaviour
         }
         else if(velocityY > 0)
             HandleOnJumping();
+
+        if (!_isAttacking && Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }    
     }
 
     private void CheckGrounded()
@@ -73,6 +80,19 @@ public class PlayerController : MonoBehaviour
     private void HandleOnJumping()
     {
        _rigidbody.gravityScale = _onJumpGravityScale;
+    }
+
+    private void Attack()
+    {
+        _isAttacking = true;
+        _animator.SetBool("Attacking", true);
+        _animator.Play("Attack");
+    }
+    
+    private void EndAttack()
+    {
+        _isAttacking = false;
+        _animator.SetBool("Attacking", false);
     }
 
     void FixedUpdate()

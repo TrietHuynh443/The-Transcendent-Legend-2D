@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.Mathematics;
+using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : MonoBehaviour
@@ -21,6 +22,9 @@ public class PlayerController : MonoBehaviour
     private int _jumpCount; 
     private SpriteRenderer _spriteRenderer;
 
+    private bool _isGrounded = false;
+    private bool _isAttacking = false;
+
 
     // Start is called before the first frame update
     void Start()
@@ -38,12 +42,17 @@ public class PlayerController : MonoBehaviour
 
         float velocityY = _rigidbody.velocity.y;
 
-        if ((Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-            && (_jumpCount < _maxJump))
+        CheckGrounded();
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
         {
-            _currentJumpSpeed = _jumpSpeed;
-            _animator.SetBool("Jumping", true);
-            _jumpCount++;
+            if(_isGrounded || _animator.GetBool("Jumping") && _jumpCount < _maxJump)
+            {
+                _currentJumpSpeed = _jumpSpeed;
+                _animator.SetBool("Jumping", true);
+                _jumpCount++;
+                _isGrounded = false;
+            }
         }
 
         if (velocityY == 0 && _currentJumpSpeed != _jumpSpeed)
@@ -54,11 +63,36 @@ public class PlayerController : MonoBehaviour
         }
         else if(velocityY > 0)
             HandleOnJumping();
+
+        if (!_isAttacking && Input.GetMouseButtonDown(0))
+        {
+            Attack();
+        }    
+    }
+
+    private void CheckGrounded()
+    {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
+        _isGrounded = hit.collider != null;
+        // Debug.Log(hit.collider);
     }
 
     private void HandleOnJumping()
     {
        _rigidbody.gravityScale = _onJumpGravityScale;
+    }
+
+    private void Attack()
+    {
+        _isAttacking = true;
+        _animator.SetBool("Attacking", true);
+        _animator.Play("Attack");
+    }
+    
+    private void EndAttack()
+    {
+        _isAttacking = false;
+        _animator.SetBool("Attacking", false);
     }
 
     void FixedUpdate()

@@ -9,6 +9,8 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
     public float currentHealth { get; set; }
     public Rigidbody2D RB { get; set; }
 
+    public Rigidbody2D bulletPrefabs;
+
     public bool isAggroed { get; set; }
     public bool isWithInStrikingDistance { get; set; }
 

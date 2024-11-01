@@ -32,6 +32,17 @@ public class EnemyIdleState : EnemyState
     {
         base.FrameUpdate();
 
+        if (enemy.isAggroed)
+        {
+            Debug.Log("Hello from Idle to Move");
+            enemy.enemyStateMachine.ChangeState(enemy.moveState);
+
+            Animator animator = enemy.GetComponent<Animator>();
+
+            animator.Play("Move", 0, 0);
+
+        }
+
         Vector2 direction;
         if (_isFacingRight)
         {

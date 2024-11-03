@@ -12,6 +12,7 @@ public class IdleState : OnGroundedState
     }
     public override void LogicUpdate()
     {
+        base.LogicUpdate();
         if(Mathf.Abs(_properties.Input.HorizontalInput) >= 0.001f){
             Debug.Log("Idle " + _properties.Input.HorizontalInput);
             _stateMachine.ChangeState(_controller.MoveState);

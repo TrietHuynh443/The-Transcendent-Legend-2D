@@ -38,7 +38,7 @@ public class PlayerState
         if(_hasAnimatorParam)
             _controller.Anim.SetBool(_animBoolName, true);
         _startTime = Time.time;
-        //Debug.Log(animBoolName);
+        Debug.Log(_animBoolName);
         _isAnimationFinished = false;
         _isExitingState = false;
         Debug.Log(_stateMachine.CurrentState);

@@ -59,7 +59,8 @@ public class PlayerController : MonoBehaviour
     {
         _playerStateMachine = new PlayerStateMachine();
         _idleState = new IdleState(this, _playerStateMachine, _properties, "Idle");
-        _moveState = new MoveState(this, _playerStateMachine, _properties, "Jump");
+        _moveState = new MoveState(this, _playerStateMachine, _properties, "Move");
+        _jumpState = new JumpState(this, _playerStateMachine, _properties, "Jump");
         _attackState = new AttackState(this, _playerStateMachine, _properties, "Attack");
         _onGroundState = new OnGroundedState(this, _playerStateMachine, _properties, "Grounded");
         _playerStateMachine.Initialize(_idleState);
@@ -97,6 +98,7 @@ public class PlayerController : MonoBehaviour
         //     Attack();
         // }    
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
+        _properties.Input.IsJumpInput = Input.GetKeyDown(KeyCode.Space);
         CheckGrounded();
         _playerStateMachine.CurrentState.LogicUpdate();
     }

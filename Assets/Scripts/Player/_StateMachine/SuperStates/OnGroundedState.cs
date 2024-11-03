@@ -16,5 +16,11 @@ public class OnGroundedState : PlayerState
     public override void LogicUpdate()
     {
         base.LogicUpdate();
+
+        if(_properties.Input.IsJumpInput){
+            _properties.Input.IsJumpInput = false;
+            _stateMachine.ChangeState(_controller.Jump);
+        }
+
     }
 }

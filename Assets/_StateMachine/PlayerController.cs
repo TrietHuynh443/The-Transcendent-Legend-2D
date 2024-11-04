@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _onJumpGravityScale = 3f;
     [SerializeField] private float _originGravityScale = 1f;
     [SerializeField] private PlayerProperties _properties;
+    [SerializeField] private GameObject _normalAttack;
     
 
     private Rigidbody2D _rigidbody;
@@ -36,7 +37,6 @@ public class PlayerController : MonoBehaviour
     public Animator Anim => _animator;
 
     public Rigidbody2D Rigidbody => _rigidbody;
-
     public IdleState Idle => _idleState;
     public MoveState MoveState => _moveState;
     public AttackState AttackState => _attackState;
@@ -151,5 +151,10 @@ public class PlayerController : MonoBehaviour
     public void HandleInAir()
     {
        _rigidbody.gravityScale = _onJumpGravityScale;
+    }
+
+    public void DoAttack()
+    {
+        _normalAttack.SetActive(true);
     }
 }

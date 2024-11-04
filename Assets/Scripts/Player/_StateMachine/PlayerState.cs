@@ -18,6 +18,7 @@ public class PlayerState
 
     private Action _onStateChangeAction;
     private bool _hasAnimatorParam;
+    protected bool _isAttack;
 
     public PlayerController Controller { get; }
     public PlayerStateMachine StateMachine { get; }
@@ -54,12 +55,19 @@ public class PlayerState
 
     public virtual void LogicUpdate()
     {
-
+        if(_properties.Input.IsAttackInput)
+        {
+            _isAttack = true;
+            _properties.Input.IsAttackInput = false;
+        }
     }
 
     public virtual void PhysicsUpdate()
     {
         DoChecks();
+        if(_isAttack){
+            _controller.DoAttack();
+        }
     }
 
     public virtual void DoChecks() { 

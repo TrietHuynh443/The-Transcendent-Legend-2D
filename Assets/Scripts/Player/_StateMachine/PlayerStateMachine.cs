@@ -19,5 +19,6 @@ namespace Player.PlayerStates.PlayerStateMachine
             CurrentState = newState;
             CurrentState.Enter();
         }
+
     }
 }

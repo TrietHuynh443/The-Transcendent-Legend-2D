@@ -12,18 +12,27 @@ public class Bullet : MonoBehaviour
 
     private Rigidbody2D _rb;
 
+    private float _lifetime = 5f;
 
     void Start()
     {
         _bulletCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
+
+        StartCoroutine(DestroyAfterTime());
+    }
+
+    IEnumerator DestroyAfterTime()
+    {
+        yield return new WaitForSeconds(_lifetime);
+
+        Destroy(gameObject);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("Hello from bullet");
-        if (collision.gameObject.name == "Player")
+        if (collision.transform != transform.parent)
         {
             _rb.velocity = Vector2.zero;
 

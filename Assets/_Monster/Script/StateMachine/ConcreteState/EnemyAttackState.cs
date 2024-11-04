@@ -1,11 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class EnemyAttackState : EnemyState {
-    private Transform _playerTransform;
+    private UnityEngine.Transform _playerTransform;
     private float _timer;
     private float _timerBetweenShots = 1.5f;
+    [SerializeField] public bool isFacingRight { get; set; } = false;
 
     private float _exitTimer;
     private float _timeTillExit = 3f;
@@ -38,13 +41,29 @@ public class EnemyAttackState : EnemyState {
 
         enemy.Move(Vector2.zero);
 
+        if ((_playerTransform.position.x > enemy.transform.position.x) && (!isFacingRight))
+        {
+            Vector3 rotator = new Vector3(enemy.transform.rotation.x, 180f, enemy.transform.rotation.z);
+            enemy.transform.rotation = Quaternion.Euler(rotator);
+            isFacingRight = !isFacingRight;
+        }
+
+        if((_playerTransform.position.x < enemy.transform.position.x) && (isFacingRight))
+        {
+            Vector3 rotator = new Vector3(enemy.transform.rotation.x, 0f, enemy.transform.rotation.z);
+            enemy.transform.rotation = Quaternion.Euler(rotator);
+            isFacingRight = !isFacingRight;
+        }
+
         if (_timer > _timerBetweenShots)
         {
             _timer = 0f;
 
             Vector2 dir = (_playerTransform.position - enemy.transform.position).normalized;
 
-            Rigidbody2D bullet = GameObject.Instantiate(enemy.bulletPrefabs, enemy.transform.position, Quaternion.identity);
+            Rigidbody2D bullet = GameObject.Instantiate(enemy.bulletPrefabs, enemy.transform);
+
+            bullet.transform.localPosition = Vector3.zero;
 
             bullet.velocity = dir * _bulletSpeed;
         }

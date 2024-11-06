@@ -16,5 +16,17 @@ public class InAirState : PlayerState
         base.Enter();
         _controller.HandleInAir();
     }
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+        if (_properties.Status.IsGrounded)
+        {
+            _stateMachine.ChangeState(_controller.Idle);
+        }
+    }
+    public override void Exit() { 
+        base.Exit();
+        _controller.HandleOnGround();
+    }
 
 }

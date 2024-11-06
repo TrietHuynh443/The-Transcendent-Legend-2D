@@ -26,6 +26,7 @@ public class PlayerController : MonoBehaviour
     private MoveState _moveState;
     private AttackState _attackState;
     private JumpState _jumpState;
+    private InAirState _inAirState;
 
     private OnGroundedState _onGroundState;
 
@@ -38,9 +39,10 @@ public class PlayerController : MonoBehaviour
 
     public Rigidbody2D Rigidbody => _rigidbody;
     public IdleState Idle => _idleState;
-    public MoveState MoveState => _moveState;
-    public AttackState AttackState => _attackState;
+    public MoveState Move => _moveState;
+    public AttackState Attack => _attackState;
     public JumpState Jump => _jumpState;
+    public InAirState InAir => _inAirState;
 
     public OnGroundedState OnGroundState => _onGroundState;
     #endregion Public Properties
@@ -61,8 +63,9 @@ public class PlayerController : MonoBehaviour
         _idleState = new IdleState(this, _playerStateMachine, _properties, "Idle");
         _moveState = new MoveState(this, _playerStateMachine, _properties, "Move");
         _jumpState = new JumpState(this, _playerStateMachine, _properties, "Jump");
-        _attackState = new AttackState(this, _playerStateMachine, _properties, "Attack");
+        _attackState = new AttackState(this, _playerStateMachine, _properties, "Attack", _normalAttack);
         _onGroundState = new OnGroundedState(this, _playerStateMachine, _properties, "Grounded");
+        _inAirState = new InAirState(this, _playerStateMachine, _properties, "InAir");
         _playerStateMachine.Initialize(_idleState);
     }
 
@@ -99,6 +102,10 @@ public class PlayerController : MonoBehaviour
         // }    
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
         _properties.Input.IsJumpInput = Input.GetKeyDown(KeyCode.Space);
+        _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
+        if (_properties.Input.IsAttackInput) {
+            Debug.Log("is mouse click");
+        }
         CheckGrounded();
         _playerStateMachine.CurrentState.LogicUpdate();
     }
@@ -115,17 +122,16 @@ public class PlayerController : MonoBehaviour
        _rigidbody.gravityScale = _originGravityScale;
     }
 
-    private void Attack()
-    {
-        _isAttacking = true;
-        _animator.SetBool("Attack", true);
-        _animator.Play("Attack");
-    }
+    //private void Attack()
+    //{
+    //    _isAttacking = true;
+    //    _animator.SetBool("Attack", true);
+    //    _animator.Play("Attack");
+    //}
     
-    private void EndAttack()
+    private void EndAnimationTrigger()
     {
-        _isAttacking = false;
-        _animator.SetBool("Attack", false);
+        _playerStateMachine.CurrentState.AnimationFinishTrigger();
     }
 
     void FixedUpdate()
@@ -153,8 +159,15 @@ public class PlayerController : MonoBehaviour
        _rigidbody.gravityScale = _onJumpGravityScale;
     }
 
-    public void DoAttack()
+    //public void 
+
+    public void HandleVerticalVelocity()
     {
-        _normalAttack.SetActive(true);
+        //throw new NotImplementedException();
+    }
+
+    public void HandleHorizontal()
+    {
+        //throw new NotImplementedException();
     }
 }

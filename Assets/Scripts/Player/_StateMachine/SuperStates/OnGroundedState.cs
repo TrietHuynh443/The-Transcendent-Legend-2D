@@ -17,9 +17,13 @@ public class OnGroundedState : PlayerState
     {
         base.LogicUpdate();
 
-        if(_properties.Input.IsJumpInput){
-            _properties.Input.IsJumpInput = false;
+        if (_properties.Input.IsJumpInput){
+            Debug.Log("jump Input");
             _stateMachine.ChangeState(_controller.Jump);
+        }
+        else if (_properties.Input.IsAttackInput) {
+            Debug.Log("attack Input");
+            _stateMachine.ChangeState(_controller.Attack);
         }
 
     }

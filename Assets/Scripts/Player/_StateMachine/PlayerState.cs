@@ -55,19 +55,12 @@ public class PlayerState
 
     public virtual void LogicUpdate()
     {
-        if(_properties.Input.IsAttackInput)
-        {
-            _isAttack = true;
-            _properties.Input.IsAttackInput = false;
-        }
+
     }
 
     public virtual void PhysicsUpdate()
     {
         DoChecks();
-        if(_isAttack){
-            _controller.DoAttack();
-        }
     }
 
     public virtual void DoChecks() { 

@@ -9,7 +9,7 @@ namespace Player.PlayerProperties{
     {
         public PlayerInput Input = new();
         [SerializeField] public PlayerData Data;
-        public PlayerStatus Status = new();  
+        [SerializeField] public PlayerStatus Status = new();  
     }
 
     public class PlayerInput{
@@ -26,9 +26,10 @@ namespace Player.PlayerProperties{
         public float SpecialAttack;
         public int MaxJump;
     }
-
+    [Serializable]
     public class PlayerStatus
     {
         public bool IsGrounded;
+        public int CurrentJump = 0;
     }
 }

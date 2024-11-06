@@ -19,6 +19,7 @@ public class PlayerState
     private Action _onStateChangeAction;
     private bool _hasAnimatorParam;
     protected bool _isAttack;
+    protected bool _isJump;
 
     public PlayerController Controller { get; }
     public PlayerStateMachine StateMachine { get; }
@@ -39,11 +40,8 @@ public class PlayerState
         if(_hasAnimatorParam)
             _controller.Anim.SetBool(_animBoolName, true);
         _startTime = Time.time;
-        Debug.Log(_animBoolName);
         _isAnimationFinished = false;
         _isExitingState = false;
-        Debug.Log(_stateMachine.CurrentState);
-
     }
 
     public virtual void Exit()
@@ -55,12 +53,21 @@ public class PlayerState
 
     public virtual void LogicUpdate()
     {
-
+        if (_properties.Input.IsJumpInput) 
+        {
+            _isJump = true;
+            _controller.HandleInAir();
+        }
+        if(_properties.Input.IsAttackInput){
+            _isAttack = true;
+        }
     }
 
     public virtual void PhysicsUpdate()
     {
         DoChecks();
+        var horizontalMove = _properties.Input.HorizontalInput* _properties.Data.Speed;
+        _controller.Rigidbody.velocity = new Vector2(horizontalMove, _controller.Rigidbody.velocity.y);
     }
 
     public virtual void DoChecks() { 
@@ -69,6 +76,11 @@ public class PlayerState
         {
             var euler = horizontalInput < -0.001f ? 180 : 0;
             _controller.Flip(euler);
+        }
+        if(!_isJump && _properties.Status.IsGrounded)
+        {
+            _controller.ResetJump();
+            _controller.HandleOnGround();
         }
     }
 

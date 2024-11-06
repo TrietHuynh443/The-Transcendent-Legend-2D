@@ -7,6 +7,7 @@ using UnityEngine;
 public class AttackState : PlayerState
 {
     private GameObject _attackCollider;
+
     public AttackState(PlayerController controller, PlayerStateMachine stateMachine, PlayerProperties properties, string animBoolName, GameObject attackCollider) : base(controller, stateMachine, properties, animBoolName)
     {
         _attackCollider = attackCollider;
@@ -15,6 +16,7 @@ public class AttackState : PlayerState
     {
         base.Enter();
         _attackCollider.SetActive(true);
+        _isAnimationFinished = false;
     }
 
     public override void Exit()
@@ -23,24 +25,35 @@ public class AttackState : PlayerState
         _attackCollider.SetActive(false);
     }
 
-
+    public override void LogicUpdate()
+    {
+        base.LogicUpdate();
+    }
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
-        _controller.HandleVerticalVelocity();
-        _controller.HandlerHorizontal();
+        if(_isJump)
+        {
+            _isJump = false;
+            _controller.DoJump();
+        }
+        if(_isAnimationFinished){
+            if (_properties.Status.IsGrounded)
+            {
+                _stateMachine.ChangeState(_controller.Idle);
+            }
+            else
+            {
+                _stateMachine.ChangeState(_controller.InAir);
+            }
+        }
     }
 
     public override void AnimationFinishTrigger()
     {
         base.AnimationFinishTrigger();
-        if (_properties.Status.IsGrounded)
-        {
-            _stateMachine.ChangeState(_controller.Idle);
-        }
-        else
-        {
-            _stateMachine.ChangeState(_controller.InAir);
-        }
+        
+        _isAnimationFinished = true;
+        Debug.Log("on animation end");
     }
 }

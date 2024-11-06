@@ -72,40 +72,9 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // _horizontalInput = Input.GetAxis("Horizontal");
-
-        // float velocityY = _rigidbody.velocity.y;
-
-        // CheckGrounded();
-
-        // if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W))
-        // {
-        //     if(_isGrounded || _animator.GetBool("Jumping") && _jumpCount < _maxJump)
-        //     {
-        //         _currentJumpSpeed = _jumpSpeed;
-        //         _animator.SetBool("Jumping", true);
-        //         _jumpCount++;
-        //         _isGrounded = false;
-        //     }
-        // }
-
-        // if (velocityY == 0 && _currentJumpSpeed != _jumpSpeed)
-        // {
-        //     _animator.SetBool("Jumping", false);
-        //     _jumpCount = 0;
-        //     _rigidbody.gravityScale = _originGravityScale;
-        // }
-
-        // if (!_isAttacking && Input.GetMouseButtonDown(0))
-        // {
-        //     Attack();
-        // }    
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
-        _properties.Input.IsJumpInput = Input.GetKeyDown(KeyCode.Space);
+        _properties.Input.IsJumpInput = _properties.Status.CurrentJump < _properties.Data.MaxJump && Input.GetKeyDown(KeyCode.Space);
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
-        if (_properties.Input.IsAttackInput) {
-            Debug.Log("is mouse click");
-        }
         CheckGrounded();
         _playerStateMachine.CurrentState.LogicUpdate();
     }
@@ -114,7 +83,6 @@ public class PlayerController : MonoBehaviour
     {
         RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
         _properties.Status.IsGrounded = hit.collider != null;
-        // Debug.Log(hit.collider);
     }
 
     public void HandleOnGround()
@@ -122,13 +90,6 @@ public class PlayerController : MonoBehaviour
        _rigidbody.gravityScale = _originGravityScale;
     }
 
-    //private void Attack()
-    //{
-    //    _isAttacking = true;
-    //    _animator.SetBool("Attack", true);
-    //    _animator.Play("Attack");
-    //}
-    
     private void EndAnimationTrigger()
     {
         _playerStateMachine.CurrentState.AnimationFinishTrigger();
@@ -159,15 +120,27 @@ public class PlayerController : MonoBehaviour
        _rigidbody.gravityScale = _onJumpGravityScale;
     }
 
-    //public void 
-
-    public void HandleVerticalVelocity()
+    public void DoJump()
     {
-        //throw new NotImplementedException();
+        if(_properties.Status.CurrentJump >= _properties.Data.MaxJump)
+            return;
+
+        ++_properties.Status.CurrentJump;
+        HandleInAir();
+        var newVelocity = new Vector2(
+            _properties.Input.HorizontalInput,
+            _properties.Data.JumpForce
+            );
+        if(_properties.Status.CurrentJump == _properties.Data.MaxJump)
+        {
+            newVelocity.y += _rigidbody.velocity.y / Mathf.Sqrt(2);
+        }
+        _rigidbody.velocity = newVelocity;
     }
 
-    public void HandleHorizontal()
+    public void ResetJump()
     {
-        //throw new NotImplementedException();
+        _properties.Status.CurrentJump = 0;
     }
+
 }

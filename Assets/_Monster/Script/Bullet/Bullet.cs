@@ -14,31 +14,38 @@ public class Bullet : MonoBehaviour
 
     private float _lifetime = 5f;
 
-    void Start()
+    public void Initialize()
     {
         _bulletCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
-
-        StartCoroutine(DestroyAfterTime());
     }
 
-    IEnumerator DestroyAfterTime()
+    private void OnBecameInvisible()
     {
-        yield return new WaitForSeconds(_lifetime);
-
-        Destroy(gameObject);
+        // Destroy the object when it goes out of the camera's view
+        ObjectPooler.EnqueueObject(this, "Bullet");
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.transform != transform.parent)
+        if (collision.gameObject.name == "Player")
         {
+            Debug.Log("Hi from Explde!!");
             _rb.velocity = Vector2.zero;
 
             if (_animator != null)
             {
+                Debug.Log("Explode!!!");
                 _animator.Play("BulletExplode", 0, 0);
+
+                float time = _animator.GetCurrentAnimatorStateInfo(0).length;
+
+                Invoke(nameof(EnqueueBullet), time);
+            }
+            else
+            {
+                EnqueueBullet();
             }
 
             // Disable the collider to prevent further collisions
@@ -47,8 +54,11 @@ public class Bullet : MonoBehaviour
                 _bulletCollider.enabled = false;
             }
 
-            // Destroy the bullet after the delay
-            Destroy(gameObject, _destroyDelay);
         }
+    }
+
+    private void EnqueueBullet()
+    {
+        ObjectPooler.EnqueueObject(this, "Bullet");
     }
 }

@@ -1723,7 +1723,7 @@ Transform:
   m_GameObject: {fileID: 1948641259}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -6.1, y: 0.4, z: 0}
+  m_LocalPosition: {x: -0.23, y: 0.6, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1743,7 +1743,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <maxHealth>k__BackingField: 100
-  bulletPrefabs: {fileID: 5636185442342829547, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
+  bulletPrefabs: {fileID: 1531097533473949252, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
   moveRange: 1
   moveSpeed: 1
 --- !u!50 &1948641264
@@ -1818,6 +1818,51 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.25, y: 1.21875}
   m_EdgeRadius: 0
+--- !u!1 &1986675314
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1986675316}
+  - component: {fileID: 1986675315}
+  m_Layer: 0
+  m_Name: PoolerManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1986675315
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986675314}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c52e8027cd1ab945bb5c8288d7e459f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  bulletPrefabs: {fileID: 8724849509713126283, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
+--- !u!4 &1986675316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1986675314}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -10.417383, y: 2.3761783, z: 0.014807748}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2048928835
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1924,3 +1969,4 @@ SceneRoots:
   - {fileID: 138420780}
   - {fileID: 1948641262}
   - {fileID: 2048928835}
+  - {fileID: 1986675316}

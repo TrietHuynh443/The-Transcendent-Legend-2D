@@ -57,15 +57,29 @@ public class EnemyAttackState : EnemyState {
 
         if (_timer > _timerBetweenShots)
         {
-            _timer = 0f;
+            //_timer = 0f;
+
+            //Vector2 dir = (_playerTransform.position - enemy.transform.position).normalized;
+
+            //Rigidbody2D bullet = GameObject.Instantiate(enemy.bulletPrefabs.GetComponent<Rigidbody2D>(), enemy.transform);
+
+            //bullet.transform.localPosition = Vector3.zero;
+
+            //bullet.velocity = dir * _bulletSpeed;
+
+            _timer = 0;
+
+            Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
 
             Vector2 dir = (_playerTransform.position - enemy.transform.position).normalized;
 
-            Rigidbody2D bullet = GameObject.Instantiate(enemy.bulletPrefabs, enemy.transform);
+            instance.gameObject.SetActive(true);
 
-            bullet.transform.localPosition = Vector3.zero;
+            instance.Initialize();
 
-            bullet.velocity = dir * _bulletSpeed;
+            instance.transform.position = enemy.transform.position;
+
+            instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
         }
 
         if (Vector2.Distance(_playerTransform.position, enemy.transform.position) > _distanceToCountExit)

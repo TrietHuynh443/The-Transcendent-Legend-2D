@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 8110767081086769957}
   - component: {fileID: 4783064713162434699}
   - component: {fileID: 5871681665095210616}
+  - component: {fileID: 7864967722009798677}
   m_Layer: 7
   m_Name: MagicBall
   m_TagString: Untagged
@@ -155,7 +156,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 2
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 59ff67bedbd4519408f1580e7bda03ea, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -211,6 +212,27 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.73223627, y: 0.7245856}
   m_EdgeRadius: 0
+--- !u!95 &7864967722009798677
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7122066985413471663}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 71d9b351f9148db479d651a18938dd47, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &3002812073900993488
 PrefabInstance:
   m_ObjectHideFlags: 0

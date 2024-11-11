@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GamePoolerManager : MonoBehaviour
 {
-    public Bullet bulletPrefabs;
+    public Bullet BulletPrefabs;
     private void Awake()
     {
         SetupPool();
@@ -13,6 +13,6 @@ public class GamePoolerManager : MonoBehaviour
 
     private void SetupPool()
     {
-        ObjectPooler.SetupPool(bulletPrefabs, 10, "Bullet");
+        ObjectPooler.SetupPool(BulletPrefabs, 10, "Bullet");
     }
 }

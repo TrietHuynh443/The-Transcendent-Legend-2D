@@ -122,6 +122,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &29743341 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4664450744937495782, guid: 700827559ea40574999dc155d05a0f42, type: 3}
+  m_PrefabInstance: {fileID: 2048928835}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &138420778
 GameObject:
   m_ObjectHideFlags: 0
@@ -596,6 +601,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a23aeae8b8500748a8d7b5db0ffcf27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerTarget: {fileID: 29743341}
 --- !u!1 &1325447714
 GameObject:
   m_ObjectHideFlags: 0
@@ -1620,6 +1626,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e58f59ca4d381e48b5bae8196c1d74c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerTarget: {fileID: 29743341}
 --- !u!1 &1948641259
 GameObject:
   m_ObjectHideFlags: 0
@@ -1742,10 +1749,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e7cb4dff103874b816fe1508fd3d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <maxHealth>k__BackingField: 100
-  bulletPrefabs: {fileID: 1531097533473949252, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
-  moveRange: 1
-  moveSpeed: 1
+  PlayerTransform: {fileID: 2048928836}
+  BulletPrefabs: {fileID: 1531097533473949252, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
+  MoveRange: 5
+  MoveSpeed: 1
 --- !u!50 &1948641264
 Rigidbody2D:
   serializedVersion: 4
@@ -1847,7 +1854,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c52e8027cd1ab945bb5c8288d7e459f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefabs: {fileID: 8724849509713126283, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
+  BulletPrefabs: {fileID: 8724849509713126283, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
 --- !u!4 &1986675316
 Transform:
   m_ObjectHideFlags: 0
@@ -1889,11 +1896,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3358825448451776706, guid: 700827559ea40574999dc155d05a0f42, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.1
+      value: -7.54
       objectReference: {fileID: 0}
     - target: {fileID: 3358825448451776706, guid: 700827559ea40574999dc155d05a0f42, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.52
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3358825448451776706, guid: 700827559ea40574999dc155d05a0f42, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1960,6 +1967,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 700827559ea40574999dc155d05a0f42, type: 3}
+--- !u!4 &2048928836 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3358825448451776706, guid: 700827559ea40574999dc155d05a0f42, type: 3}
+  m_PrefabInstance: {fileID: 2048928835}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

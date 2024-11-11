@@ -6,13 +6,13 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Animator _animator;  // Reference to the Animator component
-    private float _destroyDelay = 0.5f;  // Delay before bullet is destroyed after explosion animation
+    // private float _destroyDelay = 0.5f;  // Delay before bullet is destroyed after explosion animation
 
     private BoxCollider2D _bulletCollider;  // Reference to the Bullet's Collider
 
     private Rigidbody2D _rb;
 
-    private float _lifetime = 5f;
+    // private float _lifetime = 5f;
 
     public void Initialize()
     {
@@ -31,12 +31,13 @@ public class Bullet : MonoBehaviour
     {
         if (collision.gameObject.name == "Player")
         {
-            Debug.Log("Hi from Explde!!");
+            // Debug.Log("Hi from Explde!!");
             _rb.velocity = Vector2.zero;
 
             if (_animator != null)
             {
-                Debug.Log("Explode!!!");
+               
+                // Debug.Log("Explode!!!");
                 _animator.Play("BulletExplode", 0, 0);
 
                 float time = _animator.GetCurrentAnimatorStateInfo(0).length;

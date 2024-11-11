@@ -5,19 +5,19 @@ using UnityEngine;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class EnemyAttackState : EnemyState {
-    private UnityEngine.Transform _playerTransform;
+    // private UnityEngine.Transform _playerTransform;
     private float _timer;
     private float _timerBetweenShots = 1.5f;
-    [SerializeField] public bool isFacingRight { get; set; } = false;
+    [SerializeField] public bool IsFacingRight { get; set; } = false;
 
     private float _exitTimer;
     private float _timeTillExit = 3f;
     private float _distanceToCountExit = 3f;
 
     private float _bulletSpeed = 10f;
-    public EnemyAttackState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine) 
+    public EnemyAttackState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) 
     {
-        _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        // _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
@@ -41,39 +41,35 @@ public class EnemyAttackState : EnemyState {
 
         enemy.Move(Vector2.zero);
 
-        if ((_playerTransform.position.x > enemy.transform.position.x) && (!isFacingRight))
+        if ((enemy.PlayerTransform.position.x > enemy.transform.position.x) && (!IsFacingRight))
         {
             Vector3 rotator = new Vector3(enemy.transform.rotation.x, 180f, enemy.transform.rotation.z);
             enemy.transform.rotation = Quaternion.Euler(rotator);
-            isFacingRight = !isFacingRight;
+            IsFacingRight = !IsFacingRight;
         }
 
-        if((_playerTransform.position.x < enemy.transform.position.x) && (isFacingRight))
+        if((enemy.PlayerTransform.position.x < enemy.transform.position.x) && (IsFacingRight))
         {
             Vector3 rotator = new Vector3(enemy.transform.rotation.x, 0f, enemy.transform.rotation.z);
             enemy.transform.rotation = Quaternion.Euler(rotator);
-            isFacingRight = !isFacingRight;
+            IsFacingRight = !IsFacingRight;
         }
 
         if (_timer > _timerBetweenShots)
         {
-            //_timer = 0f;
-
-            //Vector2 dir = (_playerTransform.position - enemy.transform.position).normalized;
-
-            //Rigidbody2D bullet = GameObject.Instantiate(enemy.bulletPrefabs.GetComponent<Rigidbody2D>(), enemy.transform);
-
-            //bullet.transform.localPosition = Vector3.zero;
-
-            //bullet.velocity = dir * _bulletSpeed;
-
             _timer = 0;
 
             Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
 
-            Vector2 dir = (_playerTransform.position - enemy.transform.position).normalized;
+            Vector2 dir = (enemy.PlayerTransform.position - enemy.transform.position).normalized;
 
             instance.gameObject.SetActive(true);
+
+            Collider2D collider = instance.gameObject.GetComponent<Collider2D>();
+
+            // collider.enabled = false;
+
+            collider.enabled = true;
 
             instance.Initialize();
 
@@ -82,15 +78,17 @@ public class EnemyAttackState : EnemyState {
             instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
         }
 
-        if (Vector2.Distance(_playerTransform.position, enemy.transform.position) > _distanceToCountExit)
+        if (Vector2.Distance(enemy.PlayerTransform.position, enemy.transform.position) > _distanceToCountExit)
         {
             _exitTimer += Time.deltaTime;
 
             if (_exitTimer > _timeTillExit)
             {
-                enemy.enemyStateMachine.ChangeState(enemy.moveState);
+                enemy.EnemyStateMachine.ChangeState(enemy.MoveState);
 
                 Animator animator = enemy.GetComponent<Animator>();
+
+                _timer = 0;
 
                 animator.Play("Move", 0, 0);
             }

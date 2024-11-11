@@ -7,7 +7,7 @@ public class EnemyIdleState : EnemyState
 {
     private Vector3 _targetPoint;
     private bool _isFacingRight = false;
-    public EnemyIdleState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine) { }
+    public EnemyIdleState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) { }
 
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
     {
@@ -19,7 +19,7 @@ public class EnemyIdleState : EnemyState
         base.EnterState();
 
 
-        _targetPoint = enemy.transform.position + new Vector3(-enemy.moveRange, 0, 0);
+        _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0);
         Debug.Log(_targetPoint);
     }
 
@@ -32,10 +32,10 @@ public class EnemyIdleState : EnemyState
     {
         base.FrameUpdate();
 
-        if (enemy.isAggroed)
+        if (enemy.IsAggroed)
         {
             Debug.Log("Hello from Idle to Move");
-            enemy.enemyStateMachine.ChangeState(enemy.moveState);
+            enemy.EnemyStateMachine.ChangeState(enemy.MoveState);
 
             Animator animator = enemy.GetComponent<Animator>();
 
@@ -52,17 +52,17 @@ public class EnemyIdleState : EnemyState
         {
             direction = Vector2.left;
         }
-        enemy.Move(direction * enemy.moveSpeed);
+        enemy.Move(direction * enemy.MoveSpeed);
 
         if ((enemy.transform.position - _targetPoint).sqrMagnitude < 0.01f)
         {
             if (_isFacingRight)
             {
-                _targetPoint = enemy.transform.position + new Vector3(-enemy.moveRange, 0, 0) * 2;
+                _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0) * 2;
             }
             else
             {
-                _targetPoint = enemy.transform.position + new Vector3(enemy.moveRange, 0, 0) * 2;
+                _targetPoint = enemy.transform.position + new Vector3(enemy.MoveRange, 0, 0) * 2;
             }
             _isFacingRight = !_isFacingRight;
         }

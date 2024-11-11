@@ -5,10 +5,8 @@ using UnityEngine;
 public class EnemyMoveState : EnemyState
 {
     private float _chaseSpeed = 3f;
-    private Transform _playerTransform;
-    public EnemyMoveState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine) 
+    public EnemyMoveState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) 
     { 
-        _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
@@ -30,14 +28,14 @@ public class EnemyMoveState : EnemyState
     {
         base.FrameUpdate();
 
-        Vector2 moveDirection = (_playerTransform.position - enemy.transform.position).normalized;
+        Vector2 moveDirection = (enemy.PlayerTransform.position - enemy.transform.position).normalized;
 
         enemy.Move(moveDirection * _chaseSpeed);
 
-        if (enemy.isWithInStrikingDistance)
+        if (enemy.IsWithInStrikingDistance)
         {
             Debug.Log("Hello from Move to Attack");
-            enemy.enemyStateMachine.ChangeState(enemy.attackState);
+            enemy.EnemyStateMachine.ChangeState(enemy.AttackState);
             Animator animator = enemy.GetComponent<Animator>();
 
             animator.Play("Attack", 0, 0);

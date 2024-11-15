@@ -37,6 +37,11 @@ public class GameDataManager : UnitySingleton<GameDataManager>
         return null;
     }
 
+    public PlayerData GetCurrentPlayerData()
+    {
+        return PlayerDataContainer.CurrentPlayerData;
+    }
+
     public void LoadAllData()
     {
         LoadSkillData();

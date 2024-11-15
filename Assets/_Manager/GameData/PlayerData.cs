@@ -35,7 +35,7 @@ namespace GameData.PlayerData
     public class PlayerDataContainer : GameDataContainer
     {
         private PlayerData[] _playersData;
-        
+        public static PlayerData CurrentPlayerData{get; private set;}
         public PlayerDataContainer(GameDataType gameDataType) : base(gameDataType)
         {
         }
@@ -72,6 +72,12 @@ namespace GameData.PlayerData
             foreach(var playerData in _playersData) {
                 Debug.Log(JsonConvert.SerializeObject(playerData));
             }
+            if(_playersData == null)
+            {
+                CurrentPlayerData = default;
+            }
+            else
+                CurrentPlayerData = _playersData[0];
         }
     }
 }

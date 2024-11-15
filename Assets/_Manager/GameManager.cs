@@ -13,6 +13,8 @@ public class GameManager : UnitySingleton<GameManager>
         routes = ResourcesRoute.Instance;
         _gameDataManagerInstance = GameDataManager.Instance;
         _gameEventManagerInstance = GameEventManager.Instance;
+        PlayerPrefs.SetInt("IsPlayerInit", -1);
+        DontDestroyOnLoad(this);
     }
     protected override void SingletonStarted()
     {

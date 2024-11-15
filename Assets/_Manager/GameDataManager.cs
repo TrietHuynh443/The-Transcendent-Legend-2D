@@ -1,14 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameData.PlayerData;
 using UnityEngine;
 
 public class GameDataManager : UnitySingleton<GameDataManager>
 {
     private SkillDataContainer _skillDataContainer;
+    private PlayerDataContainer _playerDataContainer;
     private Dictionary<GameDataType, GameDataContainer> _gameDataContainers = new Dictionary<GameDataType, GameDataContainer>();
     
-    public void LoadSkillData()
+    private void LoadSkillData()
     {
         if(_skillDataContainer == null)
         {
@@ -31,8 +33,38 @@ public class GameDataManager : UnitySingleton<GameDataManager>
     {
         GameDataType type = @params.Type;
         if (type == GameDataType.SKILL) return _skillDataContainer.GetData(@params);
-
+        else if(type == GameDataType.PLAYER) return _playerDataContainer.GetData(@params);
         return null;
+    }
+
+    public PlayerData GetCurrentPlayerData()
+    {
+        return PlayerDataContainer.CurrentPlayerData;
+    }
+
+    public void LoadAllData()
+    {
+        LoadSkillData();
+        LoadPlayerData();
+    }
+
+    private void LoadPlayerData()
+    {
+        if(_playerDataContainer == null)
+        {
+            _playerDataContainer = new PlayerDataContainer(GameDataType.PLAYER);
+        }
+
+        _playerDataContainer.SetData(FileUtils.Read(ResourcesRoute.CharacterDataPath));
+
+        if (!_gameDataContainers.ContainsKey(GameDataType.PLAYER))
+        {
+            _gameDataContainers.Add(GameDataType.PLAYER, _skillDataContainer);
+        }
+        else
+        {
+            _gameDataContainers[GameDataType.PLAYER] = _skillDataContainer;
+        }
     }
 }
 

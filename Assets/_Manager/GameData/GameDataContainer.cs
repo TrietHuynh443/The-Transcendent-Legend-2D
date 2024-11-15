@@ -8,6 +8,7 @@ public enum GameDataType
 {
     SKILL = 0,
     DEFAULT = -1,
+    PLAYER = 1,
 }
 public abstract class GameDataContainer
 {

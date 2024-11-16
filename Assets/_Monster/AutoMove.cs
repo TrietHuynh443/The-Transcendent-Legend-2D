@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class AutoMove : MonoBehaviour
 {
-    [SerializeField] float moveSpeed = 5f;        // Speed of movement
+    [SerializeField] float MoveSpeed = 5f;        // Speed of movement
     [SerializeField] float range = 2f;   // Left boundary
     private Rigidbody2D rb;             // Rigidbody2D component
     private Vector2 moveDirection = Vector2.right; // Initial movement direction
@@ -55,6 +55,6 @@ public class AutoMove : MonoBehaviour
     void FixedUpdate()
     {
         // Move the character by changing its velocity
-        rb.velocity = new Vector2(moveDirection.x * moveSpeed, rb.velocity.y);
+        rb.velocity = new Vector2(moveDirection.x * MoveSpeed, rb.velocity.y);
     }
 }

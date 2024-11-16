@@ -18,6 +18,7 @@ public class GameManager : UnitySingleton<GameManager>
         _gameDataManagerInstance = GameDataManager.Instance;
         _gameEventManagerInstance = GameEventManager.Instance;
         PlayerPrefs.SetInt("IsPlayerInit", -1);
+
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
     }

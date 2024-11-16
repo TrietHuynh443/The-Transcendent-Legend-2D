@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyDieState : EnemyState
 {
-    public EnemyDieState(Enemy enemy, EnemyStateMachine enemyStateMachine) : base(enemy, enemyStateMachine) { }
+    public EnemyDieState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) { }
 
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
     {

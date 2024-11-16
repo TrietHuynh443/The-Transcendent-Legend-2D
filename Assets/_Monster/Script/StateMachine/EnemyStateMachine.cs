@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class EnemyStateMachine
 {
-    public EnemyState currentState;
+    public EnemyState CurrentState;
 
     public void Initialize(EnemyState startingState)
     {
-        currentState = startingState;
-        currentState.EnterState();
+        CurrentState = startingState;
+        CurrentState.EnterState();
     }
 
     public void ChangeState(EnemyState newState)
     {
-        currentState.ExitState();
-        currentState = newState;
-        currentState.EnterState();
+        CurrentState.ExitState();
+        CurrentState = newState;
+        CurrentState.EnterState();
     }
 }

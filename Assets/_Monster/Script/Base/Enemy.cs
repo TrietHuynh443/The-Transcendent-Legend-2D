@@ -4,33 +4,37 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckable
 {
-    [field: SerializeField] public float maxHealth { get; set; } = 100f;
-    [SerializeField] public bool isFacingRight { get; set; } = false;
-    public float currentHealth { get; set; }
+    [SerializeField] public float MaxHealth { get; set; } = 100f;
+    [SerializeField] public bool IsFacingRight { get; set; } = false;
+
+    [SerializeField] public UnityEngine.Transform PlayerTransform;
+    public float CurrentHealth { get; set; }
     public Rigidbody2D RB { get; set; }
 
-    public bool isAggroed { get; set; }
-    public bool isWithInStrikingDistance { get; set; }
+    public GameObject BulletPrefabs;
+
+    public bool IsAggroed { get; set; }
+    public bool IsWithInStrikingDistance { get; set; }
 
     #region IdleVariable
-    [SerializeField] public float moveRange = 5f;
-    [SerializeField] public float moveSpeed = 1f;
+    [SerializeField] public float MoveRange = 5f;
+    [SerializeField] public float MoveSpeed = 1f;
     #endregion
 
     #region StateMachineVariable
-    public EnemyStateMachine enemyStateMachine { get; set; }
-    public EnemyAttackState attackState { get; set; }
-    public EnemyDieState dieState { get; set; }
-    public EnemyIdleState idleState { get; set; }
-    public EnemyMoveState moveState { get; set; }
+    public EnemyStateMachine EnemyStateMachine { get; set; }
+    public EnemyAttackState AttackState { get; set; }
+    public EnemyDieState DieState { get; set; }
+    public EnemyIdleState IdleState { get; set; }
+    public EnemyMoveState MoveState { get; set; }
     #endregion
 
     #region Health / Die Functions
     public void Damage(float damage)
     {
-        currentHealth -= damage;
+        CurrentHealth -= damage;
 
-        if (currentHealth <= 0f)
+        if (CurrentHealth <= 0f)
         {
             Die();
         }
@@ -52,18 +56,18 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
 
     public void CheckForLeftOrRightFacing(Vector2 velocity)
     {
-        if (isFacingRight && velocity.x > 0f)
+        if (IsFacingRight && velocity.x > 0f)
         {
             Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
             transform.rotation = Quaternion.Euler(rotator);
             Debug.Log("Hi");
-            isFacingRight = !isFacingRight;
-        } else if (!isFacingRight && velocity.x < 0f)
+            IsFacingRight = !IsFacingRight;
+        } else if (!IsFacingRight && velocity.x < 0f)
         {
             Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
             transform.rotation = Quaternion.Euler(rotator);
             Debug.Log("Ho");
-            isFacingRight = !isFacingRight;
+            IsFacingRight = !IsFacingRight;
         }
     }
     #endregion
@@ -72,7 +76,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
 
     private void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
-        enemyStateMachine.currentState.AnimationTriggerEvent(triggerType);
+        EnemyStateMachine.CurrentState.AnimationTriggerEvent(triggerType);
     }
     public enum AnimationTriggerType
     {
@@ -85,40 +89,40 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
     #region Distance Check
     public void SetAggroStatus(bool aggroStatus)
     {
-        isAggroed = aggroStatus;
+        IsAggroed = aggroStatus;
     }
 
     public void SetStrikingDistanceBool(bool strikingDistanceBool)
     {
-        isWithInStrikingDistance = strikingDistanceBool;
+        IsWithInStrikingDistance = strikingDistanceBool;
     }
     #endregion
 
     private void Awake()
     {
-        enemyStateMachine = new EnemyStateMachine();
-        idleState = new EnemyIdleState(this, enemyStateMachine);
-        attackState = new EnemyAttackState(this, enemyStateMachine);
-        moveState = new EnemyMoveState(this, enemyStateMachine);
-        dieState = new EnemyDieState(this, enemyStateMachine);
+        EnemyStateMachine = new EnemyStateMachine();
+        IdleState = new EnemyIdleState(this, EnemyStateMachine);
+        AttackState = new EnemyAttackState(this, EnemyStateMachine);
+        MoveState = new EnemyMoveState(this, EnemyStateMachine);
+        DieState = new EnemyDieState(this, EnemyStateMachine);
     }
 
     private void Update()
     {
-        enemyStateMachine.currentState.FrameUpdate();
+        EnemyStateMachine.CurrentState.FrameUpdate();
     }
     private void FixedUpdate()
     {
-        enemyStateMachine.currentState.PhysicsUpdate();
+        EnemyStateMachine.CurrentState.PhysicsUpdate();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        currentHealth = maxHealth;
+        CurrentHealth = MaxHealth;
 
         RB = GetComponent<Rigidbody2D>();
 
-        enemyStateMachine.Initialize(idleState);
+        EnemyStateMachine.Initialize(IdleState);
     }
 }

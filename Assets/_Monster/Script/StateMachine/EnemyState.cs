@@ -6,12 +6,12 @@ public class EnemyState
 {
     protected Enemy enemy;
 
-    protected EnemyStateMachine enemyStateMachine;
+    protected EnemyStateMachine EnemyStateMachine;
 
-    public EnemyState(Enemy enemy, EnemyStateMachine enemyStateMachine)
+    public EnemyState(Enemy enemy, EnemyStateMachine EnemyStateMachine)
     {
         this.enemy = enemy;
-        this.enemyStateMachine = enemyStateMachine;
+        this.EnemyStateMachine = EnemyStateMachine;
     }
 
     public virtual void EnterState() { }

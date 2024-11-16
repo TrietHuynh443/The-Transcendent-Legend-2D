@@ -508,14 +508,14 @@ namespace Lean.Transition
 		}
 
 		/// <summary>This method will mark all transitions as Skip = true if they match the transition type and target object of the specified transition.</summary>
-		private void RemoveConflictsBefore(List<LeanState> states, LeanState currentState, int currentIndex)
+		private void RemoveConflictsBefore(List<LeanState> states, LeanState CurrentState, int currentIndex)
 		{
-			var currentConflict = currentState.Conflict;
+			var currentConflict = CurrentState.Conflict;
 
 			if (currentConflict != LeanState.ConflictType.None)
 			{
-				var currentType   = currentState.GetType();
-				var currentTarget = currentState.GetTarget();
+				var currentType   = CurrentState.GetType();
+				var currentTarget = CurrentState.GetTarget();
 
 				for (var i = 0; i < currentIndex; i++)
 				{

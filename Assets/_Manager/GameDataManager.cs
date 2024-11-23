@@ -66,6 +66,16 @@ public class GameDataManager : UnitySingleton<GameDataManager>
             _gameDataContainers[GameDataType.PLAYER] = _skillDataContainer;
         }
     }
+
+    public object GetField(string name)
+    {
+        return _playerDataContainer.GetField(name);
+    }
+
+    public void SetField(string name, object value)
+    {
+        _playerDataContainer.SetField(name, value);
+    }
 }
 
 public class DataFilterParams

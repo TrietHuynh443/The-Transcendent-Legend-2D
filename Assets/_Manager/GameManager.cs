@@ -12,6 +12,8 @@ public class GameManager : UnitySingleton<GameManager>
     [SerializeField] private GameObject _testEnemyPrefab;
     private Dictionary<EnemyType, BaseEnemy> _enemyMap;
 
+    private Vector3 _playerCheckpointLocation;
+
     protected override void SingletonAwake()
     {
         routes = ResourcesRoute.Instance;
@@ -45,5 +47,18 @@ public class GameManager : UnitySingleton<GameManager>
         }
 
         return Instantiate(_enemyMap[type].GetEnemyPrefab(), pos, Quaternion.identity);
+    }
+
+    public void SetPlayerRespawnLocation(Vector3 pos)
+    {
+        // _gameDataManagerInstance.SetField("Position", pos);
+
+        _playerCheckpointLocation = pos;
+    }
+
+    public void RespawnPlayer(GameObject _playerObject)
+    {
+        Debug.Log(_playerCheckpointLocation);
+        _playerObject.transform.position = _playerCheckpointLocation;
     }
 }

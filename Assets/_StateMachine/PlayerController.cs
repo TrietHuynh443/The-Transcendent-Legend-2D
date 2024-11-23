@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics.Tracing;
+using GameEvent;
 using Player.PlayerProperties;
 using Player.PlayerStates.MoveState;
 using Player.PlayerStates.PlayerStateMachine;
@@ -8,13 +10,13 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour
+public class PlayerController : MonoBehaviour, IGameEventListener<DeadEvent>
 {
     [SerializeField] private float _onJumpGravityScale = 3f;
     [SerializeField] private float _originGravityScale = 1f;
     [SerializeField] private PlayerProperties _properties;
     [SerializeField] private GameObject _normalAttack;
-    
+    [SerializeField] private PlayerDataSO _playerDataSO;
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
@@ -48,13 +50,14 @@ public class PlayerController : MonoBehaviour
     #endregion Public Properties
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {   
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _rigidbody.gravityScale = _originGravityScale;
 
         InitPlayerStates();
+        EventAggregator.Register<DeadEvent>(this);
     }
 
     private void InitPlayerStates()
@@ -143,4 +146,16 @@ public class PlayerController : MonoBehaviour
         _properties.Status.CurrentJump = 0;
     }
 
+    public void TakeDamage(float damage)
+    {
+        _animator.SetTrigger("OnHit");
+        //Handle health
+        _playerDataSO.LoseHealth(damage);
+    }
+
+
+    public void Handle(DeadEvent @event)
+    {
+        _animator.SetTrigger("Die");
+    }
 }

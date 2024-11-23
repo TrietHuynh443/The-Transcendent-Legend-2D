@@ -1,4 +1,5 @@
 using GameData.PlayerData;
+using GameEvent;
 using UnityEngine;
 
 [CreateAssetMenu(menuName = "Scriptable Objects/PlayerDataSO", fileName = "new PlayerDataSO")]
@@ -20,7 +21,8 @@ public class PlayerDataSO : ScriptableObject
             SpecialDefense = playerOriginalData.BaseSpecialDefense,
             AttackSpeed = playerOriginalData.BaseAttackSpeed,
             Speed = playerOriginalData.BaseSpeed,
-            CritRate = playerOriginalData.BaseCritRate
+            CritRate = playerOriginalData.BaseCritRate,
+            Health = playerOriginalData.BaseHealth,
         };
 
         PlayerPrefs.SetInt("IsPlayerInit", 1);
@@ -59,9 +61,19 @@ public class PlayerDataSO : ScriptableObject
         _currentStats = _previousStats.Clone();
     }
 
+    public void LoseHealth(float damage)
+    {
+        _currentStats.Health -= damage;
+        if(_currentStats.Health < 0)
+        {
+            EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
+        }
+    }
+
     [System.Serializable]
     private class PlayerStats
     {
+        public float Health;
         public float Attack;
         public float Defense;
         public float SpecialAttack;

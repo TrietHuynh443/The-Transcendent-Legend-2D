@@ -7,8 +7,9 @@ public class GameManager : UnitySingleton<GameManager>
 {
     private ResourcesRoute routes;
     private GameDataManager _gameDataManagerInstance;
-    private GameEventManager _gameEventManagerInstance;
-
+    //Change to EventAggregate
+    // private GameEventManager _gameEventManagerInstance;
+    private SoundManager _soundManager;
     [SerializeField] private GameObject _testEnemyPrefab;
     private Dictionary<EnemyType, BaseEnemy> _enemyMap;
 
@@ -18,9 +19,8 @@ public class GameManager : UnitySingleton<GameManager>
     {
         routes = ResourcesRoute.Instance;
         _gameDataManagerInstance = GameDataManager.Instance;
-        _gameEventManagerInstance = GameEventManager.Instance;
+        _soundManager = SoundManager.Instance;
         PlayerPrefs.SetInt("IsPlayerInit", -1);
-
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
     }
@@ -28,10 +28,30 @@ public class GameManager : UnitySingleton<GameManager>
     protected override void SingletonStarted()
     {
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
-        _gameEventManagerInstance.gameObject.transform.SetParent(transform);
-
+        _soundManager.gameObject.transform.SetParent(transform);
         _gameDataManagerInstance.LoadAllData();
+
+        //Play Main Theme
+        StartCoroutine(PlayMainThemeMusic());
+        
     }
+
+    private IEnumerator PlayMainThemeMusic()
+{
+    var loadOperation = Resources.LoadAsync<AudioClip>(ResourcesRoute.MainThemePath);
+
+    yield return loadOperation;
+
+    if (loadOperation.asset is AudioClip clip)
+    {
+        _soundManager.PlayMusic(clip, true);
+    }
+    else
+    {
+        Debug.LogError($"Failed to load AudioClip from path: {ResourcesRoute.MainThemePath}");
+    }
+}
+
 
     public GameObject SpawnEnemy(EnemyType type, Vector3 pos)
     {

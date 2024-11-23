@@ -31,7 +31,7 @@ for sheet_name, sheet_data in excel_data_df.items():
     thisisjson_dict = json.loads(thisisjson)
 
     # Save the JSON data to a file
-    with open(json_file_name, 'w') as json_file:
+    with open(f"../Assets/Resources/JSON/{json_file_name}", 'w') as json_file:
         json.dump(thisisjson_dict, json_file)
 
     print(f'{sheet_name} data saved to {json_file_name}')

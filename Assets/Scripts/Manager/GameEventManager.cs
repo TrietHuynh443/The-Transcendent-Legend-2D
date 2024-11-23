@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+namespace Enums.GameEvent{
 public class GameEventManager : UnitySingleton<GameEventManager>
 {
     private GameEvent _currentGameState;
@@ -43,4 +44,5 @@ public class GameEventManager : UnitySingleton<GameEventManager>
         _currentGameState = gameEvent;
     }
 
+}
 }

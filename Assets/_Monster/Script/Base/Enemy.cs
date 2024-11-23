@@ -42,7 +42,10 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
 
     public void Die()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Hello from Idle to Die");
+        Animator animator = GetComponent<Animator>();
+
+        animator.Play("Die", 0, 0);
     }
 
     #endregion

@@ -32,6 +32,10 @@ public class EnemyIdleState : EnemyState
     {
         base.FrameUpdate();
 
+        enemy.Damage(2f);
+
+        Debug.Log(enemy.CurrentHealth);
+
         if (enemy.IsAggroed)
         {
             Debug.Log("Hello from Idle to Move");
@@ -41,6 +45,14 @@ public class EnemyIdleState : EnemyState
 
             animator.Play("Move", 0, 0);
 
+        }
+
+        if (enemy.CurrentHealth == 0)
+        {
+            Debug.Log("Hello from Idle to Die");
+            Animator animator = enemy.GetComponent<Animator>();
+
+            animator.Play("Die", 0, 0);
         }
 
         Vector2 direction;

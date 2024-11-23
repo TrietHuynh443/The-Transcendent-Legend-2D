@@ -32,6 +32,9 @@ namespace GameData.PlayerData
         public float BaseCriteScale { get; set; } = 0;
         [JsonProperty("Health")]
         public float BaseHealth { get; set; } = 0;
+        [JsonProperty("Position")]
+        public Vector3 Position {get; set;}
+
     }
 
     public class PlayerDataContainer : GameDataContainer
@@ -80,6 +83,26 @@ namespace GameData.PlayerData
             }
             else
                 CurrentPlayerData = _playersData[0];
+        }
+
+        public object GetField(string name)
+        {
+            switch (name)
+            {
+                case "Position":
+                    return CurrentPlayerData.Position;
+            }
+            return null;
+        }
+
+        public void SetField(string name, object value)
+        {
+            switch (name)
+            {
+                case "Position":
+                    CurrentPlayerData.Position = (Vector3)value;
+                    break;
+            }
         }
     }
 }

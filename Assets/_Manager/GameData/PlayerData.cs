@@ -30,6 +30,8 @@ namespace GameData.PlayerData
         public float BaseCritRate { get; set; } = 0;
         [JsonProperty("Base Crit Scale")]
         public float BaseCriteScale { get; set; } = 0;
+        [JsonProperty("Health")]
+        public float BaseHealth { get; set; } = 0;
     }
 
     public class PlayerDataContainer : GameDataContainer

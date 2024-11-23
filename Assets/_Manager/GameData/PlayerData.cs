@@ -34,6 +34,7 @@ namespace GameData.PlayerData
         public float BaseHealth { get; set; } = 0;
         [JsonProperty("Position")]
         public Vector3 Position {get; set;}
+
     }
 
     public class PlayerDataContainer : GameDataContainer

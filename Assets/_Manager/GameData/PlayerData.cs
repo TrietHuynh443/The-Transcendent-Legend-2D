@@ -32,8 +32,6 @@ namespace GameData.PlayerData
         public float BaseCriteScale { get; set; } = 0;
         [JsonProperty("Health")]
         public float BaseHealth { get; set; } = 0;
-        [JsonProperty("Position")]
-        public Vector3 Position {get; set;}
 
     }
 
@@ -87,22 +85,22 @@ namespace GameData.PlayerData
 
         public object GetField(string name)
         {
-            switch (name)
-            {
-                case "Position":
-                    return CurrentPlayerData.Position;
-            }
+            // switch (name)
+            // {
+            //     case "Position":
+            //         return CurrentPlayerData.Position;
+            // }
             return null;
         }
 
         public void SetField(string name, object value)
         {
-            switch (name)
-            {
-                case "Position":
-                    CurrentPlayerData.Position = (Vector3)value;
-                    break;
-            }
+            // switch (name)
+            // {
+            //     case "Position":
+            //         CurrentPlayerData.Position = (Vector3)value;
+            //         break;
+            // }
         }
     }
 }

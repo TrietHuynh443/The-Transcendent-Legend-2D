@@ -8,12 +8,14 @@ public class PlayerDataSO : ScriptableObject
     private PlayerStats _currentStats = new PlayerStats();
     private PlayerStats _previousStats;
 
+    public PlayerStats CurrentStats => _currentStats;
+
     public void Init()
     {
         if (PlayerPrefs.GetInt("IsPlayerInit") > 0) return;
 
         var playerOriginalData = GameDataManager.Instance.GetCurrentPlayerData();
-        _currentStats = new PlayerStats
+        _currentStats = new ()
         {
             Attack = playerOriginalData.BaseAttack,
             Defense = playerOriginalData.BaseDefense,
@@ -71,7 +73,7 @@ public class PlayerDataSO : ScriptableObject
     }
 
     [System.Serializable]
-    private class PlayerStats
+    public class PlayerStats
     {
         public float Health;
         public float Attack;

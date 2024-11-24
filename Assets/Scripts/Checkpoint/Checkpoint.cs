@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] private GameManager _gameManager;
     [SerializeField] private GameObject _playerObject;
 
 
@@ -25,7 +24,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.gameObject == _playerObject)
         {
-            _gameManager.SetPlayerRespawnLocation(new Vector3(this.transform.position.x, this.transform.position.y + 0.5f));
+            GameManager.Instance.SetPlayerRespawnLocation(new Vector3(transform.position.x, this.transform.position.y + 0.5f));
         }
     }
 }

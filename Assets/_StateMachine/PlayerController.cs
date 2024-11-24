@@ -66,13 +66,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _idleState = new IdleState(this, _playerStateMachine, _properties, "Idle");
         _moveState = new MoveState(this, _playerStateMachine, _properties, "Move");
         _jumpState = new JumpState(this, _playerStateMachine, _properties, "Jump");
-        _attackState = new AttackState(
-            this,
-            _playerStateMachine,
-            _properties,
-            "Attack",
-            _normalAttack.gameObject
-        );
+        _attackState = new AttackState(this, _playerStateMachine, _properties, "Attack", _normalAttack.gameObject);
         _onGroundState = new OnGroundedState(this, _playerStateMachine, _properties, "Grounded");
         _inAirState = new InAirState(this, _playerStateMachine, _properties, "InAir");
         _playerStateMachine.Initialize(_idleState);

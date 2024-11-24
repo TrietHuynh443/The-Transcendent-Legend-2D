@@ -27,6 +27,8 @@ public class RepeatingParallax : MonoBehaviour
     private void Update()
     {
         scroll += _scrollEffect * Time.deltaTime;
+
+        scroll %= length;
     }
 
     void FixedUpdate()
@@ -34,7 +36,7 @@ public class RepeatingParallax : MonoBehaviour
         float distance = cam.transform.position.x * _parallaxEffect;
         float movement = cam.transform.position.x * (1 - _parallaxEffect);
         
-        transform.position = new Vector3(startPos + distance, transform.position.y, transform.position.z);
+        transform.position = new Vector3(startPos + distance + scroll, transform.position.y, transform.position.z);
 
         if (movement > startPos + length)
         {

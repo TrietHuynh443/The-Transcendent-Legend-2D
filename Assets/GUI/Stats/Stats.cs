@@ -6,8 +6,9 @@ public class Stats : MonoBehaviour
 {
     private RectTransform healthBarTransform;
     
-    private const int MAX_HEALTH_IMG_WIDTH = 128;
-    private const int MIN_HEALTH_IMG_WIDTH = 0;
+    
+    private int maxHealthImgWidth;
+    private int minHealthImgWidth = 0;
     
     [SerializeField]
     private float _maxHealth = 100.0f;
@@ -20,13 +21,14 @@ public class Stats : MonoBehaviour
     void Start()
     {
         healthBarTransform = transform.Find("Health Bar").gameObject.GetComponent<RectTransform>();
+        maxHealthImgWidth = (int)healthBarTransform.rect.width;
     }
 
     // Update is called once per frame
     void Update()
     {
         float healthPercent = Mathf.Clamp(_currentHealth / _maxHealth, 0.0f, 1.0f);
-        int newWidth = (int)((MAX_HEALTH_IMG_WIDTH - MIN_HEALTH_IMG_WIDTH) * healthPercent + MIN_HEALTH_IMG_WIDTH);
+        int newWidth = (int)((maxHealthImgWidth - minHealthImgWidth) * healthPercent + minHealthImgWidth);
         healthBarTransform.sizeDelta = new Vector2(newWidth, healthBarTransform.sizeDelta.y);
     }
 }

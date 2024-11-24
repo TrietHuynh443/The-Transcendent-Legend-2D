@@ -123,14 +123,14 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Health Bar
     originalName: 
-    pivot: {x: 3.2941177, y: -1.5454546}
+    pivot: {x: 2.9473684, y: -1.5454546}
     alignment: 9
-    border: {x: 6, y: 0, z: 8, w: 0}
+    border: {x: 7, y: 0, z: 11, w: 0}
     rect:
       serializedVersion: 2
       x: 4
       y: 4
-      width: 17
+      width: 19
       height: 11
     spriteID: 122ea301ae0e3634fbb78cbf9e13bfbc
     spriteBone: []
@@ -156,7 +156,7 @@ ScriptedImporter:
       cellRect:
         x: 24
         y: 17
-        width: 17
+        width: 19
         height: 11
       spriteId: 122ea301ae0e3634fbb78cbf9e13bfbc
     linkedCells: []

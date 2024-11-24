@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyMoveState : EnemyState
 {
-    private float _chaseSpeed = 3f;
     private Animator _animator;
     public EnemyMoveState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) 
     { 
@@ -30,9 +29,7 @@ public class EnemyMoveState : EnemyState
     {
         base.FrameUpdate();
 
-        Vector2 moveDirection = (enemy.PlayerTransform.position - enemy.transform.position).normalized;
-
-        enemy.Move(moveDirection * _chaseSpeed);
+        enemy.MoveStateHandle();
 
         if (enemy.IsWithInStrikingDistance)
         {

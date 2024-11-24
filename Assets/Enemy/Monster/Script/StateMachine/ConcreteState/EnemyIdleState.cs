@@ -18,7 +18,6 @@ public class EnemyIdleState : EnemyState
     {
         base.EnterState();
 
-
         _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0);
         Debug.Log(_targetPoint);
     }
@@ -43,29 +42,7 @@ public class EnemyIdleState : EnemyState
 
         }
 
-        Vector2 direction;
-        if (_isFacingRight)
-        {
-            direction = Vector2.right;
-        }
-        else
-        {
-            direction = Vector2.left;
-        }
-        enemy.Move(direction * enemy.MoveSpeed);
-
-        if ((enemy.transform.position - _targetPoint).sqrMagnitude < 0.01f)
-        {
-            if (_isFacingRight)
-            {
-                _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0) * 2;
-            }
-            else
-            {
-                _targetPoint = enemy.transform.position + new Vector3(enemy.MoveRange, 0, 0) * 2;
-            }
-            _isFacingRight = !_isFacingRight;
-        }
+        enemy.IdleStateHandle();
     }
 
     public override void PhysicsUpdate()

@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody2D))]
 public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckable
 {
     [SerializeField] public float MaxHealth { get; set; } = 100f;
     [SerializeField] public bool IsFacingRight { get; set; } = false;
 
-    [SerializeField] public UnityEngine.Transform PlayerTransform;
+    [SerializeField] public Transform PlayerTransform;
     public float CurrentHealth { get; set; }
-    public Rigidbody2D RB { get; set; }
+    public Rigidbody2D Rigidbody { get; set; }
 
     public GameObject BulletPrefabs;
 
@@ -30,7 +31,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
     #endregion
 
     #region Health / Die Functions
-    public void Damage(float damage)
+    public void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
 
@@ -50,7 +51,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
     #region Move Function
     public void Move(Vector2 velocity)
     {
-        RB.velocity = velocity;
+        Rigidbody.velocity = velocity;
         CheckForLeftOrRightFacing(velocity);
     }
 
@@ -121,7 +122,7 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
     {
         CurrentHealth = MaxHealth;
 
-        RB = GetComponent<Rigidbody2D>();
+        Rigidbody = GetComponent<Rigidbody2D>();
 
         EnemyStateMachine.Initialize(IdleState);
     }

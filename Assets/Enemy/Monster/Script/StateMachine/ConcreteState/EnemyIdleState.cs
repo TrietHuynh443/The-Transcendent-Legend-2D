@@ -34,7 +34,7 @@ public class EnemyIdleState : EnemyState
 
         if (enemy.IsAggroed)
         {
-            Debug.Log("Hello from Idle to Move");
+            // Debug.Log("Hello from Idle to Move");
             enemy.EnemyStateMachine.ChangeState(enemy.MoveState);
 
             Animator animator = enemy.GetComponent<Animator>();

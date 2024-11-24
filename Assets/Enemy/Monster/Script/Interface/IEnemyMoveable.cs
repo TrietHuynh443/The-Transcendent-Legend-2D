@@ -4,7 +4,7 @@ using UnityEngine;
 
 public interface IEnemyMoveable
 {
-    Rigidbody2D RB { get; set; }
+    Rigidbody2D Rigidbody { get; set; }
 
     void Move(Vector2 velocity);
 

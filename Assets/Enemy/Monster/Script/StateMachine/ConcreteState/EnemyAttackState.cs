@@ -1,8 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using static UnityEngine.RuleTile.TilingRuleOutput;
 
 public class EnemyAttackState : EnemyState {
     // private UnityEngine.Transform _playerTransform;
@@ -48,7 +44,7 @@ public class EnemyAttackState : EnemyState {
             IsFacingRight = !IsFacingRight;
         }
 
-        if((enemy.PlayerTransform.position.x < enemy.transform.position.x) && (IsFacingRight))
+        if((enemy.PlayerTransform.position.x < enemy.transform.position.x) && IsFacingRight)
         {
             Vector3 rotator = new Vector3(enemy.transform.rotation.x, 0f, enemy.transform.rotation.z);
             enemy.transform.rotation = Quaternion.Euler(rotator);

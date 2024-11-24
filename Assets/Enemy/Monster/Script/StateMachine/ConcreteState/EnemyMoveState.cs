@@ -5,6 +5,7 @@ using UnityEngine;
 public class EnemyMoveState : EnemyState
 {
     private float _chaseSpeed = 3f;
+    private Animator _animator;
     public EnemyMoveState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) 
     { 
     }
@@ -17,6 +18,7 @@ public class EnemyMoveState : EnemyState
     public override void EnterState()
     {
         base.EnterState();
+        _animator = enemy.GetComponent<Animator>();
     }
 
     public override void ExitState()
@@ -34,11 +36,9 @@ public class EnemyMoveState : EnemyState
 
         if (enemy.IsWithInStrikingDistance)
         {
-            Debug.Log("Hello from Move to Attack");
             enemy.EnemyStateMachine.ChangeState(enemy.AttackState);
-            Animator animator = enemy.GetComponent<Animator>();
 
-            animator.Play("Attack", 0, 0);
+            _animator.Play("Attack", 0, 0);
         }
     }
 

@@ -9,7 +9,12 @@ public class GameDataManager : UnitySingleton<GameDataManager>
     private SkillDataContainer _skillDataContainer;
     private PlayerDataContainer _playerDataContainer;
     private Dictionary<GameDataType, GameDataContainer> _gameDataContainers = new Dictionary<GameDataType, GameDataContainer>();
-    
+
+    protected override void SingletonAwake()
+    {
+        base.SingletonAwake();
+        LoadAllData();
+    }
     private void LoadSkillData()
     {
         if(_skillDataContainer == null)

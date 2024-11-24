@@ -10,12 +10,12 @@ using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : MonoBehaviour, IGameEventListener<DeadEvent>
+public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 {
     [SerializeField] private float _onJumpGravityScale = 3f;
     [SerializeField] private float _originGravityScale = 1f;
     [SerializeField] private PlayerProperties _properties;
-    [SerializeField] private GameObject _normalAttack;
+    [SerializeField] private AttackTrigger _normalAttack;
     [SerializeField] private PlayerDataSO _playerDataSO;
 
     private Rigidbody2D _rigidbody;
@@ -57,6 +57,8 @@ public class PlayerController : MonoBehaviour, IGameEventListener<DeadEvent>
         _rigidbody.gravityScale = _originGravityScale;
 
         InitPlayerStates();
+        _playerDataSO.Init();
+        _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
         EventAggregator.Register<DeadEvent>(this);
     }
 
@@ -66,7 +68,7 @@ public class PlayerController : MonoBehaviour, IGameEventListener<DeadEvent>
         _idleState = new IdleState(this, _playerStateMachine, _properties, "Idle");
         _moveState = new MoveState(this, _playerStateMachine, _properties, "Move");
         _jumpState = new JumpState(this, _playerStateMachine, _properties, "Jump");
-        _attackState = new AttackState(this, _playerStateMachine, _properties, "Attack", _normalAttack);
+        _attackState = new AttackState(this, _playerStateMachine, _properties, "Attack", _normalAttack.gameObject);
         _onGroundState = new OnGroundedState(this, _playerStateMachine, _properties, "Grounded");
         _inAirState = new InAirState(this, _playerStateMachine, _properties, "InAir");
         _playerStateMachine.Initialize(_idleState);
@@ -146,13 +148,17 @@ public class PlayerController : MonoBehaviour, IGameEventListener<DeadEvent>
         _properties.Status.CurrentJump = 0;
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         _animator.SetTrigger("OnHit");
         //Handle health
         _playerDataSO.LoseHealth(damage);
     }
 
+    public override void Die()
+    {
+        throw new NotImplementedException();
+    }
 
     public void Handle(DeadEvent @event)
     {

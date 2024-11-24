@@ -1,12 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// 
+/// </summary>
+
 [RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
+public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 {
     [SerializeField] public float MaxHealth { get; set; } = 100f;
-    [SerializeField] public bool IsFacingRight { get; set; } = false;
+
+    //public bool IsFacingRight { get; set; } = false;
 
     [SerializeField] public Transform PlayerTransform;
     public float CurrentHealth { get; set; }
@@ -14,12 +20,15 @@ public class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     public GameObject BulletPrefabs;
 
+    public Animator animator {  get; set; }
+
     public bool IsAggroed { get; set; }
     public bool IsWithInStrikingDistance { get; set; }
 
     #region IdleVariable
     [SerializeField] public float MoveRange = 5f;
     [SerializeField] public float MoveSpeed = 1f;
+    private bool _onHit = false;
     #endregion
 
     #region StateMachineVariable
@@ -35,37 +44,53 @@ public class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     {
         CurrentHealth -= damage;
         Debug.Log(gameObject.name + " " + CurrentHealth);
+
+        PlayGetHitAnimation();
+
         if (CurrentHealth <= 0f)
         {
             Die();
         }
     }
 
+    private void PlayGetHitAnimation()
+    {
+        if (animator == null)
+        {
+            Debug.LogWarning("Animator not assigned!");
+            return;
+        }
+
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        if (!_onHit)
+        {
+            animator.Play("GetHit");
+            StartCoroutine(ReturnToPreviousState(currentState));
+        }
+    }
+
+    private IEnumerator ReturnToPreviousState(AnimatorStateInfo previousState)
+    {
+        _onHit = true;
+     
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+
+        _onHit = false;
+      
+        animator.Play(previousState.shortNameHash);
+    }
     #endregion
 
     #region Move Function
-    public void Move(Vector2 velocity)
-    {
-        Rigidbody.velocity = velocity;
-        CheckForLeftOrRightFacing(velocity);
-    }
+    public abstract void CheckForLeftOrRightFacing(Vector2 velocity);
+    public abstract void Move(Vector2 velocity);    
+    #endregion
 
-    public void CheckForLeftOrRightFacing(Vector2 velocity)
-    {
-        if (IsFacingRight && velocity.x > 0f)
-        {
-            Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            Debug.Log("Hi");
-            IsFacingRight = !IsFacingRight;
-        } else if (!IsFacingRight && velocity.x < 0f)
-        {
-            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            Debug.Log("Ho");
-            IsFacingRight = !IsFacingRight;
-        }
-    }
+    #region Abstract Function
+    public abstract void IdleStateHandle();
+    public abstract void MoveStateHandle();
+    public abstract void AttackStateHandle(ref float timer);
+    public abstract void DieStateHandle();
     #endregion
 
     #region Animation Trigger Events
@@ -78,7 +103,6 @@ public class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     {
         EnemyMove,
         EnemyAttack,
-            
     }
     #endregion
 
@@ -105,16 +129,22 @@ public class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     private void Update()
     {
+        if (_onHit)
+            return;
         EnemyStateMachine.CurrentState.FrameUpdate();
     }
     private void FixedUpdate()
     {
+        if (_onHit)
+            return;
         EnemyStateMachine.CurrentState.PhysicsUpdate();
     }
 
     // Start is called before the first frame update
-    void Start()
+    protected virtual void Start()
     {
+        animator = GetComponent<Animator>();
+
         CurrentHealth = MaxHealth;
 
         Rigidbody = GetComponent<Rigidbody2D>();

@@ -21,7 +21,6 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     private Rigidbody2D _rigidbody;
     private Animator _animator;
 
-
     #region Player State Controller
     private PlayerStateMachine _playerStateMachine;
     private IdleState _idleState;
@@ -49,9 +48,8 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     public OnGroundedState OnGroundState => _onGroundState;
     #endregion Public Properties
 
-    // Start is called before the first frame update
     private void Start()
-    {   
+    {
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _rigidbody.gravityScale = _originGravityScale;
@@ -74,25 +72,56 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _playerStateMachine.Initialize(_idleState);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
-        _properties.Input.IsJumpInput = _properties.Status.CurrentJump < _properties.Data.MaxJump && Input.GetKeyDown(KeyCode.Space);
+        _properties.Input.IsJumpInput =
+            _properties.Status.CurrentJump < _properties.Data.MaxJump
+            && Input.GetKeyDown(KeyCode.Space);
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
         CheckGrounded();
+        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0)
+        {
+            HandleInAir();
+        }
+        else if (_properties.Status.IsGrounded)
+        {
+            HandleOnGround();
+        }
+
+        if(_properties.Status.StuckWall*_properties.Input.HorizontalInput > 0)
+        {
+            Debug.Log("Stuck Wall");
+            _properties.Input.HorizontalInput = 0;
+        }
         _playerStateMachine.CurrentState.LogicUpdate();
     }
 
     public void CheckGrounded()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1f, LayerMask.GetMask("Ground"));
-        _properties.Status.IsGrounded = hit.collider != null;
+        RaycastHit2D hitDown = Physics2D.Raycast(
+            transform.position,
+            Vector2.down,
+            1f,
+            LayerMask.GetMask("Ground")
+        );
+
+        RaycastHit2D hitRight = Physics2D.Raycast(
+            transform.position,
+            transform.right,
+            1f,
+            LayerMask.GetMask("Ground")
+        );
+        _properties.Status.StuckWall =
+            hitRight.collider != null
+                ? (int)_properties.Input.HorizontalInput
+                : 0;
+        _properties.Status.IsGrounded = hitDown.collider != null;
     }
 
     public void HandleOnGround()
     {
-       _rigidbody.gravityScale = _originGravityScale;
+        _rigidbody.gravityScale = _originGravityScale;
     }
 
     private void EndAnimationTrigger()
@@ -108,26 +137,29 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         //     var newY = _horizontalInput < -0.001f ? 180 : 0;
         //     transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(transform.rotation.x, newY)));
         // }
-        
+
         // _rigidbody.velocity = new Vector2(_horizontalInput * _speed, _rigidbody.velocity.y + _currentJumpSpeed);
         // _animator?.SetFloat("Move", abs);
         // _currentJumpSpeed = 0;
         _playerStateMachine.CurrentState.PhysicsUpdate();
     }
-
+    
     public void Flip(float euler)
     {
-        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(transform.rotation.x, euler)));
+        transform.SetPositionAndRotation(
+            transform.position,
+            Quaternion.Euler(new Vector3(transform.rotation.x, euler))
+        );
     }
 
     public void HandleInAir()
     {
-       _rigidbody.gravityScale = _onJumpGravityScale;
+        _rigidbody.gravityScale = _onJumpGravityScale;
     }
 
     public void DoJump()
     {
-        if(_properties.Status.CurrentJump >= _properties.Data.MaxJump)
+        if (_properties.Status.CurrentJump >= _properties.Data.MaxJump)
             return;
 
         ++_properties.Status.CurrentJump;
@@ -135,8 +167,8 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         var newVelocity = new Vector2(
             _properties.Input.HorizontalInput,
             _properties.Data.JumpForce
-            );
-        if(_properties.Status.CurrentJump == _properties.Data.MaxJump)
+        );
+        if (_properties.Status.CurrentJump == _properties.Data.MaxJump)
         {
             newVelocity.y += _rigidbody.velocity.y / Mathf.Sqrt(2);
         }
@@ -157,11 +189,13 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void Die()
     {
-        throw new NotImplementedException();
+        _animator.SetTrigger("Die");
+        EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
     }
 
     public void Handle(DeadEvent @event)
     {
         _animator.SetTrigger("Die");
     }
+
 }

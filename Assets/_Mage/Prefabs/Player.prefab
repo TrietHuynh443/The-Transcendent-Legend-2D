@@ -17,7 +17,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &8048907078848831224
 Transform:
   m_ObjectHideFlags: 0
@@ -94,6 +94,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eeb0adfd9acb1cd40b1af0b1110633f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  layerName: Player
 --- !u!1 &4664450744937495782
 GameObject:
   m_ObjectHideFlags: 0
@@ -264,13 +265,14 @@ MonoBehaviour:
   _properties:
     Data:
       Speed: 5
-      JumpForce: 15
+      JumpForce: 20
       Attack: 0
       SpecialAttack: 0
       MaxJump: 2
     Status:
       IsGrounded: 0
       CurrentJump: 0
+      StuckWall: 0
   _normalAttack: {fileID: 227181544200178795}
   _playerDataSO: {fileID: 11400000, guid: 356b6915aff972f4c82e6f145c8987e9, type: 2}
 --- !u!70 &6922663607990445191

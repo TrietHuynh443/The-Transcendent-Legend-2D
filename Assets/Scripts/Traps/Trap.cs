@@ -5,7 +5,6 @@ using UnityEngine;
 public class Trap : MonoBehaviour
 {
     [SerializeField] private GameObject _playerObject;
-    [SerializeField] private GameManager _gameManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -22,7 +21,7 @@ public class Trap : MonoBehaviour
     {
         if (collision.gameObject == _playerObject)
         {
-            _gameManager.RespawnPlayer(_playerObject);
+            GameManager.Instance.RespawnPlayer(_playerObject);
         }
     }
 }

@@ -29,7 +29,6 @@ public class GameManager : UnitySingleton<GameManager>
     {
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
         _soundManager.gameObject.transform.SetParent(transform);
-        _gameDataManagerInstance.LoadAllData();
 
         //Play Main Theme
         StartCoroutine(PlayMainThemeMusic());

@@ -31,5 +31,6 @@ namespace Player.PlayerProperties{
     {
         public bool IsGrounded;
         public int CurrentJump = 0;
+        public int StuckWall = 0;
     }
 }

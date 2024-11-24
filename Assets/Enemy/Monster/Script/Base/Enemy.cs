@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckable
+public class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 {
     [SerializeField] public float MaxHealth { get; set; } = 100f;
     [SerializeField] public bool IsFacingRight { get; set; } = false;
@@ -31,19 +31,14 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
     #endregion
 
     #region Health / Die Functions
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
-
+        Debug.Log(gameObject.name + " " + CurrentHealth);
         if (CurrentHealth <= 0f)
         {
             Die();
         }
-    }
-
-    public void Die()
-    {
-        throw new System.NotImplementedException();
     }
 
     #endregion
@@ -125,5 +120,10 @@ public class Enemy : MonoBehaviour, IDamageable, IEnemyMoveable, ITriggerCheckab
         Rigidbody = GetComponent<Rigidbody2D>();
 
         EnemyStateMachine.Initialize(IdleState);
+    }
+
+    public override void Die()
+    {
+        throw new System.NotImplementedException();
     }
 }

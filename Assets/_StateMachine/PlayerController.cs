@@ -149,7 +149,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         // _currentJumpSpeed = 0;
         _playerStateMachine.CurrentState.PhysicsUpdate();
     }
-
+    
     public void Flip(float euler)
     {
         transform.SetPositionAndRotation(
@@ -195,11 +195,13 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void Die()
     {
-        throw new NotImplementedException();
+        _animator.SetTrigger("Die");
+        EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
     }
 
     public void Handle(DeadEvent @event)
     {
         _animator.SetTrigger("Die");
     }
+
 }

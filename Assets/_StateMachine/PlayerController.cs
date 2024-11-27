@@ -9,14 +9,24 @@ using Player.PlayerStates.PlayerStateMachine;
 using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+
 [RequireComponent(typeof(Rigidbody2D))]
 public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 {
-    [SerializeField] private float _onJumpGravityScale = 3f;
-    [SerializeField] private float _originGravityScale = 1f;
-    [SerializeField] private PlayerProperties _properties;
-    [SerializeField] private AttackTrigger _normalAttack;
-    [SerializeField] private PlayerDataSO _playerDataSO;
+    [SerializeField]
+    private float _onJumpGravityScale = 3f;
+
+    [SerializeField]
+    private float _originGravityScale = 1f;
+
+    [SerializeField]
+    private PlayerProperties _properties;
+
+    [SerializeField]
+    private AttackTrigger _normalAttack;
+
+    [SerializeField]
+    private PlayerDataSO _playerDataSO;
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
@@ -32,8 +42,9 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     private OnGroundedState _onGroundState;
 
     #endregion Player State Controller
-    private bool _isGrounded = false;
-    private bool _isAttacking = false;
+    // private bool _isGrounded = false;
+    // private bool _isAttacking = false;
+    // private bool _inCoyate = false;
 
     #region Public Properties
     public Animator Anim => _animator;
@@ -89,18 +100,30 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0)
         {
             HandleInAir();
+            StartCoroutine(StartCoyate());
         }
         else if (_properties.Status.IsGrounded)
         {
             HandleOnGround();
         }
 
-        if(_properties.Status.StuckWall*_properties.Input.HorizontalInput > 0)
+        if (_properties.Status.StuckWall * _properties.Input.HorizontalInput > 0)
         {
             Debug.Log("Stuck Wall");
             _properties.Input.HorizontalInput = 0;
         }
         _playerStateMachine.CurrentState.LogicUpdate();
+    }
+
+    private IEnumerator StartCoyate()
+    {
+        int countFrame = 0;
+        _properties.Status.IsInCoyateTime = true;
+        while (countFrame++ < 1)
+        {
+            yield return null;
+        }
+        _properties.Status.IsInCoyateTime = false;
     }
 
     public void CheckGrounded()
@@ -112,16 +135,16 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
             LayerMask.GetMask("Ground")
         );
 
-        RaycastHit2D hitRight = Physics2D.Raycast(
+        RaycastHit2D hitRight = Physics2D.BoxCast(
             transform.position,
+            new Vector2(0.6f, 1f),
+            0f,
             transform.right,
-            1f,
+            0.5f,
             LayerMask.GetMask("Ground")
         );
         _properties.Status.StuckWall =
-            hitRight.collider != null
-                ? (int)_properties.Input.HorizontalInput
-                : 0;
+            hitRight.collider != null ? (int)_properties.Input.HorizontalInput : 0;
         _properties.Status.IsGrounded = hitDown.collider != null;
     }
 
@@ -149,7 +172,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         // _currentJumpSpeed = 0;
         _playerStateMachine.CurrentState.PhysicsUpdate();
     }
-    
+
     public void Flip(float euler)
     {
         transform.SetPositionAndRotation(
@@ -204,4 +227,11 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _animator.SetTrigger("Die");
     }
 
+    void OnDrawGizmos()
+    {
+        Vector2 boxSize = new Vector2(0.6f, 1f);
+        Gizmos.color = Color.red;
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawWireCube(Vector3.right * 0.5f, boxSize);
+    }
 }

@@ -40,6 +40,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     private InAirState _inAirState;
 
     private OnGroundedState _onGroundState;
+    private float _startInAirTime;
 
     #endregion Player State Controller
     // private bool _isGrounded = false;
@@ -97,7 +98,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
             && Input.GetKeyDown(KeyCode.Space);
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
         CheckGrounded();
-        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0)
+        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && Time.time - _startInAirTime > 0.2f)
         {
             HandleInAir();
             StartCoroutine(StartCoyate());
@@ -146,6 +147,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _properties.Status.StuckWall =
             hitRight.collider != null ? (int)_properties.Input.HorizontalInput : 0;
         _properties.Status.IsGrounded = hitDown.collider != null;
+        if(_properties.Status.IsGrounded) _startInAirTime = Time.time;
     }
 
     public void HandleOnGround()

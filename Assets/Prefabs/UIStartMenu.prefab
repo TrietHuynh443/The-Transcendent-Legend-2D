@@ -5896,7 +5896,7 @@ GameObject:
   - component: {fileID: 2323156762357622604}
   - component: {fileID: 5740797772278992355}
   - component: {fileID: 2624623885399322434}
-  - component: {fileID: 5963672689204905435}
+  - component: {fileID: 1439308079400374350}
   m_Layer: 5
   m_Name: UIStartMenu
   m_TagString: Untagged
@@ -5948,7 +5948,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 25
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 2
   m_TargetDisplay: 0
 --- !u!114 &5740797772278992355
 MonoBehaviour:
@@ -5990,7 +5990,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!225 &5963672689204905435
+--- !u!225 &1439308079400374350
 CanvasGroup:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

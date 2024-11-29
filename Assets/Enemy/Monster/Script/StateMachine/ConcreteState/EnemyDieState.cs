@@ -24,6 +24,8 @@ public class EnemyDieState : EnemyState
     public override void FrameUpdate()
     {
         base.FrameUpdate();
+
+        enemy.DieStateHandle();
     }
 
     public override void PhysicsUpdate()

@@ -55,9 +55,30 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _rigidbody.gravityScale = _originGravityScale;
 
         InitPlayerStates();
+        PlacePlayerOnSceneSwitch();
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
         EventAggregator.Register<DeadEvent>(this);
+    }
+
+    private void PlacePlayerOnSceneSwitch()
+    {
+        string levelSwitchName = GameManager.Instance.GetLevelSwitchName();
+        bool isSwitchingLeftToRight = GameManager.Instance.IsSwitchingLeftToRight();
+        GameObject[] sceneSwitchTriggers = GameObject.FindGameObjectsWithTag("Scene Trigger");
+        foreach (GameObject sceneSwitchTrigger in sceneSwitchTriggers)
+        {
+            if (sceneSwitchTrigger.GetComponent<LevelSwitcher>().LevelSwitchName == levelSwitchName)
+            {
+                Vector2 size = sceneSwitchTrigger.GetComponent<BoxCollider2D>().size;
+                float offset = -2 * size.x;
+                if (isSwitchingLeftToRight)
+                    offset *= -1; 
+                transform.position = sceneSwitchTrigger.transform.position + new Vector3(offset, 0, 0);
+                Flip(isSwitchingLeftToRight ? 0 : 180);
+                break;
+            }
+        }
     }
 
     private void InitPlayerStates()

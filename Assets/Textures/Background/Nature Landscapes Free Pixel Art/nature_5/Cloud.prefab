@@ -438,5 +438,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _parallaxXEffect: 0.4
-  _parallaxYEffect: 0
-  _scrollXEffect: 0
+  _parallaxYEffect: 1
+  _scrollXEffect: 0.1

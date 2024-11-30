@@ -26,9 +26,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3007890977702404954}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.11825155, y: 1.6933334, z: 0.000014474221}
-  m_LocalScale: {x: 0.66666675, y: 0.66666675, z: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1080711156044041398}
@@ -75,10 +75,10 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.2427817, y: -0.010838807}
+  m_Offset: {x: 0.5368654, y: -0.010838807}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -89,7 +89,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.97017896, y: 0.31920445}
+  m_Size: {x: 0.40874565, y: 0.3192044}
   m_EdgeRadius: 0
 --- !u!1 &7145559109206390836
 GameObject:
@@ -294,15 +294,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 1.45
+      value: -28.519999
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.58
+      value: 1.9700003
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.00002894844
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalRotation.w
@@ -399,7 +399,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9faf032f17763454eafd5f01104661f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coolDown: 2
+  _coolDown: 0.5
   PlayerTransform: {fileID: 0}
   MoveRange: 5
   MoveSpeed: 1

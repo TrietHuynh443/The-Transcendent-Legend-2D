@@ -212,7 +212,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void TakeDamage(float damage)
     {
-        _animator.SetTrigger("OnHit");
+        // _animator.SetTrigger("OnHit");
         //Handle health
         _playerDataSO.LoseHealth(damage);
     }

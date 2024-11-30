@@ -17,21 +17,25 @@ public class Rat : Enemy
     }
     public override void AttackStateHandle(ref float timer)
     {
-        _attackTrigger.SetActive(true);
+        if(!_isAttackCoolDown)
+        {
+            _attackTrigger.SetActive(true);
+            _isAttackCoolDown = true;
+        }
+
 
     }
 
-
-    public void OnAnimationTriggerEndAttack(){
+    public void OnAnimationAttackTrigger()
+    {
         StartCoroutine(TriggerEndAttack());
     }
 
+
     private IEnumerator TriggerEndAttack()
     {
-        _attackTrigger.SetActive(false);
         animator.Play("Idle", 0, 0);
         EnemyStateMachine.ChangeState(IdleState);
-        _isAttackCoolDown = true;
 
         yield return new WaitForSeconds(_coolDown);
         _isAttackCoolDown = false;
@@ -56,6 +60,7 @@ public class Rat : Enemy
     {
         base.Start();
         _startPos = transform.position;
+        _attackTrigger.GetComponent<AttackTrigger>().AttackDamage = 1;
     }
 
     protected override void Update()

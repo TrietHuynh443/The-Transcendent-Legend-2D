@@ -48,7 +48,6 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public override void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
-        Debug.Log(gameObject.name + " " + CurrentHealth);
 
         PlayGetHitAnimation();
 

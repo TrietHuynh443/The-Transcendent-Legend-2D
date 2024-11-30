@@ -9,37 +9,19 @@ public class LevelSwitcher : MonoBehaviour
     private string _nextSceneName;
     [SerializeField]
     private string _switchName;
-
-    private bool pauseSelfExitTrigger = false;
+    [SerializeField]
+    private bool _isVerticalSwitch = false;
+    
     public string LevelSwitchName => _switchName;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
-            if (!GameManager.Instance.IsLevelSwitching())
-            {
-                pauseSelfExitTrigger = true;
-                bool isSwitchingLeftToRight = collision.GetComponent<Rigidbody2D>().velocity.x > 0;
-                GameManager.Instance.SwitchScene(_nextSceneName, _switchName, isSwitchingLeftToRight);
-            }
-        }
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (pauseSelfExitTrigger)
-        {
-            pauseSelfExitTrigger = false;
-            return;
-        }
-        
-        if (collision.CompareTag("Player"))
-        {
-            if (GameManager.Instance.IsLevelSwitching())
-            {
-                GameManager.Instance.EndLevelSwitch();
-            }
+            Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
+            Vector2 velocity = new Vector2(rb.velocity.x, rb.velocity.y);
+            
+            GameManager.Instance.SwitchScene(_nextSceneName, _switchName, velocity, _isVerticalSwitch);
         }
     }
     

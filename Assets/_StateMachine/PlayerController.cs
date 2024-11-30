@@ -63,18 +63,31 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     private void PlacePlayerOnSceneSwitch()
     {
+        Vector2 switchVelocity = GameManager.Instance.GetSwitchVelocity();
         string levelSwitchName = GameManager.Instance.GetLevelSwitchName();
-        bool isSwitchingLeftToRight = GameManager.Instance.IsSwitchingLeftToRight();
+        bool isSwitchingLeftToRight = switchVelocity.x > 0;
+        bool isSwitchingTopToBottom = switchVelocity.y < 0;
+        bool isVerticalSwitch = GameManager.Instance.IsVerticalSwitch();
         GameObject[] sceneSwitchTriggers = GameObject.FindGameObjectsWithTag("Scene Trigger");
         foreach (GameObject sceneSwitchTrigger in sceneSwitchTriggers)
         {
             if (sceneSwitchTrigger.GetComponent<LevelSwitcher>().LevelSwitchName == levelSwitchName)
             {
                 Vector2 size = sceneSwitchTrigger.GetComponent<BoxCollider2D>().size;
-                float offset = -2 * size.x;
-                if (isSwitchingLeftToRight)
-                    offset *= -1; 
-                transform.position = sceneSwitchTrigger.transform.position + new Vector3(offset, 0, 0);
+                Vector3 offset;
+                float offsetRate = 2;
+                if (!isVerticalSwitch)
+                {
+                    int offsetDirection = isSwitchingLeftToRight ? 1 : -1;
+                    offset = new Vector3(offsetDirection * offsetRate * size.x, 0, 0);
+                }
+                else
+                {
+                    int offsetDirection = isSwitchingTopToBottom ? -1 : 1;
+                    offset = new Vector3(0, offsetDirection * offsetRate * size.y, 0);
+                }
+                
+                transform.position = sceneSwitchTrigger.transform.position + offset;
                 Flip(isSwitchingLeftToRight ? 0 : 180);
                 break;
             }

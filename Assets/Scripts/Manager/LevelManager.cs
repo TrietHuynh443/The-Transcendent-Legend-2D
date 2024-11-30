@@ -4,31 +4,21 @@ using UnityEngine.SceneManagement;
 public class LevelManager : UnitySingleton<LevelManager>
 {
     private string levelSwitchName;
-    private bool isSwitching = false;
-    private bool isSwitchingLeftToRight = false;
-    public bool IsSwitching => isSwitching;
+    private Vector2 velocity;
+    private bool isVerticalSwitch = false;
     public string LevelSwitchName => levelSwitchName;
-    public bool IsSwitchingLeftToRight => isSwitchingLeftToRight;
+    public Vector2 Velocity => velocity;
+    public bool IsVerticalSwitch => isVerticalSwitch;
     public void LoadScene(string sceneName)
     {
         SceneManager.LoadScene(sceneName);
     }
 
-    public void SwitchScene(string sceneName, string switchName, bool isSwitchingLtR)
+    public void SwitchScene(string sceneName, string switchName, Vector2 vec, bool isVertSwitch)
     {
         levelSwitchName = switchName;
-        isSwitchingLeftToRight = isSwitchingLtR;
-        StartLevelSwitch();
+        velocity = vec;
+        isVerticalSwitch = isVertSwitch;
         LoadScene(sceneName);
-    }
-
-    public void StartLevelSwitch()
-    {
-        isSwitching = true;
-    }
-
-    public void EndLevelSwitch()
-    {
-        isSwitching = false;
     }
 }

@@ -84,42 +84,25 @@ public class GameManager : UnitySingleton<GameManager>
         _playerObject.transform.position = _playerCheckpointLocation;
     }
 
-    public void SwitchScene(string sceneName, string switchName, bool isSwitchingLeftToRight)
+    public void SwitchScene(string sceneName, string switchName, Vector2 velocity, bool isVerticalSwitch)
     {
-        _levelManager.SwitchScene(sceneName, switchName, isSwitchingLeftToRight);
+        _levelManager.SwitchScene(sceneName, switchName, velocity, isVerticalSwitch);
     }
 
-    public bool IsSwitchingLeftToRight()
+    public Vector2 GetSwitchVelocity()
     {
-        return _levelManager.IsSwitchingLeftToRight;
+        return _levelManager.Velocity;
+    }
+
+    public bool IsVerticalSwitch()
+    {
+        return _levelManager.IsVerticalSwitch;
     }
 
     public string GetLevelSwitchName()
     {
         return _levelManager.LevelSwitchName;
     }
-    public void StartLevelSwitch()
-    {
-        _levelManager.StartLevelSwitch();
-    }
-    public void EndLevelSwitch()
-    {
-        _levelManager.EndLevelSwitch();
-    }
 
-    public bool IsLevelSwitching()
-    {
-        return _levelManager.IsSwitching;
-    }
-
-    private void OnEnable()
-    {
-        SceneManager.sceneLoaded += OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
-    {
-        
-    }
 
 }

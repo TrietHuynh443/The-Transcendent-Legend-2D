@@ -34,6 +34,10 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     private bool _onHit = false;
     protected bool _isStuck = false;
     private bool _isGrounded;
+
+    protected bool _isDead = false;
+    public bool IsDead => _isDead;
+
     #endregion
 
     #region StateMachineVariable
@@ -42,6 +46,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public EnemyDieState DieState { get; set; }
     public EnemyIdleState IdleState { get; set; }
     public EnemyMoveState MoveState { get; set; }
+
     #endregion
 
     #region Health / Die Functions
@@ -57,11 +62,10 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
         }
     }
 
-    private void PlayGetHitAnimation()
+    public void PlayGetHitAnimation()
     {
-        if (animator == null)
+        if (animator == null || _isDead)
         {
-            Debug.LogWarning("Animator not assigned!");
             return;
         }
 
@@ -72,7 +76,17 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
             StartCoroutine(ReturnToPreviousState(currentState));
         }
     }
+    public void PlayDieAnimation()
+    {
+        if (animator == null)
+        {
+            Debug.LogWarning("Animator not assigned!");
+            return;
+        }
 
+        animator.Play("Die");
+
+    }
     private IEnumerator ReturnToPreviousState(AnimatorStateInfo previousState)
     {
         _onHit = true;
@@ -176,7 +190,6 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     public override void Die()
     {
-        throw new NotImplementedException();
     }
 
     public void TurnBack()
@@ -187,5 +200,10 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
                                                                                     transform.rotation.eulerAngles.z
                                                                                     )
                                                                             ));
+    }
+
+    public void SelfDestroy()
+    {
+        Destroy(gameObject);
     }
 }

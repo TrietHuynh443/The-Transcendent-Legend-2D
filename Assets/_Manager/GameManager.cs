@@ -17,7 +17,7 @@ public class GameManager : UnitySingleton<GameManager>
 
     protected override void SingletonAwake()
     {
-        PlayerPrefs.SetInt("IsPlayerInit", -1);
+        // PlayerPrefs.SetInt("IsPlayerInit", -1);
 
 
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();

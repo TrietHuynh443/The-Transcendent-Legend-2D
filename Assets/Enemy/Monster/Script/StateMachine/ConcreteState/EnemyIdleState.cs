@@ -19,7 +19,7 @@ public class EnemyIdleState : EnemyState
         base.EnterState();
 
         _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0);
-        Debug.Log(_targetPoint);
+        // Debug.Log(_targetPoint);
     }
 
     public override void ExitState()

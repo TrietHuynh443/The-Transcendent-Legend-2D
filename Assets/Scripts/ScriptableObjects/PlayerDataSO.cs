@@ -10,6 +10,8 @@ public class PlayerDataSO : ScriptableObject
 
     public PlayerStats CurrentStats => _currentStats;
 
+    public PlayerStats OriginalStats {get; private set;}
+
     public void Init()
     {
         if (PlayerPrefs.GetInt("IsPlayerInit") > 0) return;
@@ -26,6 +28,19 @@ public class PlayerDataSO : ScriptableObject
             CritRate = playerOriginalData.BaseCritRate,
             Health = playerOriginalData.BaseHealth,
         };
+
+        OriginalStats = new ()
+        {
+            Attack = playerOriginalData.BaseAttack,
+            Defense = playerOriginalData.BaseDefense,
+            SpecialAttack = playerOriginalData.BaseSpecialAttack,
+            SpecialDefense = playerOriginalData.BaseSpecialDefense,
+            AttackSpeed = playerOriginalData.BaseAttackSpeed,
+            Speed = playerOriginalData.BaseSpeed,
+            CritRate = playerOriginalData.BaseCritRate,
+            Health = playerOriginalData.BaseHealth,
+        };
+
 
         PlayerPrefs.SetInt("IsPlayerInit", 1);
     }

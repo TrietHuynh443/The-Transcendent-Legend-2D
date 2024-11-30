@@ -17,23 +17,24 @@ public class GameManager : UnitySingleton<GameManager>
 
     protected override void SingletonAwake()
     {
-        routes = ResourcesRoute.Instance;
-        _gameDataManagerInstance = GameDataManager.Instance;
-        _soundManager = SoundManager.Instance;
         PlayerPrefs.SetInt("IsPlayerInit", -1);
+
+
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
     }
 
     protected override void SingletonStarted()
     {
+        _gameDataManagerInstance = GameDataManager.Instance;
+        routes = GetComponentInChildren<ResourcesRoute>();
+        _soundManager = GetComponentInChildren<SoundManager>();
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
         _soundManager.gameObject.transform.SetParent(transform);
-
         //Play Main Theme
         StartCoroutine(PlayMainThemeMusic());
-        
     }
+
 
     private IEnumerator PlayMainThemeMusic()
 {

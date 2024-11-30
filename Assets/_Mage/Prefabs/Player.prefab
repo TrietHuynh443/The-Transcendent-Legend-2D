@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8048907078848831224}
   - component: {fileID: 1204332147030281498}
   - component: {fileID: 227181544200178795}
-  m_Layer: 8
+  m_Layer: 10
   m_Name: Attack (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914090096524648913}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -77,10 +77,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.2897005, y: -0.27154225}
-      - {x: 0.86412525, y: 1.052379}
+    - - {x: 1.1313365, y: -0.40820354}
+      - {x: 0.762805, y: 0.91728467}
       - {x: 0.65697193, y: 0.5981482}
-      - {x: 1.013596, y: -0.8570502}
+      - {x: 0.84472895, y: -0.18833435}
   m_UseDelaunayMesh: 0
 --- !u!114 &227181544200178795
 MonoBehaviour:
@@ -110,6 +110,7 @@ GameObject:
   - component: {fileID: 5139758766217019779}
   - component: {fileID: 499456925878664334}
   - component: {fileID: 6922663607990445191}
+  - component: {fileID: 1291587221261299564}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -265,7 +266,7 @@ MonoBehaviour:
   _properties:
     Data:
       Speed: 5
-      JumpForce: 20
+      JumpForce: 16
       Attack: 0
       SpecialAttack: 0
       MaxJump: 2
@@ -273,6 +274,7 @@ MonoBehaviour:
       IsGrounded: 0
       CurrentJump: 0
       StuckWall: 0
+      IsInCoyateTime: 0
   _normalAttack: {fileID: 227181544200178795}
   _playerDataSO: {fileID: 11400000, guid: 356b6915aff972f4c82e6f145c8987e9, type: 2}
 --- !u!70 &6922663607990445191
@@ -307,6 +309,41 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01190805, y: -0.04188132}
-  m_Size: {x: 1.554005, y: 1.763207}
+  m_Offset: {x: 0.0416069, y: -0.2835854}
+  m_Size: {x: 1.1556, y: 1.208347}
   m_Direction: 0
+--- !u!58 &1291587221261299564
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4664450744937495782}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.07, y: 0.39}
+  serializedVersion: 2
+  m_Radius: 0.5

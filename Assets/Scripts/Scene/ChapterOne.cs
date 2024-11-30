@@ -11,7 +11,10 @@ public class ChapterOne : BaseScene
         if(!isInit)
         {
             isInit = true;
-            _gameManagerObject = Instantiate(_gameManagerPrefabs);
+            if (GameManager.Instance == null)
+            {
+                _gameManagerObject = Instantiate(_gameManagerPrefabs);
+            }
         }
     }
 

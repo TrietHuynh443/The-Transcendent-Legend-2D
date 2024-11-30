@@ -66,6 +66,7 @@ public class PlayerDataSO : ScriptableObject
     public void LoseHealth(float damage)
     {
         _currentStats.Health -= damage;
+        Debug.Log($"Player: {_currentStats.Health}");
         if(_currentStats.Health < 0)
         {
             EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());

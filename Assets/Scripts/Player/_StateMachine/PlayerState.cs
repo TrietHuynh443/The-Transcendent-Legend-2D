@@ -53,7 +53,7 @@ public class PlayerState
 
     public virtual void LogicUpdate()
     {
-        if (_properties.Input.IsJumpInput) 
+        if (_properties.Input.IsJumpInput || _properties.Status.IsInCoyateTime) 
         {
             _isJump = true;
             _controller.HandleInAir();

@@ -29,7 +29,7 @@ public class Bullet : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
         {
             // Debug.Log("Hi from Explde!!");
             _rb.velocity = Vector2.zero;

@@ -5,11 +5,11 @@ using UnityEngine;
 public class EnemyStrikingDistanceCheck : MonoBehaviour
 {
     [SerializeField] public GameObject PlayerTarget;
-    private Enemy _enemy;
+    private ITriggerCheckable _enemy;
 
     private void Awake()
     {
-        _enemy = GetComponentInParent<Enemy>();
+        _enemy = GetComponentInParent<ITriggerCheckable>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

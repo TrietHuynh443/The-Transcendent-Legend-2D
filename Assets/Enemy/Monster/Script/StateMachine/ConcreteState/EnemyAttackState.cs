@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyState {
     // private UnityEngine.Transform _playerTransform;
-    private float _timer;
+    private float _timer = 0;
     [SerializeField] public bool IsFacingRight { get; set; } = false;
 
     private float _exitTimer;
@@ -31,7 +31,6 @@ public class EnemyAttackState : EnemyState {
     public override void FrameUpdate()
     {
         base.FrameUpdate();
-
 
         // if (Vector2.Distance(enemy.PlayerTransform.position, enemy.transform.position) > _distanceToCountExit)
         // {

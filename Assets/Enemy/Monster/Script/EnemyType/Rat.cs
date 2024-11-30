@@ -1,16 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Factory;
 using UnityEngine;
 
 public class Rat : Enemy
 {
     private Vector2 _startPos;
     private bool _isTurnBack = false;
+
     [SerializeField] private GameObject _attackTrigger;
 
+    void Awake()
+    {
+        type = EnemyType.OnGrounded;
+    }
     public override void AttackStateHandle(ref float timer)
     {
         _attackTrigger.SetActive(true);
+
+    }
+
+
+    public void OnAnimationTriggerEndAttack(){
+        StartCoroutine(TriggerEndAttack());
+    }
+
+    private IEnumerator TriggerEndAttack()
+    {
+        _attackTrigger.SetActive(false);
+        animator.Play("Idle", 0, 0);
+        EnemyStateMachine.ChangeState(IdleState);
+        _isAttackCoolDown = true;
+
+        yield return new WaitForSeconds(_coolDown);
+        _isAttackCoolDown = false;
     }
 
     public override void CheckForLeftOrRightFacing(Vector2 velocity)
@@ -24,7 +48,8 @@ public class Rat : Enemy
 
     public override void IdleStateHandle()
     {
-        IsAggroed = true;
+
+        IsAggroed = !_isAttackCoolDown;
     }
 
     protected override void Start()
@@ -33,17 +58,19 @@ public class Rat : Enemy
         _startPos = transform.position;
     }
 
-    private void Update()
+    protected override void Update()
     {
         base.Update();
-        if(Vector2.Distance(transform.position, _startPos) >= MoveRange)
+        if(Vector2.Distance(transform.position, _startPos) >= MoveRange || _isStuck)
         {
             _isTurnBack = true;
             _startPos = transform.position;
         }
     }
 
-    private void FixedUpdate()
+
+
+    protected override void FixedUpdate()
     {
         base.FixedUpdate();
         if(_isTurnBack)
@@ -51,12 +78,7 @@ public class Rat : Enemy
             _isTurnBack = false;
             TurnBack();
         }
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.right, 2f, LayerMask.NameToLayer("Ground"));
-        if(hit.collider != null)
-        {
-            TurnBack();
-            _startPos = transform.position;
-        }
+
     }
 
     public override void Move(Vector2 velocity)
@@ -69,18 +91,7 @@ public class Rat : Enemy
         Move(new Vector2(MoveSpeed, 0));
     }
 
-    // void OnDrawGizmos()
-    // {
-    //     Gizmos.color = Color.yellow;
-    //     Gizmos.DrawLine(transform.position, transform.position + transform.right * 1.5f);
-    // }
+    
 
-    void OnTriggerEnter(Collider other)
-    {
-        if(LayerMask.LayerToName(other.gameObject.layer) == "Player")
-        {
-            Debug.Log("" + other.gameObject.name);
-        }
-    }
     
 }

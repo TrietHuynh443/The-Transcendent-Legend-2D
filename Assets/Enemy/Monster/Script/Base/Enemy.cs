@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Factory;
 using UnityEngine;
 
 /// <summary>
@@ -13,6 +13,8 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     [SerializeField] public float MaxHealth { get; set; } = 100f;
 
     //public bool IsFacingRight { get; set; } = false;
+    [SerializeField] protected float _coolDown = 1f;
+    protected bool _isAttackCoolDown = false;
 
     [SerializeField] public Transform PlayerTransform;
     public float CurrentHealth { get; set; }
@@ -23,11 +25,15 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public bool IsAggroed { get; set; }
     public bool IsWithInStrikingDistance { get; set; }
 
+    public bool IsAttackCoolDown => _isAttackCoolDown;
 
+    protected EnemyType type = EnemyType.OnGrounded;
     #region IdleVariable
     [SerializeField] public float MoveRange = 5f;
     [SerializeField] public float MoveSpeed = 1f;
     private bool _onHit = false;
+    protected bool _isStuck = false;
+    private bool _isGrounded;
     #endregion
 
     #region StateMachineVariable
@@ -63,7 +69,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         if (!_onHit)
         {
-            animator.Play("GetHit");
+            animator.Play("OnHit");
             StartCoroutine(ReturnToPreviousState(currentState));
         }
     }
@@ -117,24 +123,37 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     }
     #endregion
 
-    private void Awake()
+    protected virtual void Update()
     {
-        EnemyStateMachine = new EnemyStateMachine();
-        IdleState = new EnemyIdleState(this, EnemyStateMachine);
-        AttackState = new EnemyAttackState(this, EnemyStateMachine);
-        MoveState = new EnemyMoveState(this, EnemyStateMachine);
-        DieState = new EnemyDieState(this, EnemyStateMachine);
-    }
-
-    protected void Update()
-    {
-        if (_onHit)
+        CheckGround();
+        if (_onHit || (!_isGrounded && type == EnemyType.OnGrounded))
             return;
         EnemyStateMachine.CurrentState.FrameUpdate();
     }
-    protected void FixedUpdate()
+
+    private void CheckGround()
     {
-        if (_onHit)
+        RaycastHit2D hitDown = Physics2D.BoxCast(
+            transform.position,
+            new Vector2(0.6f, 1f),
+            0f,
+            -transform.up,
+            0.5f,
+            LayerMask.GetMask("Ground")
+        );
+        RaycastHit2D hitRight = Physics2D.Raycast(
+            transform.position,
+            transform.right,
+            1f,
+            LayerMask.GetMask("Ground")
+        );
+        _isStuck = hitRight.collider != null;
+        _isGrounded = hitDown.collider != null;
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (_onHit || (!_isGrounded && type == EnemyType.OnGrounded))
             return;
         EnemyStateMachine.CurrentState.PhysicsUpdate();
     }
@@ -142,6 +161,11 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        EnemyStateMachine = new EnemyStateMachine();
+        IdleState = new EnemyIdleState(this, EnemyStateMachine);
+        AttackState = new EnemyAttackState(this, EnemyStateMachine);
+        MoveState = new EnemyMoveState(this, EnemyStateMachine);
+        DieState = new EnemyDieState(this, EnemyStateMachine);
         animator = GetComponent<Animator>();
 
         CurrentHealth = MaxHealth;

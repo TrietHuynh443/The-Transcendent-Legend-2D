@@ -2,12 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using DG.Tweening;
 using GameEvent;
 using Player.PlayerProperties;
 using Player.PlayerStates.MoveState;
 using Player.PlayerStates.PlayerStateMachine;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -236,4 +235,5 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawWireCube(Vector3.right * 0.5f, boxSize);
     }
+
 }

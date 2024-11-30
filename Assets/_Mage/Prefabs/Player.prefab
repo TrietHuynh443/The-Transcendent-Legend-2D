@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 914090096524648913}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -77,10 +77,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.2897005, y: -0.27154225}
-      - {x: 0.86412525, y: 1.052379}
+    - - {x: 1.1313365, y: -0.40820354}
+      - {x: 0.762805, y: 0.91728467}
       - {x: 0.65697193, y: 0.5981482}
-      - {x: 1.013596, y: -0.8570502}
+      - {x: 0.84472895, y: -0.18833435}
   m_UseDelaunayMesh: 0
 --- !u!114 &227181544200178795
 MonoBehaviour:
@@ -274,6 +274,7 @@ MonoBehaviour:
       IsGrounded: 0
       CurrentJump: 0
       StuckWall: 0
+      IsInCoyateTime: 0
   _normalAttack: {fileID: 227181544200178795}
   _playerDataSO: {fileID: 11400000, guid: 356b6915aff972f4c82e6f145c8987e9, type: 2}
 --- !u!70 &6922663607990445191
@@ -308,8 +309,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.041606903, y: -0.28358537}
-  m_Size: {x: 1.1555996, y: 1.2083474}
+  m_Offset: {x: 0.0416069, y: -0.2835854}
+  m_Size: {x: 1.1556, y: 1.208347}
   m_Direction: 0
 --- !u!58 &1291587221261299564
 CircleCollider2D:

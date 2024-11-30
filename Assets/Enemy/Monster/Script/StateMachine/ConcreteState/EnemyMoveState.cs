@@ -30,11 +30,11 @@ public class EnemyMoveState : EnemyState
         base.FrameUpdate();
 
 
-        if (enemy.IsWithInStrikingDistance)
+        if (enemy.IsWithInStrikingDistance && !enemy.IsAttackCoolDown)
         {
             enemy.EnemyStateMachine.ChangeState(enemy.AttackState);
 
-            _animator.Play("Attack", 0, 0);
+            _animator.Play("Attack");
         }
     }
 

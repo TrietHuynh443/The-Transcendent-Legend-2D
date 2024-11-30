@@ -3,14 +3,11 @@ using UnityEngine;
 public class EnemyAttackState : EnemyState {
     // private UnityEngine.Transform _playerTransform;
     private float _timer;
-    private float _timerBetweenShots = 1.5f;
     [SerializeField] public bool IsFacingRight { get; set; } = false;
 
     private float _exitTimer;
     private float _timeTillExit = 3f;
     private float _distanceToCountExit = 3f;
-
-    private float _bulletSpeed = 10f;
     public EnemyAttackState(Enemy enemy, EnemyStateMachine EnemyStateMachine) : base(enemy, EnemyStateMachine) 
     {
         // _playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
@@ -35,44 +32,7 @@ public class EnemyAttackState : EnemyState {
     {
         base.FrameUpdate();
 
-        enemy.Move(Vector2.zero);
-
-        if ((enemy.PlayerTransform.position.x > enemy.transform.position.x) && (!IsFacingRight))
-        {
-            Vector3 rotator = new Vector3(enemy.transform.rotation.x, 180f, enemy.transform.rotation.z);
-            enemy.transform.rotation = Quaternion.Euler(rotator);
-            IsFacingRight = !IsFacingRight;
-        }
-
-        if((enemy.PlayerTransform.position.x < enemy.transform.position.x) && IsFacingRight)
-        {
-            Vector3 rotator = new Vector3(enemy.transform.rotation.x, 0f, enemy.transform.rotation.z);
-            enemy.transform.rotation = Quaternion.Euler(rotator);
-            IsFacingRight = !IsFacingRight;
-        }
-
-        if (_timer > _timerBetweenShots)
-        {
-            _timer = 0;
-
-            Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
-
-            Vector2 dir = (enemy.PlayerTransform.position - enemy.transform.position).normalized;
-
-            instance.gameObject.SetActive(true);
-
-            Collider2D collider = instance.gameObject.GetComponent<Collider2D>();
-
-            // collider.enabled = false;
-
-            collider.enabled = true;
-
-            instance.Initialize();
-
-            instance.transform.position = enemy.transform.position;
-
-            instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
-        }
+        enemy.AttackStateHandle(ref _timer);
 
         if (Vector2.Distance(enemy.PlayerTransform.position, enemy.transform.position) > _distanceToCountExit)
         {

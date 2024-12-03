@@ -94,7 +94,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
         _properties.Input.IsJumpInput =
             _properties.Status.CurrentJump < _properties.Data.MaxJump
-            && Input.GetKeyDown(KeyCode.Space);
+            && Input.GetKeyUp(KeyCode.Space);
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
         CheckGrounded();
         if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && Time.time - _startInAirTime > 0.2f)
@@ -119,7 +119,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     {
         int countFrame = 0;
         _properties.Status.IsInCoyateTime = true;
-        while (countFrame++ < 1)
+        while (countFrame++ < 4)
         {
             yield return null;
         }
@@ -200,9 +200,12 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         );
         if (_properties.Status.CurrentJump == _properties.Data.MaxJump)
         {
-            newVelocity.y += _rigidbody.velocity.y / Mathf.Sqrt(2);
+            newVelocity.y /= Mathf.Sqrt(2);
+            _rigidbody.gravityScale *= Mathf.Sqrt(2);
+            _rigidbody.AddForce(newVelocity, ForceMode2D.Impulse);
         }
-        _rigidbody.velocity = newVelocity;
+        else
+            _rigidbody.velocity = newVelocity;
     }
 
     public void ResetJump()

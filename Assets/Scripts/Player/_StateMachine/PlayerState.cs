@@ -55,7 +55,8 @@ public class PlayerState
     {
         if (_properties.Input.IsJumpInput || _properties.Status.IsInCoyateTime) 
         {
-            _isJump = true;
+            if(_properties.Input.IsJumpInput)
+                _isJump = true;
             _controller.HandleInAir();
         }
         if(_properties.Input.IsAttackInput){

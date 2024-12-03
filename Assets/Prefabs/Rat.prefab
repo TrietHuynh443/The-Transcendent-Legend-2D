@@ -185,7 +185,7 @@ Transform:
   m_GameObject: {fileID: 7793660765304538661}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.545, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -223,7 +223,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.548652, y: -0.011367857}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -234,7 +234,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.49190807, y: 0.27381676}
+  m_Size: {x: 0.5, y: 0.27}
   m_EdgeRadius: 0
 --- !u!114 &5380328492896228861
 MonoBehaviour:
@@ -294,11 +294,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -28.519999
+      value: -28.52
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.9700003
+      value: 1.97
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalPosition.z
@@ -310,15 +310,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 6b2a305c131d7f34eaf6eee78da80c7d, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -399,11 +399,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9faf032f17763454eafd5f01104661f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coolDown: 0.5
+  _coolDown: 2
   PlayerTransform: {fileID: 0}
   MoveRange: 5
   MoveSpeed: 1
   _attackTrigger: {fileID: 3007890977702404954}
+  _health: 2
 --- !u!70 &8772836732238873276
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

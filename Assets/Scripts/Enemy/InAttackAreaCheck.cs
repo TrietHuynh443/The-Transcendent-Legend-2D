@@ -16,7 +16,7 @@ public class InEnemyAttackAreaCheck : MonoBehaviour
         RaycastHit2D hit = Physics2D.Raycast(
             transform.position,
             transform.right,
-            1f,
+            0.5f,
             LayerMask.GetMask("Player")
             );
             

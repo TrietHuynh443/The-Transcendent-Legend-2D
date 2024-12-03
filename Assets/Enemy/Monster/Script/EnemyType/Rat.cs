@@ -10,10 +10,12 @@ public class Rat : Enemy
     private bool _isTurnBack = false;
 
     [SerializeField] private GameObject _attackTrigger;
+    [SerializeField] private float _health = 5f;
 
     void Awake()
     {
         type = EnemyType.OnGrounded;
+        CurrentHealth = 5f;
     }
     public override void AttackStateHandle(ref float timer)
     {
@@ -24,6 +26,15 @@ public class Rat : Enemy
         }
 
 
+    }
+    public override void TakeDamage(float damage)
+    {
+        PlayGetHitAnimation();
+        _health -= damage;
+        if (_health <= 0f)
+        {
+            _isDead = true;
+        }
     }
 
     public void OnAnimationAttackTrigger()
@@ -44,10 +55,6 @@ public class Rat : Enemy
     public override void CheckForLeftOrRightFacing(Vector2 velocity)
     {
         // throw new System.NotImplementedException();
-    }
-
-    public override void DieStateHandle()
-    {
     }
 
     public override void IdleStateHandle()
@@ -96,7 +103,7 @@ public class Rat : Enemy
         Move(new Vector2(MoveSpeed, 0));
     }
 
-    
-
-    
+    public override void DieStateHandle()
+    {
+    }
 }

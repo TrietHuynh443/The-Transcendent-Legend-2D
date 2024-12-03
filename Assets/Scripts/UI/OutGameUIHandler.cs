@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class OutGameUIHandler : MonoBehaviour, IGameEventListener<PauseGameEvent>
+/*
+public class OutGameUIHandler : MonoBehaviour
 {
     [SerializeField] private GameObject _pauseUI;
     public void Handle(PauseGameEvent @event)
@@ -25,3 +25,4 @@ public class OutGameUIHandler : MonoBehaviour, IGameEventListener<PauseGameEvent
     }
 
 }
+*/

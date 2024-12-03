@@ -91,6 +91,9 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     private void Update()
     {
+        if (PauseManager.gameIsPaused)
+            return;
+
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
         _properties.Input.IsJumpInput =
             _properties.Status.CurrentJump < _properties.Data.MaxJump

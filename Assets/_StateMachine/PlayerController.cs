@@ -91,6 +91,10 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     private void Update()
     {
+
+        if(PauseEvent._gameIsPaused || UIStartMenuHandler._onMenu)
+            return;
+
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
         _properties.Input.IsJumpInput =
             _properties.Status.CurrentJump < _properties.Data.MaxJump
@@ -215,9 +219,10 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void TakeDamage(float damage)
     {
-        // _animator.SetTrigger("OnHit");
+         _animator.SetTrigger("OnHit");
         //Handle health
         _playerDataSO.LoseHealth(damage);
+        EventAggregator.RaiseEvent<OnHitEvent>(new OnHitEvent());
     }
 
     public override void Die()

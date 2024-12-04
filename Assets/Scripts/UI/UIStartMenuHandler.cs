@@ -13,14 +13,18 @@ public class UIStartMenuHandler : MonoBehaviour
     [SerializeField] private float _fadeDuration = 0.5f;
     [SerializeField] private GameObject _startElementRoot;
 
+    public static bool _onMenu = true;
+
     private void OnEnable()
     {
         _playButton.onClick.AddListener(PlayButtonClicked);
+        _onMenu = true;
     }
 
     void OnDisable()
     {
         _playButton.onClick.RemoveListener(PlayButtonClicked);
+        _onMenu = false;
     }
 
     private void PlayButtonClicked()
@@ -30,7 +34,7 @@ public class UIStartMenuHandler : MonoBehaviour
             .OnComplete(
                 () => {
                     _startMenuCanvas.gameObject.SetActive(false);
-                    InitScene();
+                            InitScene();
                 }
             );
     }

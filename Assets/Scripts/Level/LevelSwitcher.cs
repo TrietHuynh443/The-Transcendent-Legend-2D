@@ -14,6 +14,20 @@ public class LevelSwitcher : MonoBehaviour
     
     public string LevelSwitchName => _switchName;
 
+    private Fade fade;
+
+    void Start()
+    {
+        fade = FindObjectOfType<Fade>();
+    }
+
+    public IEnumerator ChangeScene(string sceneName, string switchName, Vector2 velocity, bool isVerticalSwitch)
+    {
+        fade.FadeIn();
+        yield return new WaitForSeconds(fade.FadeDuration);
+        GameManager.Instance.SwitchScene(sceneName, switchName, velocity, isVerticalSwitch);
+    }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
@@ -21,7 +35,7 @@ public class LevelSwitcher : MonoBehaviour
             Rigidbody2D rb = collision.GetComponent<Rigidbody2D>();
             Vector2 velocity = new Vector2(rb.velocity.x, rb.velocity.y);
             
-            GameManager.Instance.SwitchScene(_nextSceneName, _switchName, velocity, _isVerticalSwitch);
+            StartCoroutine(ChangeScene(_nextSceneName, _switchName, velocity, _isVerticalSwitch));
         }
     }
     

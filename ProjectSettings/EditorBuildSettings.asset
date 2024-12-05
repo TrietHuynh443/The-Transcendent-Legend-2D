@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/Loading.unity
+    guid: 4042d0ea2d0057a43aa48db4771d4934
+  - enabled: 1
     path: Assets/Scenes/Chapter 1/Cemetery Graveyard.unity
     guid: 022927c41508aa64b9e7587c798b1f51
   - enabled: 1

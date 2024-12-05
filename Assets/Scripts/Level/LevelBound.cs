@@ -8,7 +8,7 @@ public class LevelBound : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            GameManager.Instance.RespawnPlayer(collision.gameObject);
+            // GameManager.Instance.RespawnPlayer(collision.gameObject);
         }
     }
 }

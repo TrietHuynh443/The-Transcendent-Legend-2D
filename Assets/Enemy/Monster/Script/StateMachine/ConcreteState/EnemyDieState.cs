@@ -9,11 +9,14 @@ public class EnemyDieState : EnemyState
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
+        enemy.SelfDestroy();
     }
 
     public override void EnterState()
     {
         base.EnterState();
+        // Play death animation
+        enemy.PlayDieAnimation();
     }
 
     public override void ExitState()
@@ -25,11 +28,11 @@ public class EnemyDieState : EnemyState
     {
         base.FrameUpdate();
 
-        enemy.DieStateHandle();
     }
 
     public override void PhysicsUpdate()
     {
         base.PhysicsUpdate();
+        enemy.DieStateHandle();
     }
 }

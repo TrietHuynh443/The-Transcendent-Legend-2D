@@ -53,11 +53,19 @@ public class PlayerState
 
     public virtual void LogicUpdate()
     {
-        if (_properties.Input.IsJumpInput) 
-        {
-            _isJump = true;
+        if(!_properties.Status.IsInCoyateTime && !_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0){
             _controller.HandleInAir();
         }
+        else if (_properties.Input.IsJumpInput || _properties.Status.IsInCoyateTime) 
+        {
+            if(_properties.Input.IsJumpInput)
+            {
+                _isJump = true;
+                EventAggregator.RaiseEvent<PlayerJumpEvent>(new PlayerJumpEvent(){JumpCount = _properties.Status.CurrentJump});
+            }
+            _controller.HandleInAir();
+        }
+
         if(_properties.Input.IsAttackInput){
             _isAttack = true;
         }

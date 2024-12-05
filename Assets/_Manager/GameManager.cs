@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using Factory;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : UnitySingleton<GameManager>
 {
@@ -19,24 +18,23 @@ public class GameManager : UnitySingleton<GameManager>
 
     protected override void SingletonAwake()
     {
-        routes = ResourcesRoute.Instance;
-        _gameDataManagerInstance = GameDataManager.Instance;
-        _soundManager = SoundManager.Instance;
+        // PlayerPrefs.SetInt("IsPlayerInit", -1);
         _levelManager = LevelManager.Instance;
-        PlayerPrefs.SetInt("IsPlayerInit", -1);
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
     }
 
     protected override void SingletonStarted()
     {
+        _gameDataManagerInstance = GameDataManager.Instance;
+        routes = GetComponentInChildren<ResourcesRoute>();
+        _soundManager = GetComponentInChildren<SoundManager>();
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
         _soundManager.gameObject.transform.SetParent(transform);
-
         //Play Main Theme
         StartCoroutine(PlayMainThemeMusic());
-        
     }
+
 
     private IEnumerator PlayMainThemeMusic()
 {
@@ -78,10 +76,9 @@ public class GameManager : UnitySingleton<GameManager>
         _playerCheckpointLocation = pos;
     }
 
-    public void RespawnPlayer(GameObject _playerObject)
+    public void RespawnPlayer(SceneSaveDataSO checkpointData, PlayerController playerController)
     {
-        Debug.Log(_playerCheckpointLocation);
-        _playerObject.transform.position = _playerCheckpointLocation;
+        playerController.gameObject.transform.position = checkpointData.CheckPointPos;
     }
 
     public void SwitchScene(string sceneName, string switchName, Vector2 velocity, bool isVerticalSwitch)

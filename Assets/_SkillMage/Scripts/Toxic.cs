@@ -22,7 +22,11 @@ public class Toxic : MonoBehaviour, IBaseSkill
         string layerName = LayerMask.LayerToName(other.gameObject.layer);
         if (_layerEffectNames.Contains(layerName))
         {
-            Hit();
+            _animator.SetBool("IsExplode", true);
+            if ( other.TryGetComponent(out BaseEntity entity))
+            {
+                StartCoroutine(Hit(entity));
+            }
         }
     }
 
@@ -70,9 +74,11 @@ public class Toxic : MonoBehaviour, IBaseSkill
         Debug.Log(_skillData.Name);
     }
 
-    public void Hit()
+    public IEnumerator Hit(BaseEntity entity)
     {
-        _animator.SetBool("IsExplode", true);
+        yield return new WaitForSeconds(_delayEffectTime);
+        entity.TakeDamage(_skillData.Damage.GetValueOrDefault());
+
     }
 
     public void SetDamage()
@@ -89,5 +95,9 @@ public class Toxic : MonoBehaviour, IBaseSkill
     private void Start()
     {
         SetData();
+    }
+
+    public void Hit()
+    {
     }
 }

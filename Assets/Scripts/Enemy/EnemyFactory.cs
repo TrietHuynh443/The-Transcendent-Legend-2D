@@ -27,5 +27,7 @@ namespace Factory
         BossChapterOne = 2,
         BossChapterTwo = 3,
         Test = -1,
+        OnGrounded,
+        Flying
     }
 }

@@ -10,12 +10,10 @@ public class Stats : MonoBehaviour
     private int maxHealthImgWidth;
     private int minHealthImgWidth = 0;
     
-    [SerializeField]
-    private float _maxHealth = 100.0f;
+    private float _maxHealth => _playerDataSO.OriginalStats.Health;
     
-    [SerializeField]
-    [Range(0.0f, 100.0f)]
-    private float _currentHealth = 100.0f;
+    private float _currentHealth => _playerDataSO.CurrentStats.Health;
+    [SerializeField] PlayerDataSO _playerDataSO;
     
     // Start is called before the first frame update
     void Start()

@@ -32,33 +32,34 @@ public class EnemyAttackState : EnemyState {
     {
         base.FrameUpdate();
 
-        enemy.AttackStateHandle(ref _timer);
 
-        if (Vector2.Distance(enemy.PlayerTransform.position, enemy.transform.position) > _distanceToCountExit)
-        {
-            _exitTimer += Time.deltaTime;
+        // if (Vector2.Distance(enemy.PlayerTransform.position, enemy.transform.position) > _distanceToCountExit)
+        // {
+        //     _exitTimer += Time.deltaTime;
 
-            if (_exitTimer > _timeTillExit)
-            {
-                enemy.EnemyStateMachine.ChangeState(enemy.MoveState);
+        //     if (_exitTimer > _timeTillExit)
+        //     {
+        //         enemy.EnemyStateMachine.ChangeState(enemy.MoveState);
 
-                Animator animator = enemy.GetComponent<Animator>();
+        //         Animator animator = enemy.GetComponent<Animator>();
 
-                _timer = 0;
+        //         _timer = 0;
 
-                animator.Play("Move", 0, 0);
-            }
-        }
-        else
-        {
-            _exitTimer = 0f;
-        }
+        //         animator.Play("Move", 0, 0);
+        //     }
+        // }
+        // else
+        // {
+        //     _exitTimer = 0f;
+        // }
 
-        _timer += Time.deltaTime;
+        // _timer += Time.deltaTime;
     }
 
     public override void PhysicsUpdate()
     {
+        enemy.AttackStateHandle(ref _timer);
+
         base.PhysicsUpdate();
     }
 }

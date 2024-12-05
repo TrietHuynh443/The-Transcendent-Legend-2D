@@ -33,7 +33,6 @@ public class JumpState : InAirState
         if (_isJump)
         {
             _isJump = false;
-            Debug.Log("Jumping");
             _controller.DoJump();
         }
         if(_isAttack)

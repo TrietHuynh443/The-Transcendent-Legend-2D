@@ -169,7 +169,7 @@ MonoBehaviour:
   _layerEffectNames:
   - Ground
   - Enemy
-  _delayEffectTime: 0.4
+  _delayEffectTime: 0.2
 --- !u!1 &7122066985413471663
 GameObject:
   m_ObjectHideFlags: 0
@@ -187,7 +187,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5500678964347952397
 Transform:
   m_ObjectHideFlags: 0
@@ -219,14 +219,14 @@ CircleCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 640
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1527
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 1527
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295

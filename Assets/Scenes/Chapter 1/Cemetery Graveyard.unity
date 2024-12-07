@@ -14205,14 +14205,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 970117668}
     m_Modifications:
-    - target: {fileID: 499456925878664334, guid: 700827559ea40574999dc155d05a0f42, type: 3}
-      propertyPath: _properties.Data.JumpForce
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1291587221261299564, guid: 700827559ea40574999dc155d05a0f42, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 3358825448451776706, guid: 700827559ea40574999dc155d05a0f42, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.18
@@ -14257,21 +14249,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 5139758766217019779, guid: 700827559ea40574999dc155d05a0f42, type: 3}
-      propertyPath: m_CollisionDetection
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6922663607990445191, guid: 700827559ea40574999dc155d05a0f42, type: 3}
-      propertyPath: m_ExcludeLayers.m_Bits
-      value: 257
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4664450744937495782, guid: 700827559ea40574999dc155d05a0f42, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 2108057838}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 700827559ea40574999dc155d05a0f42, type: 3}
 --- !u!1 &2108057829 stripped
 GameObject:
@@ -14283,41 +14264,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3358825448451776706, guid: 700827559ea40574999dc155d05a0f42, type: 3}
   m_PrefabInstance: {fileID: 2108057828}
   m_PrefabAsset: {fileID: 0}
---- !u!58 &2108057838
-CircleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2108057829}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.03, y: -0.24}
-  serializedVersion: 2
-  m_Radius: 0.8
 --- !u!4 &2119214307 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1080711156044041398, guid: 4ed416d14650aeb47a0d5133218731c1, type: 3}

@@ -235,6 +235,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd534be26cd766a49b31c89a0a469df1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _musicVolume: 1
+  _playerAttackSFX: {fileID: 8300000, guid: a3fae59311d2f774a8c58456c5f414a1, type: 3}
+  _playerOnHitSFX: {fileID: 8300000, guid: 2eaa2a9968606a248a490dadd61d89b2, type: 3}
+  _playerOnDeadSFX: {fileID: 8300000, guid: 1f4c1cfdf382f0c4581ebd2cdc8f290d, type: 3}
+  _playerJumpOneSFX: {fileID: 8300000, guid: 351d138022af17546bc413483f6b18f0, type: 3}
+  _playerJumpTwoSFX: {fileID: 8300000, guid: 868ad16140ad40d4e902f3b1cf28eb6c, type: 3}
+  _playerPerformSkillSFX: {fileID: 8300000, guid: c3075b13ec28caa4989c18a58be8c338, type: 3}
+  _musicVolume: 0.072
   _sfxVolume: 1
   _maxSfxPoolSize: 10

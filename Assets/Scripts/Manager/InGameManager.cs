@@ -4,7 +4,7 @@ using GameEvent;
 using UnityEngine;
 
 public class InGameManager : UnitySingleton<InGameManager>,
-                             IGameEventListener<DeadEvent>,
+                             IGameEventListener<PlayerDieEvent>,
                              IGameEventListener<PauseEvent>
                              
 {
@@ -17,7 +17,7 @@ public class InGameManager : UnitySingleton<InGameManager>,
     private GameObject _gamePauseUI;
     private GameObject _outGameUIParent;
     private GameObject _mainMenuUI;
-    public void Handle(DeadEvent @event)
+    public void Handle(PlayerDieEvent @event)
     {
         if(_gameOverUI == null)
         {
@@ -41,7 +41,7 @@ public class InGameManager : UnitySingleton<InGameManager>,
     protected override void SingletonStarted()
     {
         base.SingletonStarted();
-        EventAggregator.Register<DeadEvent>(this);
+        EventAggregator.Register<PlayerDieEvent>(this);
         EventAggregator.Register<PauseEvent>(this);
         GetMainMenuUI().gameObject.SetActive(true);
     }

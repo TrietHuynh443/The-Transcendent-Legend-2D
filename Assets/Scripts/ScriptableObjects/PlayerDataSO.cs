@@ -84,7 +84,7 @@ public class PlayerDataSO : ScriptableObject
         Debug.Log($"Player: {_currentStats.Health}");
         if(_currentStats.Health < 0)
         {
-            EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
+            EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent());
         }
     }
 

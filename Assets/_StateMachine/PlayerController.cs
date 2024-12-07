@@ -10,7 +10,7 @@ using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
+public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
 {
     [SerializeField]
     private float _onJumpGravityScale = 3f;
@@ -72,7 +72,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         InitPlayerStates();
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
-        EventAggregator.Register<DeadEvent>(this);
+        EventAggregator.Register<PlayerDieEvent>(this);
     }
 
     public void Reset()
@@ -202,9 +202,9 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     {
         if (_properties.Status.CurrentJump >= _properties.Data.MaxJump)
             return;
-
         ++_properties.Status.CurrentJump;
         HandleInAir();
+        
         var newVelocity = new Vector2(
             _properties.Input.HorizontalInput,
             _properties.Data.JumpForce
@@ -234,10 +234,10 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void Die()
     {
-        EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
+        EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent());
     }
 
-    public void Handle(DeadEvent @event)
+    public void Handle(PlayerDieEvent @event)
     {
         _animator.SetTrigger("Die");
         StartCoroutine(OnDead());

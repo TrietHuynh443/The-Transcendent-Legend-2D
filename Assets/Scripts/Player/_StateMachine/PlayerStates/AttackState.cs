@@ -17,6 +17,7 @@ public class AttackState : PlayerState
         base.Enter();
         _attackCollider.SetActive(true);
         _isAnimationFinished = false;
+        EventAggregator.RaiseEvent<PlayerAttackEvent>(new PlayerAttackEvent());
     }
 
     public override void Exit()

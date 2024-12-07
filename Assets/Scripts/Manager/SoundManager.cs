@@ -1,10 +1,25 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameEvent;
 using UnityEngine;
 
-public class SoundManager: UnitySingleton<SoundManager>
+public class SoundManager: UnitySingleton<SoundManager>,
+                            IGameEventListener<PlayerAttackEvent>,
+                            IGameEventListener<PlayerJumpEvent>,
+                            IGameEventListener<PlayerDieEvent>,
+                            IGameEventListener<PlayerSkillEvent>
+                            
 {
+    [Header("SFX")]
+    [SerializeField] private AudioClip _playerAttackSFX;
+    [SerializeField] private AudioClip _playerOnHitSFX;
+    [SerializeField] private AudioClip _playerOnDeadSFX;
+    [SerializeField] private AudioClip _playerJumpOneSFX;
+    [SerializeField] private AudioClip _playerJumpTwoSFX;
+    [SerializeField] private AudioClip _playerPerformSkillSFX;
+
+    
     [Header("Audio Sources")]
     private AudioSource _musicSource;
     private AudioSource _sfxSource;
@@ -26,6 +41,24 @@ public class SoundManager: UnitySingleton<SoundManager>
             AudioSource audioSource = gameObject.AddComponent<AudioSource>();
             _sfxQueue.Enqueue(audioSource);
         }
+    }
+
+    protected override void SingletonStarted()
+    {
+        base.SingletonStarted();
+        EventAggregator.Register<PlayerAttackEvent>(this);
+        EventAggregator.Register<PlayerJumpEvent>(this);
+        EventAggregator.Register<PlayerDieEvent>(this);
+        EventAggregator.Register<PlayerSkillEvent>(this);
+    }
+
+    protected override void SingletonOnDestroy()
+    {
+        base.SingletonOnDestroy();
+        EventAggregator.Unregister<PlayerAttackEvent>(this);
+        EventAggregator.Unregister<PlayerJumpEvent>(this);
+        EventAggregator.Unregister<PlayerDieEvent>(this);
+        EventAggregator.Unregister<PlayerSkillEvent>(this);
     }
 
     public void PlaySfx(AudioClip audio)
@@ -73,4 +106,31 @@ public class SoundManager: UnitySingleton<SoundManager>
         }
     }
 
+    public void Handle(PlayerAttackEvent @event)
+    {
+        PlaySfx(_playerAttackSFX);
+    }
+
+    public void Handle(PlayerJumpEvent @event)
+    {
+        if(@event.JumpCount == 1)
+        {
+            PlaySfx(_playerJumpOneSFX);
+        }
+        else
+        {
+            PlaySfx(_playerJumpTwoSFX);
+        }
+    }
+
+    public void Handle(PlayerDieEvent @event)
+    {
+        PlaySfx(_playerOnDeadSFX);
+    }
+
+    public void Handle(PlayerSkillEvent @event)
+    {
+        //If another skill perform please implement this again
+        PlaySfx(_playerPerformSkillSFX);
+    }
 }

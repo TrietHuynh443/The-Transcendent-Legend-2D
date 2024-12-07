@@ -59,7 +59,10 @@ public class PlayerState
         else if (_properties.Input.IsJumpInput || _properties.Status.IsInCoyateTime) 
         {
             if(_properties.Input.IsJumpInput)
+            {
                 _isJump = true;
+                EventAggregator.RaiseEvent<PlayerJumpEvent>(new PlayerJumpEvent(){JumpCount = _properties.Status.CurrentJump});
+            }
             _controller.HandleInAir();
         }
 

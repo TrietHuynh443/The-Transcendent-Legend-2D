@@ -4,7 +4,7 @@ using System.Text;
 
 namespace GameEvent
 {
-    public class DeadEvent
+    public class PlayerDieEvent
     {
 
     }

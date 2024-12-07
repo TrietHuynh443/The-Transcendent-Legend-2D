@@ -7,8 +7,7 @@ namespace EVENT
 {
     public class InputManager : UnitySingleton<InputManager>
     {
-        [SerializeField] private OutGameUIHandler _outGameUIHandler;
-            public static readonly Dictionary<string, KeyCode> SpecialKeyCodes = new Dictionary<string, KeyCode>
+        public static readonly Dictionary<string, KeyCode> SpecialKeyCodes = new Dictionary<string, KeyCode>
             {
                 { "Shift", KeyCode.LeftShift },
                 { "RightShift", KeyCode.RightShift },
@@ -38,18 +37,12 @@ namespace EVENT
                 { "Pause", KeyCode.Escape },
             };
 
-        void Start()
-        {
-            //EventAggregator.Register<PauseEvent>(this);
-
-        }
 
         void Update()
         {
             if (Input.GetKeyDown(SpecialKeyCodes["Pause"]))
             {
-                _outGameUIHandler.Handle(new PauseEvent());
-
+                EventAggregator.RaiseEvent<PauseEvent>(new PauseEvent());
             }
         }
 

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class BaseScene : MonoBehaviour
+public class StartGameEvent
 {
-    protected bool isInit = false;
+    public int Level {get; set;}= 0;
 }

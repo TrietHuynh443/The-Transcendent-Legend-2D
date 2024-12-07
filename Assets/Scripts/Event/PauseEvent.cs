@@ -4,11 +4,11 @@ using UnityEngine;
 
 public class PauseEvent 
 {
-    public static bool _gameIsPaused;
+    public static bool IsPaused;
     public void Pause()
     {
-        _gameIsPaused = !_gameIsPaused;
-        Time.timeScale = _gameIsPaused ? 0 : 1;
+        IsPaused = !IsPaused;
+        Time.timeScale = IsPaused ? 0 : 1;
     }
 
 

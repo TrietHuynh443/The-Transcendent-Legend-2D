@@ -58,7 +58,11 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public OnGroundedState OnGroundState => _onGroundState;
     #endregion Public Properties
-
+    private void OnEnable()
+    {
+        _startInAirTime = Time.time;
+        
+    }
     private void Start()
     {
         _rigidbody = GetComponent<Rigidbody2D>();
@@ -69,6 +73,12 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
         EventAggregator.Register<DeadEvent>(this);
+    }
+
+    public void Reset()
+    {
+        PlayerPrefs.SetInt("IsPlayerInit", 0);
+        _playerDataSO.Init();
     }
 
     private void InitPlayerStates()
@@ -92,7 +102,7 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     private void Update()
     {
 
-        if(PauseEvent._gameIsPaused || UIStartMenuHandler._onMenu)
+        if(PauseEvent.IsPaused || UIStartMenuHandler._onMenu)
             return;
 
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
@@ -101,8 +111,15 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
             && Input.GetKeyUp(KeyCode.Space);
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
         CheckGrounded();
-        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && Time.time - _startInAirTime > 0.2f)
+        var currentInAirTime = Time.time - _startInAirTime;
+        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && currentInAirTime > 0.2f)
         {
+            if(currentInAirTime > 4f)
+            {
+                Die();
+                return;
+            }
+
             HandleInAir();
             StartCoroutine(StartCoyate());
         }
@@ -165,16 +182,6 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     void FixedUpdate()
     {
-        // var abs = Mathf.Abs(_horizontalInput);
-        // if(abs >= 0.001f)
-        // {
-        //     var newY = _horizontalInput < -0.001f ? 180 : 0;
-        //     transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(transform.rotation.x, newY)));
-        // }
-
-        // _rigidbody.velocity = new Vector2(_horizontalInput * _speed, _rigidbody.velocity.y + _currentJumpSpeed);
-        // _animator?.SetFloat("Move", abs);
-        // _currentJumpSpeed = 0;
         _playerStateMachine.CurrentState.PhysicsUpdate();
     }
 
@@ -227,13 +234,20 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void Die()
     {
-        _animator.SetTrigger("Die");
         EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
     }
 
     public void Handle(DeadEvent @event)
     {
         _animator.SetTrigger("Die");
+        StartCoroutine(OnDead());
+    }
+
+    public IEnumerator OnDead()
+    {
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+        Reset();
     }
 
     void OnDrawGizmos()

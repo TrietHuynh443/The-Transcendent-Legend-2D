@@ -23,7 +23,7 @@ public class Toxic : MonoBehaviour, IBaseSkill
         if (_layerEffectNames.Contains(layerName))
         {
             _animator.SetBool("IsExplode", true);
-            if ( other.TryGetComponent(out BaseEntity entity))
+            if (other.TryGetComponent(out BaseEntity entity))
             {
                 StartCoroutine(Hit(entity));
             }
@@ -88,7 +88,7 @@ public class Toxic : MonoBehaviour, IBaseSkill
 
     public void EndSkill()
     {
-        gameObject.SetActive(false);
+        transform.parent.gameObject.SetActive(false);
         _animator.SetBool("IsExplode", false);
     }
 

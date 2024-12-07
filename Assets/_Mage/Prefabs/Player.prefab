@@ -278,6 +278,7 @@ MonoBehaviour:
       IsInCoyateTime: 0
   _normalAttack: {fileID: 227181544200178795}
   _playerDataSO: {fileID: 11400000, guid: 356b6915aff972f4c82e6f145c8987e9, type: 2}
+  _sceneSaveDataSO: {fileID: 11400000, guid: c6ae46aaecc67274dbcb6023f760feef, type: 2}
 --- !u!70 &6922663607990445191
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

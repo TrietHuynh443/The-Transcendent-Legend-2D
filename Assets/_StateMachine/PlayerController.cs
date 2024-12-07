@@ -10,7 +10,7 @@ using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
+public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>
 {
     [SerializeField]
     private float _onJumpGravityScale = 3f;
@@ -26,6 +26,9 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
 
     [SerializeField]
     private PlayerDataSO _playerDataSO;
+    [SerializeField]
+    private SceneSaveDataSO _sceneSaveDataSO;
+    
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
@@ -40,6 +43,8 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
 
     private OnGroundedState _onGroundState;
     private float _startInAirTime;
+    private bool _isDead;
+    private float _startPressJumpTime;
 
     #endregion Player State Controller
     // private bool _isGrounded = false;
@@ -61,7 +66,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
     private void OnEnable()
     {
         _startInAirTime = Time.time;
-        
+        _isDead = false;
     }
     private void Start()
     {
@@ -73,6 +78,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
         EventAggregator.Register<PlayerDieEvent>(this);
+        EventAggregator.Register<PassCheckpointEvent>(this);
     }
 
     public void Reset()
@@ -101,14 +107,14 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
 
     private void Update()
     {
+        if(_isDead) return;
 
         if(PauseEvent.IsPaused || UIStartMenuHandler._onMenu)
             return;
 
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
-        _properties.Input.IsJumpInput =
-            _properties.Status.CurrentJump < _properties.Data.MaxJump
-            && Input.GetKeyUp(KeyCode.Space);
+        HandleJumpInput();
+
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
         CheckGrounded();
         var currentInAirTime = Time.time - _startInAirTime;
@@ -130,10 +136,16 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
 
         if (_properties.Status.StuckWall * _properties.Input.HorizontalInput > 0)
         {
-            Debug.Log("Stuck Wall");
             _properties.Input.HorizontalInput = 0;
         }
         _playerStateMachine.CurrentState.LogicUpdate();
+    }
+
+    private void HandleJumpInput()
+    {
+
+        _properties.Input.IsJumpInput = _properties.Status.CurrentJump < _properties.Data.MaxJump && Input.GetKeyDown(KeyCode.Space);
+            
     }
 
     private IEnumerator StartCoyate()
@@ -240,6 +252,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
     public void Handle(PlayerDieEvent @event)
     {
         _animator.SetTrigger("Die");
+        _isDead = true;
         StartCoroutine(OnDead());
     }
 
@@ -258,4 +271,9 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>
         Gizmos.DrawWireCube(Vector3.right * 0.5f, boxSize);
     }
 
+    public void Handle(PassCheckpointEvent @event)
+    {
+        _sceneSaveDataSO.SceneName = @event.SceneName;
+        _sceneSaveDataSO.CheckPointPos = @event.CheckPointPosition;
+    }
 }

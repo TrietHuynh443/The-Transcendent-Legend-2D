@@ -63,6 +63,7 @@ public class SoundManager: UnitySingleton<SoundManager>,
 
     public void PlaySfx(AudioClip audio)
     {
+        if(_sfxQueue.Count == 0) return;
         _sfxSource = _sfxQueue.Dequeue();
         _sfxSource.clip = audio;
         _sfxSource.volume = _sfxVolume;

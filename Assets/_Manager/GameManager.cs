@@ -76,9 +76,8 @@ public class GameManager : UnitySingleton<GameManager>
         _playerCheckpointLocation = pos;
     }
 
-    public void RespawnPlayer(GameObject _playerObject)
+    public void RespawnPlayer(SceneSaveDataSO checkpointData, PlayerController playerController)
     {
-        Debug.Log(_playerCheckpointLocation);
-        _playerObject.transform.position = _playerCheckpointLocation;
+        playerController.gameObject.transform.position = checkpointData.CheckPointPos;
     }
 }

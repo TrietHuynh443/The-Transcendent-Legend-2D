@@ -34,6 +34,7 @@ public class AttackTrigger : MonoBehaviour
             other.TryGetComponent(out BaseEntity entity))
         {
             entity.TakeDamage(AttackDamage);
+            gameObject.SetActive(false);
         }
     }
 }

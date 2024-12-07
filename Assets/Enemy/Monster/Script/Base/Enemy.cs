@@ -1,6 +1,6 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
+using Factory;
 using UnityEngine;
 
 /// <summary>
@@ -13,22 +13,31 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     [SerializeField] public float MaxHealth { get; set; } = 100f;
 
     //public bool IsFacingRight { get; set; } = false;
+    [SerializeField] protected float _coolDown = 1f;
+    protected bool _isAttackCoolDown = false;
 
     [SerializeField] public Transform PlayerTransform;
     public float CurrentHealth { get; set; }
     public Rigidbody2D Rigidbody { get; set; }
-
-    public GameObject BulletPrefabs;
 
     public Animator animator {  get; set; }
 
     public bool IsAggroed { get; set; }
     public bool IsWithInStrikingDistance { get; set; }
 
+    public bool IsAttackCoolDown => _isAttackCoolDown;
+
+    protected EnemyType type = EnemyType.OnGrounded;
     #region IdleVariable
     [SerializeField] public float MoveRange = 5f;
     [SerializeField] public float MoveSpeed = 1f;
     private bool _onHit = false;
+    protected bool _isStuck = false;
+    private bool _isGrounded;
+
+    protected bool _isDead = false;
+    public bool IsDead => _isDead;
+
     #endregion
 
     #region StateMachineVariable
@@ -37,13 +46,13 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public EnemyDieState DieState { get; set; }
     public EnemyIdleState IdleState { get; set; }
     public EnemyMoveState MoveState { get; set; }
+
     #endregion
 
     #region Health / Die Functions
     public override void TakeDamage(float damage)
     {
         CurrentHealth -= damage;
-        Debug.Log(gameObject.name + " " + CurrentHealth);
 
         PlayGetHitAnimation();
 
@@ -53,7 +62,21 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
         }
     }
 
-    private void PlayGetHitAnimation()
+    public void PlayGetHitAnimation()
+    {
+        if (animator == null || _isDead)
+        {
+            return;
+        }
+
+        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
+        if (!_onHit)
+        {
+            animator.Play("OnHit");
+            StartCoroutine(ReturnToPreviousState(currentState));
+        }
+    }
+    public void PlayDieAnimation()
     {
         if (animator == null)
         {
@@ -61,14 +84,9 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
             return;
         }
 
-        AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
-        if (!_onHit)
-        {
-            animator.Play("GetHit");
-            StartCoroutine(ReturnToPreviousState(currentState));
-        }
-    }
+        animator.Play("Die");
 
+    }
     private IEnumerator ReturnToPreviousState(AnimatorStateInfo previousState)
     {
         _onHit = true;
@@ -118,24 +136,37 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     }
     #endregion
 
-    private void Awake()
+    protected virtual void Update()
     {
-        EnemyStateMachine = new EnemyStateMachine();
-        IdleState = new EnemyIdleState(this, EnemyStateMachine);
-        AttackState = new EnemyAttackState(this, EnemyStateMachine);
-        MoveState = new EnemyMoveState(this, EnemyStateMachine);
-        DieState = new EnemyDieState(this, EnemyStateMachine);
-    }
-
-    private void Update()
-    {
-        if (_onHit)
+        CheckGround();
+        if (_onHit || (!_isGrounded && type == EnemyType.OnGrounded))
             return;
         EnemyStateMachine.CurrentState.FrameUpdate();
     }
-    private void FixedUpdate()
+
+    private void CheckGround()
     {
-        if (_onHit)
+        RaycastHit2D hitDown = Physics2D.BoxCast(
+            transform.position,
+            new Vector2(0.6f, 1f),
+            0f,
+            -transform.up,
+            0.5f,
+            LayerMask.GetMask("Ground")
+        );
+        RaycastHit2D hitRight = Physics2D.Raycast(
+            transform.position,
+            transform.right,
+            1f,
+            LayerMask.GetMask("Ground")
+        );
+        _isStuck = hitRight.collider != null;
+        _isGrounded = hitDown.collider != null;
+    }
+
+    protected virtual void FixedUpdate()
+    {
+        if (_onHit || (!_isGrounded && type == EnemyType.OnGrounded))
             return;
         EnemyStateMachine.CurrentState.PhysicsUpdate();
     }
@@ -143,6 +174,11 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     // Start is called before the first frame update
     protected virtual void Start()
     {
+        EnemyStateMachine = new EnemyStateMachine();
+        IdleState = new EnemyIdleState(this, EnemyStateMachine);
+        AttackState = new EnemyAttackState(this, EnemyStateMachine);
+        MoveState = new EnemyMoveState(this, EnemyStateMachine);
+        DieState = new EnemyDieState(this, EnemyStateMachine);
         animator = GetComponent<Animator>();
 
         CurrentHealth = MaxHealth;
@@ -154,6 +190,20 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     public override void Die()
     {
-        throw new System.NotImplementedException();
+    }
+
+    public void TurnBack()
+    {
+        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(
+                                                                                    transform.rotation.eulerAngles.x,
+                                                                                    transform.rotation.eulerAngles.y + 180,
+                                                                                    transform.rotation.eulerAngles.z
+                                                                                    )
+                                                                            ));
+    }
+
+    public void SelfDestroy()
+    {
+        Destroy(gameObject);
     }
 }

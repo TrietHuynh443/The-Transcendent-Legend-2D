@@ -17,6 +17,10 @@ public class ResourcesRoute: UnitySingleton<ResourcesRoute>
     /// </summary>
     public static string MainThemePath => Instance._mainThemePath;
     public static string OnHitSfxPath => Instance._onHitSfx;
+
+    public PlayerDataSO PlayerDataSO => _playerDataSO;
+    public SceneSaveDataSO SceneSaveDataSO => _sceneSaveDataSO;
+
     [Header("Game Data Paths")]
     [SerializeField] private string _skillsDataPath;
     [SerializeField] private string _characterDataPath;
@@ -25,4 +29,8 @@ public class ResourcesRoute: UnitySingleton<ResourcesRoute>
     [Header("Sound Paths")]
     [SerializeField] private string _mainThemePath;
     [SerializeField] private string _onHitSfx;
+
+    [Header("Scriptable Objects")]
+    [SerializeField] private PlayerDataSO _playerDataSO;
+    [SerializeField] private SceneSaveDataSO _sceneSaveDataSO;
 }

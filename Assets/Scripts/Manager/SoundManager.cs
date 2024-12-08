@@ -8,7 +8,8 @@ public class SoundManager: UnitySingleton<SoundManager>,
                             IGameEventListener<PlayerAttackEvent>,
                             IGameEventListener<PlayerJumpEvent>,
                             IGameEventListener<PlayerDieEvent>,
-                            IGameEventListener<PlayerSkillEvent>
+                            IGameEventListener<PlayerSkillEvent>,
+                            IGameEventListener<OnHitEvent>
                             
 {
     [Header("SFX")]
@@ -133,5 +134,10 @@ public class SoundManager: UnitySingleton<SoundManager>,
     {
         //If another skill perform please implement this again
         PlaySfx(_playerPerformSkillSFX);
+    }
+
+    public void Handle(OnHitEvent @event)
+    {
+        
     }
 }

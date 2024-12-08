@@ -10,7 +10,7 @@ using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>
+public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>, IGameEventListener<OnHitEvent>
 {
     [SerializeField]
     private float _onJumpGravityScale = 3f;
@@ -23,8 +23,6 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     [SerializeField]
     private AttackTrigger _normalAttack;
-
-    [SerializeField]
     private PlayerDataSO _playerDataSO;
     [SerializeField]
     private SceneSaveDataSO _sceneSaveDataSO;
@@ -45,6 +43,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     private float _startInAirTime;
     private bool _isDead;
     private float _startPressJumpTime;
+    private bool _isHit;
 
     #endregion Player State Controller
     // private bool _isGrounded = false;
@@ -67,11 +66,14 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     {
         _startInAirTime = Time.time;
         _isDead = false;
+        _isHit = false;
     }
     private void Start()
     {
+        DontDestroyOnLoad(this);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _playerDataSO = ResourcesRoute.Instance.PlayerDataSO;
         _rigidbody.gravityScale = _originGravityScale;
 
         InitPlayerStates();
@@ -80,8 +82,15 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
         EventAggregator.Register<PlayerDieEvent>(this);
         EventAggregator.Register<PassCheckpointEvent>(this);
+        EventAggregator.Register<OnHitEvent>(this);
     }
 
+    void OnDestroy()
+    {
+        EventAggregator.Unregister<PlayerDieEvent>(this);
+        EventAggregator.Unregister<PassCheckpointEvent>(this);
+        EventAggregator.Unregister<OnHitEvent>(this);
+    }
     public void Reset()
     {
         PlayerPrefs.SetInt("IsPlayerInit", 0);
@@ -141,7 +150,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     private void Update()
     {
-        if(_isDead) return;
+        if(_isDead || _isHit) return;
 
         if(PauseEvent.IsPaused || UIStartMenuHandler._onMenu)
             return;
@@ -272,7 +281,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     public override void TakeDamage(float damage)
     {
-         _animator.SetTrigger("OnHit");
+         _animator.Play("OnHit");
         //Handle health
         _playerDataSO.LoseHealth(damage);
         EventAggregator.RaiseEvent<OnHitEvent>(new OnHitEvent());
@@ -309,5 +318,17 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     {
         _sceneSaveDataSO.SceneName = @event.SceneName;
         _sceneSaveDataSO.CheckPointPos = @event.CheckPointPosition;
+    }
+
+    public void Handle(OnHitEvent @event)
+    {
+        StartCoroutine(GetHit());
+    }
+
+    private IEnumerator GetHit()
+    {
+        _isHit = true;
+        yield return new WaitForSeconds(0.15f);
+        _isHit = false;
     }
 }

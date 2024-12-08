@@ -92,8 +92,8 @@ public class ShootingPerform : MonoBehaviour
         }
         while (stateInfo.IsName("Attack") && stateInfo.normalizedTime < 0.5f);
         var pos = transform.position;
-        pos.x+=0.6f;
-        pos.y+=0.45f;
+        pos.x+=0.6f*transform.right.x;
+        pos.y+=0.45f*transform.up.y;
         // Perform shooting
         _objectShootingBody = objectShooting.GetComponent<Rigidbody2D>();
         if(_objectShootingBody != null){

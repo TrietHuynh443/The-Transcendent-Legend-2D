@@ -2,8 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using Factory;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : UnitySingleton<GameManager>
+public class GameManager : UnitySingleton<GameManager>, IGameEventListener<StartGameEvent>
 {
     private ResourcesRoute routes;
     private GameDataManager _gameDataManagerInstance;
@@ -31,10 +32,17 @@ public class GameManager : UnitySingleton<GameManager>
         _soundManager = GetComponentInChildren<SoundManager>();
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
         _soundManager.gameObject.transform.SetParent(transform);
+        EventAggregator.Register<StartGameEvent>(this);
         //Play Main Theme
         StartCoroutine(PlayMainThemeMusic());
+        routes.PlayerDataSO.Init();
     }
 
+    protected override void SingletonOnDestroy()
+    {
+        base.SingletonOnDestroy();
+        EventAggregator.Unregister<StartGameEvent>(this);
+    }
 
     private IEnumerator PlayMainThemeMusic()
 {
@@ -101,5 +109,14 @@ public class GameManager : UnitySingleton<GameManager>
         return _levelManager.LevelSwitchName;
     }
 
+    public void Handle(StartGameEvent @event)
+    {
+        string name = "";
+        if(@event.Level == 1)
+        {
+            name = "Cemetery Graveyard";
+        }
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
 
 }

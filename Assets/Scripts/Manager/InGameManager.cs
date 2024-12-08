@@ -43,7 +43,8 @@ public class InGameManager : UnitySingleton<InGameManager>,
         base.SingletonStarted();
         EventAggregator.Register<PlayerDieEvent>(this);
         EventAggregator.Register<PauseEvent>(this);
-        GetMainMenuUI().gameObject.SetActive(true);
+        GetMainMenuUI().gameObject.SetActive(false); //spawn UI
+        GetOutGameUIHolder().gameObject.SetActive(false); //spawn UI
     }
 
     private GameObject GetOutGameUIHolder()
@@ -56,7 +57,7 @@ public class InGameManager : UnitySingleton<InGameManager>,
         return _outGameUIParent;
     }
 
-    private GameObject GetMainMenuUI()
+    public GameObject GetMainMenuUI()
     {
         if(_mainMenuUI == null)
         {

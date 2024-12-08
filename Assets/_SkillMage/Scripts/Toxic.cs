@@ -17,7 +17,6 @@ public class Toxic : MonoBehaviour, IBaseSkill
     
     private void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.LogWarning(other.name);
         StopAllCoroutines();
         string layerName = LayerMask.LayerToName(other.gameObject.layer);
         if (_layerEffectNames.Contains(layerName))
@@ -25,7 +24,9 @@ public class Toxic : MonoBehaviour, IBaseSkill
             _animator.SetBool("IsExplode", true);
             if (other.TryGetComponent(out BaseEntity entity))
             {
-                StartCoroutine(Hit(entity));
+                Debug.LogWarning(other.gameObject.name + " " + _skillData.Damage.GetValueOrDefault());
+
+                Hit(entity);
             }
         }
     }
@@ -74,9 +75,9 @@ public class Toxic : MonoBehaviour, IBaseSkill
         Debug.Log(_skillData.Name);
     }
 
-    public IEnumerator Hit(BaseEntity entity)
+    public void Hit(BaseEntity entity)
     {
-        yield return new WaitForSeconds(_delayEffectTime);
+        // yield return new WaitForSeconds(_delayEffectTime);
         entity.TakeDamage(_skillData.Damage.GetValueOrDefault());
 
     }

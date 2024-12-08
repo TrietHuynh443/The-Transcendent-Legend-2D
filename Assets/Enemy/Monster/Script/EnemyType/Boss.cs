@@ -1,13 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+// using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 
 public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
 {
     [SerializeField] public float MaxHealth { get; set; } = 500f;
-    [SerializeField] public Transform PlayerTransform;
+
+    LayerMask _playerLayer;
+    public Transform PlayerTransform;
     [SerializeField] private float _chaseSpeed = 3f;
     [SerializeField] private float _bulletSpeed = 10f;
     [SerializeField] private GameObject _bulletPrefab;
@@ -21,6 +24,8 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public bool IsWithInStrikingDistance { get; set; }
 
     private bool _isFacingRight = true;
+
+    private bool _isFlipped = false;
 
     private bool _isIntroPlayed = false;
     private int _attackCounter = 0;
@@ -46,6 +51,24 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
         }
     }
 
+    public void LookAtPLayer(){
+        Vector3 flipped = transform.localScale;
+        flipped.z *= -1f;
+
+        if (transform.position.x > PlayerTransform.position.x && _isFlipped)
+        {
+            transform.localScale = flipped;
+            transform.Rotate(0f, 180f, 0f);
+            _isFlipped = false;
+        }
+        else if (transform.position.x < PlayerTransform.position.x && !_isFlipped)
+        {
+            transform.localScale = flipped;
+            transform.Rotate(0f, 180f, 0f);
+            _isFlipped = true;
+        }
+    }
+
     public void SetAggroStatus(bool aggroStatus)
     {
         Debug.Log("Boss is aggroed.");
@@ -65,12 +88,7 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
     }
 
     public override void TakeDamage(float damage)
-    {
-        if (!_isIntroPlayed)
-        {
-            return;
-        }
-
+    {   
         CurrentHealth -= damage;
         if (CurrentHealth <= 0f)
         {
@@ -83,128 +101,147 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
         Rigidbody = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
         CurrentHealth = MaxHealth;
-        IdleStateHandle();
-        // StartCoroutine(PlayIdleAfterIntro());
-    }
-
-    void IdleStateHandle()
-    {
-        if (!_isIntroPlayed)
+        _playerLayer = LayerMask.NameToLayer("Player");
+        // PlayerTransform = GameObject.FindAnyObjectByType<GameObject>();
+        GameObject[] allObjects = FindObjectsOfType<GameObject>();
+        foreach (GameObject obj in allObjects)
         {
-            Debug.Log("Hello from Boss Idle");
-            Animator.Play("Intro");
-            StartCoroutine(PlayIdleAfterIntro());
-            _isIntroPlayed = true;
+            if (obj.layer == _playerLayer)
+            {
+                Debug.Log("Player found");
+                PlayerTransform = obj.transform;
+            }
         }
-        else
-        {
-            Animator.Play("Idle");
-        }
-    }
 
-    void MoveStateHandle()
-    {
-        if (!_isIntroPlayed)
-        {
-            Animator.Play("Intro");
-            StartCoroutine(PlayWalkAfterIntro());
-            _isIntroPlayed = true;
-        }
-        else
-        {
-            Animator.Play("Walk");
-            Vector2 moveDirection = (PlayerTransform.position - transform.position).normalized;
-            Move(moveDirection * _chaseSpeed);
-        }
-    }
-
-    void BossLogic()
-    {
-        if (IsAggroed && !IsWithInStrikingDistance)
-        {
-            MoveStateHandle();
-        }
-        else if (IsWithInStrikingDistance)
-        {
-            AttackStateHandle();
-        }
-        // else
-        // {
-        //     Animator.Play("Idle");
-        // }
-    }
-
-    private void AttackStateHandle()
-    {
-        Move(Vector2.zero);
-
-        if (_timer > _timerBetweenAttack)
-        {
-            _timer = 0;
-            Attack();
-        }
-        else
-        {
-            _timer += Time.deltaTime;
-        }
-    }
-
-    private void Attack()
-    {
-        if (_attackCounter < _attack1CountBeforeDefence)
-        {
-            Animator.Play("Attack1");
-            _attackCounter++;
-        }
-        else
-        {
-            Animator.Play("Defence");
-            _attackCounter = 0;
-            StartCoroutine(LaunchBulletsAfterDefence());
-        }
-    }
-
-    private IEnumerator PlayIdleAfterIntro()
-    {
-        yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
-        Animator.Play("Idle");
-    }
-
-    private IEnumerator PlayWalkAfterIntro()
-    {
-        yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
-        Animator.Play("Walk");
-    }
-
-    private IEnumerator LaunchBulletsAfterDefence()
-    {
-        yield return new WaitForSeconds(1f);
-
-        float angleStep = 360f / 10;
-        float angle = 0f;
-
-        for (int i = 0; i < 10; i++)
-        {
-            float bulletDirX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180);
-            float bulletDirY = transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180);
-            Vector3 bulletMoveVector = new Vector3(bulletDirX, bulletDirY, 0);
-            Vector2 bulletDir = (bulletMoveVector - transform.position).normalized;
-            Bullet bullet = ObjectPooler.DequeueObject<Bullet>("Bullet");
-            bullet.gameObject.SetActive(true);
-            Collider2D collider = bullet.gameObject.GetComponent<Collider2D>();
-            collider.enabled = true;
-            bullet.Initialize();
-            bullet.transform.position = transform.position;
-            bullet.GetComponent<Rigidbody2D>().velocity = bulletDir * _bulletSpeed;
-
-            angle += angleStep;
-        }
     }
 
     void Update()
     {
-        BossLogic();
+        // Get mouse click event
+        if (Input.GetMouseButtonDown(0))
+        {
+            TakeDamage(10f);
+        }
     }
+
+    // void IdleStateHandle()
+    // {
+    //     if (!_isIntroPlayed)
+    //     {
+    //         Debug.Log("Hello from Boss Idle");
+    //         Animator.Play("Intro");
+    //         StartCoroutine(PlayIdleAfterIntro());
+    //         _isIntroPlayed = true;
+    //     }
+    //     else
+    //     {
+    //         Animator.Play("Idle");
+    //     }
+    // }
+
+    // void MoveStateHandle()
+    // {
+    //     if (!_isIntroPlayed)
+    //     {
+    //         Animator.Play("Intro");
+    //         StartCoroutine(PlayWalkAfterIntro());
+    //         _isIntroPlayed = true;
+    //     }
+    //     else
+    //     {
+    //         Animator.Play("Walk");
+    //         Vector2 moveDirection = (PlayerTransform.position - transform.position).normalized;
+    //         Move(moveDirection * _chaseSpeed);
+    //     }
+    // }
+
+    // void BossLogic()
+    // {
+    //     if (IsAggroed && !IsWithInStrikingDistance)
+    //     {
+    //         MoveStateHandle();
+    //     }
+    //     else if (IsWithInStrikingDistance)
+    //     {
+    //         AttackStateHandle();
+    //     }
+    //     // else
+    //     // {
+    //     //     Animator.Play("Idle");
+    //     // }
+    // }
+
+    // private void AttackStateHandle()
+    // {
+    //     Move(Vector2.zero);
+
+    //     if (_timer > _timerBetweenAttack)
+    //     {
+    //         _timer = 0;
+    //         Attack();
+    //     }
+    //     else
+    //     {
+    //         _timer += Time.deltaTime;
+    //     }
+    // }
+
+    // private void Attack()
+    // {
+    //     if (_attackCounter < _attack1CountBeforeDefence)
+    //     {
+    //         Animator.Play("Attack1");
+    //         _attackCounter++;
+    //     }
+    //     else
+    //     {
+    //         Animator.Play("Defence");
+    //         _attackCounter = 0;
+    //         StartCoroutine(LaunchBulletsAfterDefence());
+    //     }
+    // }
+
+    // private IEnumerator PlayIdleAfterIntro()
+    // {
+    //     yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+    //     Animator.Play("Idle");
+    // }
+
+    // private IEnumerator PlayWalkAfterIntro()
+    // {
+    //     yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+    //     Animator.Play("Walk");
+    // }
+
+    // private IEnumerator LaunchBulletsAfterDefence()
+    // {
+    //     yield return new WaitForSeconds(1f);
+
+    //     float angleStep = 360f / 10;
+    //     float angle = 0f;
+
+    //     for (int i = 0; i < 10; i++)
+    //     {
+    //         float bulletDirX = transform.position.x + Mathf.Sin((angle * Mathf.PI) / 180);
+    //         float bulletDirY = transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180);
+    //         Vector3 bulletMoveVector = new Vector3(bulletDirX, bulletDirY, 0);
+    //         Vector2 bulletDir = (bulletMoveVector - transform.position).normalized;
+    //         Bullet bullet = ObjectPooler.DequeueObject<Bullet>("Bullet");
+    //         bullet.gameObject.SetActive(true);
+    //         Collider2D collider = bullet.gameObject.GetComponent<Collider2D>();
+    //         collider.enabled = true;
+    //         bullet.Initialize();
+    //         bullet.transform.position = transform.position;
+    //         bullet.GetComponent<Rigidbody2D>().velocity = bulletDir * _bulletSpeed;
+
+    //         angle += angleStep;
+    //     }
+    // }
+
+    // void Update()
+    // {
+    //     BossLogic();
+    // }
 
     // public override void DieStateHandle()
     // {

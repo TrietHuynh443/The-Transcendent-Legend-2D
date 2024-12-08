@@ -6,45 +6,43 @@ using UnityEngine;
 public class RepeatingParallax : MonoBehaviour
 {
     private Camera cam;
-    private float startPos;
-    private float length;
+    private float startPosX;
+    private float startPosY;
+    private Vector3 length;
 
 
     [SerializeField]
-    private float _parallaxEffect;
+    private float _parallaxXEffect;
     [SerializeField]
-    private float _scrollEffect;
+    private float _parallaxYEffect;
+    [SerializeField]
+    private float _scrollXEffect;
 
-    private float scroll = 0.0f;
     void Start()
     {
         cam = Camera.main;
-        startPos = cam.transform.position.x;
-        length = GetComponent<SpriteRenderer>().bounds.size.x;
-    }
-    
-    // Update is called once per frame
-    private void Update()
-    {
-        scroll += _scrollEffect * Time.deltaTime;
-
-        scroll %= length;
+        startPosX = cam.transform.position.x;
+        startPosY = cam.transform.position.y;
+        length = GetComponent<SpriteRenderer>().bounds.size;
     }
 
     void FixedUpdate()
     {
-        float distance = cam.transform.position.x * _parallaxEffect;
-        float movement = cam.transform.position.x * (1 - _parallaxEffect);
+        startPosX += _scrollXEffect * Time.fixedDeltaTime;
+        float distanceX = cam.transform.position.x * _parallaxXEffect;
+        float movementX = cam.transform.position.x * (1 - _parallaxXEffect);
         
-        transform.position = new Vector3(startPos + distance + scroll, transform.position.y, transform.position.z);
+        float distanceY = cam.transform.position.y * _parallaxYEffect;
+        
+        transform.position = new Vector3(startPosX + distanceX, startPosY + distanceY, transform.position.z);
 
-        if (movement > startPos + length)
+        if (movementX > startPosX + length.x)
         {
-            startPos += length;
+            startPosX += length.x;
         }
-        else if (movement < startPos - length)
+        else if (movementX < startPosX - length.x)
         {
-            startPos -= length;
+            startPosX -= length.x;
         }
     }
 }

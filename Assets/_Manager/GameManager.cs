@@ -118,4 +118,5 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
         }
         SceneManager.LoadScene(name, LoadSceneMode.Single);
     }
+
 }

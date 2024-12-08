@@ -22,7 +22,6 @@ public class Toxic : MonoBehaviour, IBaseSkill
         if (_layerEffectNames.Contains(layerName))
         {
             _animator.SetBool("IsExplode", true);
-
             if (other.TryGetComponent(out BaseEntity entity))
             {
                 Debug.LogWarning(other.gameObject.name + " " + _skillData.Damage.GetValueOrDefault());

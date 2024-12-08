@@ -12,7 +12,7 @@ public class UIStartMenuHandler : MonoBehaviour, IGameEventListener<RestartGameE
     [SerializeField] private Canvas _startMenuCanvas;
     [SerializeField] private float _fadeDuration = 0.5f;
 
-    public static bool _onMenu = true;
+    // public static bool _onMenu = true;
 
     private void Start()
     {
@@ -21,12 +21,12 @@ public class UIStartMenuHandler : MonoBehaviour, IGameEventListener<RestartGameE
     }
     private void OnEnable()
     {
-        _onMenu = true;
+        // _onMenu = true;
     }
 
     void OnDisable()
     {
-        _onMenu = false;
+        // _onMenu = false;
     }
 
     void OnDestroy()

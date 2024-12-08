@@ -150,9 +150,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     private void Update()
     {
-        if(_isDead || _isHit) return;
-
-        if(PauseEvent.IsPaused || UIStartMenuHandler._onMenu)
+        if(PauseEvent.IsPaused || _isDead || _isHit)
             return;
 
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");

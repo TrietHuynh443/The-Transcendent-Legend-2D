@@ -18,6 +18,7 @@ public class Stats : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        _playerDataSO = ResourcesRoute.Instance.PlayerDataSO;
         healthBarTransform = transform.Find("Health Bar").gameObject.GetComponent<RectTransform>();
         maxHealthImgWidth = (int)healthBarTransform.rect.width;
     }

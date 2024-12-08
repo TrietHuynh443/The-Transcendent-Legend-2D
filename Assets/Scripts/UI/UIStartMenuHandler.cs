@@ -5,21 +5,33 @@ using DG.Tweening;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIStartMenuHandler : MonoBehaviour
+public class UIStartMenuHandler : MonoBehaviour, IGameEventListener<RestartGameEvent>
 {
     [SerializeField] private Button _playButton;
     [SerializeField] private Button _quitButton;
     [SerializeField] private Canvas _startMenuCanvas;
     [SerializeField] private float _fadeDuration = 0.5f;
-    [SerializeField] private GameObject _startElementRoot;
 
+    // public static bool _onMenu = true;
+
+    private void Start()
+    {
+        EventAggregator.Register<RestartGameEvent>(this);
+        _playButton.onClick.AddListener(PlayButtonClicked);
+    }
     private void OnEnable()
     {
-        _playButton.onClick.AddListener(PlayButtonClicked);
+        // _onMenu = true;
     }
 
     void OnDisable()
     {
+        // _onMenu = false;
+    }
+
+    void OnDestroy()
+    {
+        EventAggregator.Unregister<RestartGameEvent>(this);
         _playButton.onClick.RemoveListener(PlayButtonClicked);
     }
 
@@ -30,19 +42,25 @@ public class UIStartMenuHandler : MonoBehaviour
             .OnComplete(
                 () => {
                     _startMenuCanvas.gameObject.SetActive(false);
-                    InitScene();
+                    StartGame();
                 }
             );
     }
 
-    private void InitScene()
+    private void StartGame()
     {
-        _startElementRoot.SetActive(true);
+        EventAggregator.RaiseEvent<StartGameEvent>(new StartGameEvent(){Level = 1});
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Handle(RestartGameEvent @event)
     {
-        
+        _startMenuCanvas.GetComponent<CanvasGroup>()
+            .DOFade(1, 0)
+            .OnComplete(
+                () => {
+                    _startMenuCanvas.gameObject.SetActive(true);
+                    // StartGame();
+                }
+            );
     }
 }

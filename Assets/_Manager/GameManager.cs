@@ -2,14 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using Factory;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class GameManager : UnitySingleton<GameManager>
+public class GameManager : UnitySingleton<GameManager>, IGameEventListener<StartGameEvent>
 {
     private ResourcesRoute routes;
     private GameDataManager _gameDataManagerInstance;
     //Change to EventAggregate
     // private GameEventManager _gameEventManagerInstance;
     private SoundManager _soundManager;
+    private LevelManager _levelManager;
     [SerializeField] private GameObject _testEnemyPrefab;
     private Dictionary<EnemyType, BaseEnemy> _enemyMap;
 
@@ -18,8 +20,7 @@ public class GameManager : UnitySingleton<GameManager>
     protected override void SingletonAwake()
     {
         // PlayerPrefs.SetInt("IsPlayerInit", -1);
-
-
+        _levelManager = LevelManager.Instance;
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
     }
@@ -31,8 +32,16 @@ public class GameManager : UnitySingleton<GameManager>
         _soundManager = GetComponentInChildren<SoundManager>();
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
         _soundManager.gameObject.transform.SetParent(transform);
+        EventAggregator.Register<StartGameEvent>(this);
         //Play Main Theme
         StartCoroutine(PlayMainThemeMusic());
+        routes.PlayerDataSO.Init();
+    }
+
+    protected override void SingletonOnDestroy()
+    {
+        base.SingletonOnDestroy();
+        EventAggregator.Unregister<StartGameEvent>(this);
     }
 
 
@@ -76,9 +85,39 @@ public class GameManager : UnitySingleton<GameManager>
         _playerCheckpointLocation = pos;
     }
 
-    public void RespawnPlayer(GameObject _playerObject)
+    public void RespawnPlayer(SceneSaveDataSO checkpointData, PlayerController playerController)
     {
-        Debug.Log(_playerCheckpointLocation);
-        _playerObject.transform.position = _playerCheckpointLocation;
+        playerController.gameObject.transform.position = checkpointData.CheckPointPos;
     }
+
+    public void SwitchScene(string sceneName, string switchName, Vector2 velocity, bool isVerticalSwitch)
+    {
+        _levelManager.SwitchScene(sceneName, switchName, velocity, isVerticalSwitch);
+    }
+
+    public Vector2 GetSwitchVelocity()
+    {
+        return _levelManager.Velocity;
+    }
+
+    public bool IsVerticalSwitch()
+    {
+        return _levelManager.IsVerticalSwitch;
+    }
+
+    public string GetLevelSwitchName()
+    {
+        return _levelManager.LevelSwitchName;
+    }
+
+    public void Handle(StartGameEvent @event)
+    {
+        string name = "";
+        if(@event.Level == 1)
+        {
+            name = "Cemetery Graveyard";
+        }
+        SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
+
 }

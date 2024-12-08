@@ -14,8 +14,6 @@ public class PlayerDataSO : ScriptableObject
 
     public void Init()
     {
-        if (PlayerPrefs.GetInt("IsPlayerInit") > 0) return;
-
         var playerOriginalData = GameDataManager.Instance.GetCurrentPlayerData();
         _currentStats = new ()
         {
@@ -40,9 +38,6 @@ public class PlayerDataSO : ScriptableObject
             CritRate = playerOriginalData.BaseCritRate,
             Health = playerOriginalData.BaseHealth,
         };
-
-
-        PlayerPrefs.SetInt("IsPlayerInit", 1);
     }
 
     public void AddToCurrentPlayerData(
@@ -84,7 +79,7 @@ public class PlayerDataSO : ScriptableObject
         Debug.Log($"Player: {_currentStats.Health}");
         if(_currentStats.Health < 0)
         {
-            EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
+            EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent());
         }
     }
 

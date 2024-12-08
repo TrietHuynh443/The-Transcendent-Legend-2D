@@ -1,26 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
-public class ChapterOne : BaseScene
+public class ChapterOne : BaseScene, IGameEventListener<RestartGameEvent>
 {
+    [SerializeField] private GameObject _spawnElement;
 
-    // Start is called before the first frame update
-    private void Start()
+    private void OnEnable()
     {
-        if(!isInit)
-        {
-            isInit = true;
-            if (GameManager.Instance == null)
-            {
-                _gameManagerObject = Instantiate(_gameManagerPrefabs);
-            }
-        }
+        EventAggregator.Register<RestartGameEvent>(this);
+        _spawnElement.SetActive(true);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnDisable()
     {
-        
+        EventAggregator.Unregister<RestartGameEvent>(this);
+    }
+
+    public void Handle(RestartGameEvent @event)
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name, LoadSceneMode.Single);
     }
 }

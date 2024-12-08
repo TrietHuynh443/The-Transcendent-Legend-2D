@@ -16,12 +16,14 @@ public class ShootingPerform : MonoBehaviour
     private List<GameObject> _objectsShootingInProgress = new();
     private Action _shoot;
     private bool _isShooting;
+    private Animator _animator;
 
     private void OnEnable()
     {
-        
+        _animator = GetComponent<Animator>();
         _objectsShootingPool.Enqueue(SpawnShootingObject());
         _shoot += Shooting;
+
     }
 
     private GameObject SpawnShootingObject()
@@ -35,6 +37,8 @@ public class ShootingPerform : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Q) && !_isShooting){
             _isShooting = true;
+            EventAggregator.RaiseEvent<PlayerSkillEvent>(new PlayerSkillEvent(){Type=PlayerSkillType.Toxic});
+            _animator.Play("Attack", 0);
         }
 
         ReloadObjectShootingPool();
@@ -71,16 +75,33 @@ public class ShootingPerform : MonoBehaviour
 
     public void Shooting(){
         if(!_isShooting) return;
+
         if(!_objectsShootingPool.TryDequeue(out GameObject objectShooting)){
             objectShooting = SpawnShootingObject();
         }
+        StartCoroutine(WaitForAttackToFinishThenShoot(objectShooting));
+    }
+
+    IEnumerator WaitForAttackToFinishThenShoot(GameObject objectShooting)
+    {
+        AnimatorStateInfo stateInfo;
+        do
+        {
+            stateInfo = _animator.GetCurrentAnimatorStateInfo(0);
+            yield return null;
+        }
+        while (stateInfo.IsName("Attack") && stateInfo.normalizedTime < 0.5f);
+        var pos = transform.position;
+        pos.x+=0.6f*transform.right.x;
+        pos.y+=0.45f*transform.up.y;
+        // Perform shooting
         _objectShootingBody = objectShooting.GetComponent<Rigidbody2D>();
         if(_objectShootingBody != null){
             objectShooting.SetActive(true);
-            objectShooting.transform.SetPositionAndRotation(transform.position, Quaternion.identity);
+            objectShooting.transform.SetPositionAndRotation(pos, Quaternion.identity);
             _direction.x = transform.right.x;
             _objectShootingBody.AddForce(_direction*_force, ForceMode2D.Impulse);
             _objectsShootingInProgress.Add(objectShooting);
         }
-    } 
+    }
 }

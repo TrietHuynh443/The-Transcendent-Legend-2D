@@ -32,6 +32,7 @@ public class EnemyAttackState : EnemyState {
     {
         base.FrameUpdate();
 
+
         // if (Vector2.Distance(enemy.PlayerTransform.position, enemy.transform.position) > _distanceToCountExit)
         // {
         //     _exitTimer += Time.deltaTime;

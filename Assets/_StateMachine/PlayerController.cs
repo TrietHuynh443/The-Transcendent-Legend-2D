@@ -10,7 +10,7 @@ using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
+public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>, IGameEventListener<OnHitEvent>
 {
     [SerializeField]
     private float _onJumpGravityScale = 3f;
@@ -23,9 +23,10 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     [SerializeField]
     private AttackTrigger _normalAttack;
-
-    [SerializeField]
     private PlayerDataSO _playerDataSO;
+    [SerializeField]
+    private SceneSaveDataSO _sceneSaveDataSO;
+    
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
@@ -40,6 +41,9 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     private OnGroundedState _onGroundState;
     private float _startInAirTime;
+    private bool _isDead;
+    private float _startPressJumpTime;
+    private bool _isHit;
 
     #endregion Player State Controller
     // private bool _isGrounded = false;
@@ -58,17 +62,72 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public OnGroundedState OnGroundState => _onGroundState;
     #endregion Public Properties
-
+    private void OnEnable()
+    {
+        _startInAirTime = Time.time;
+        _isDead = false;
+        _isHit = false;
+    }
     private void Start()
     {
+        DontDestroyOnLoad(this);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _playerDataSO = ResourcesRoute.Instance.PlayerDataSO;
         _rigidbody.gravityScale = _originGravityScale;
 
         InitPlayerStates();
+        PlacePlayerOnSceneSwitch();
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
-        EventAggregator.Register<DeadEvent>(this);
+        EventAggregator.Register<PlayerDieEvent>(this);
+        EventAggregator.Register<PassCheckpointEvent>(this);
+        EventAggregator.Register<OnHitEvent>(this);
+    }
+
+    void OnDestroy()
+    {
+        EventAggregator.Unregister<PlayerDieEvent>(this);
+        EventAggregator.Unregister<PassCheckpointEvent>(this);
+        EventAggregator.Unregister<OnHitEvent>(this);
+    }
+    public void Reset()
+    {
+        PlayerPrefs.SetInt("IsPlayerInit", 0);
+        _playerDataSO.Init();
+    }
+
+    private void PlacePlayerOnSceneSwitch()
+    {
+        Vector2 switchVelocity = GameManager.Instance.GetSwitchVelocity();
+        string levelSwitchName = GameManager.Instance.GetLevelSwitchName();
+        bool isSwitchingLeftToRight = switchVelocity.x > 0;
+        bool isSwitchingTopToBottom = switchVelocity.y < 0;
+        bool isVerticalSwitch = GameManager.Instance.IsVerticalSwitch();
+        GameObject[] sceneSwitchTriggers = GameObject.FindGameObjectsWithTag("Scene Trigger");
+        foreach (GameObject sceneSwitchTrigger in sceneSwitchTriggers)
+        {
+            if (sceneSwitchTrigger.GetComponent<LevelSwitcher>().LevelSwitchName == levelSwitchName)
+            {
+                Vector2 size = sceneSwitchTrigger.GetComponent<BoxCollider2D>().size;
+                Vector3 offset;
+                float offsetRate = 2;
+                if (!isVerticalSwitch)
+                {
+                    int offsetDirection = isSwitchingLeftToRight ? 1 : -1;
+                    offset = new Vector3(offsetDirection * offsetRate * size.x, 0, 0);
+                }
+                else
+                {
+                    int offsetDirection = isSwitchingTopToBottom ? -1 : 1;
+                    offset = new Vector3(0, offsetDirection * offsetRate * size.y, 0);
+                }
+                
+                transform.position = sceneSwitchTrigger.transform.position + offset;
+                Flip(isSwitchingLeftToRight ? 0 : 180);
+                break;
+            }
+        }
     }
 
     private void InitPlayerStates()
@@ -91,14 +150,23 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     private void Update()
     {
+        if(PauseEvent.IsPaused || _isDead || _isHit)
+            return;
+
         _properties.Input.HorizontalInput = Input.GetAxis("Horizontal");
-        _properties.Input.IsJumpInput =
-            _properties.Status.CurrentJump < _properties.Data.MaxJump
-            && Input.GetKeyUp(KeyCode.Space);
+        HandleJumpInput();
+
         _properties.Input.IsAttackInput = Input.GetMouseButtonDown(0);
         CheckGrounded();
-        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && Time.time - _startInAirTime > 0.2f)
+        var currentInAirTime = Time.time - _startInAirTime;
+        if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && currentInAirTime > 0.2f)
         {
+            if(currentInAirTime > 4f)
+            {
+                Die();
+                return;
+            }
+
             HandleInAir();
             StartCoroutine(StartCoyate());
         }
@@ -109,10 +177,16 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
         if (_properties.Status.StuckWall * _properties.Input.HorizontalInput > 0)
         {
-            Debug.Log("Stuck Wall");
             _properties.Input.HorizontalInput = 0;
         }
         _playerStateMachine.CurrentState.LogicUpdate();
+    }
+
+    private void HandleJumpInput()
+    {
+
+        _properties.Input.IsJumpInput = _properties.Status.CurrentJump < _properties.Data.MaxJump && Input.GetKeyDown(KeyCode.Space);
+            
     }
 
     private IEnumerator StartCoyate()
@@ -161,16 +235,6 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     void FixedUpdate()
     {
-        // var abs = Mathf.Abs(_horizontalInput);
-        // if(abs >= 0.001f)
-        // {
-        //     var newY = _horizontalInput < -0.001f ? 180 : 0;
-        //     transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(transform.rotation.x, newY)));
-        // }
-
-        // _rigidbody.velocity = new Vector2(_horizontalInput * _speed, _rigidbody.velocity.y + _currentJumpSpeed);
-        // _animator?.SetFloat("Move", abs);
-        // _currentJumpSpeed = 0;
         _playerStateMachine.CurrentState.PhysicsUpdate();
     }
 
@@ -191,9 +255,9 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
     {
         if (_properties.Status.CurrentJump >= _properties.Data.MaxJump)
             return;
-
         ++_properties.Status.CurrentJump;
         HandleInAir();
+        
         var newVelocity = new Vector2(
             _properties.Input.HorizontalInput,
             _properties.Data.JumpForce
@@ -215,20 +279,29 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
 
     public override void TakeDamage(float damage)
     {
-        // _animator.SetTrigger("OnHit");
+         _animator.Play("OnHit");
         //Handle health
         _playerDataSO.LoseHealth(damage);
+        EventAggregator.RaiseEvent<OnHitEvent>(new OnHitEvent());
     }
 
     public override void Die()
     {
-        _animator.SetTrigger("Die");
-        EventAggregator.RaiseEvent<DeadEvent>(new DeadEvent());
+        EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent());
     }
 
-    public void Handle(DeadEvent @event)
+    public void Handle(PlayerDieEvent @event)
     {
         _animator.SetTrigger("Die");
+        _isDead = true;
+        StartCoroutine(OnDead());
+    }
+
+    public IEnumerator OnDead()
+    {
+        yield return new WaitForSeconds(1f);
+        gameObject.SetActive(false);
+        Reset();
     }
 
     void OnDrawGizmos()
@@ -239,4 +312,21 @@ public class PlayerController : BaseEntity, IGameEventListener<DeadEvent>
         Gizmos.DrawWireCube(Vector3.right * 0.5f, boxSize);
     }
 
+    public void Handle(PassCheckpointEvent @event)
+    {
+        _sceneSaveDataSO.SceneName = @event.SceneName;
+        _sceneSaveDataSO.CheckPointPos = @event.CheckPointPosition;
+    }
+
+    public void Handle(OnHitEvent @event)
+    {
+        StartCoroutine(GetHit());
+    }
+
+    private IEnumerator GetHit()
+    {
+        _isHit = true;
+        yield return new WaitForSeconds(0.15f);
+        _isHit = false;
+    }
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8658028354157164107}
   - component: {fileID: 3198127166257891918}
   m_Layer: 0
-  m_Name: 1 (1)
+  m_Name: Left
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -95,7 +95,7 @@ GameObject:
   - component: {fileID: 6635418663629547433}
   - component: {fileID: 4045519599965037577}
   m_Layer: 0
-  m_Name: 1 (2)
+  m_Name: Right
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -194,7 +194,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4030610402092120010}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -30.699192, y: 3, z: 0.275}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -267,5 +267,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60a92488dceb37d44b6f2adbd8a71404, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _parallaxEffect: 0.8
-  _scrollEffect: 0
+  _parallaxXEffect: 0
+  _parallaxYEffect: 1
+  _scrollXEffect: 0

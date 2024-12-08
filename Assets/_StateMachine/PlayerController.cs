@@ -75,6 +75,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         _rigidbody.gravityScale = _originGravityScale;
 
         InitPlayerStates();
+        PlacePlayerOnSceneSwitch();
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
         EventAggregator.Register<PlayerDieEvent>(this);
@@ -85,6 +86,39 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     {
         PlayerPrefs.SetInt("IsPlayerInit", 0);
         _playerDataSO.Init();
+    }
+
+    private void PlacePlayerOnSceneSwitch()
+    {
+        Vector2 switchVelocity = GameManager.Instance.GetSwitchVelocity();
+        string levelSwitchName = GameManager.Instance.GetLevelSwitchName();
+        bool isSwitchingLeftToRight = switchVelocity.x > 0;
+        bool isSwitchingTopToBottom = switchVelocity.y < 0;
+        bool isVerticalSwitch = GameManager.Instance.IsVerticalSwitch();
+        GameObject[] sceneSwitchTriggers = GameObject.FindGameObjectsWithTag("Scene Trigger");
+        foreach (GameObject sceneSwitchTrigger in sceneSwitchTriggers)
+        {
+            if (sceneSwitchTrigger.GetComponent<LevelSwitcher>().LevelSwitchName == levelSwitchName)
+            {
+                Vector2 size = sceneSwitchTrigger.GetComponent<BoxCollider2D>().size;
+                Vector3 offset;
+                float offsetRate = 2;
+                if (!isVerticalSwitch)
+                {
+                    int offsetDirection = isSwitchingLeftToRight ? 1 : -1;
+                    offset = new Vector3(offsetDirection * offsetRate * size.x, 0, 0);
+                }
+                else
+                {
+                    int offsetDirection = isSwitchingTopToBottom ? -1 : 1;
+                    offset = new Vector3(0, offsetDirection * offsetRate * size.y, 0);
+                }
+                
+                transform.position = sceneSwitchTrigger.transform.position + offset;
+                Flip(isSwitchingLeftToRight ? 0 : 180);
+                break;
+            }
+        }
     }
 
     private void InitPlayerStates()

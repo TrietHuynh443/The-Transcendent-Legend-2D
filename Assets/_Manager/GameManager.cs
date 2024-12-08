@@ -10,6 +10,7 @@ public class GameManager : UnitySingleton<GameManager>
     //Change to EventAggregate
     // private GameEventManager _gameEventManagerInstance;
     private SoundManager _soundManager;
+    private LevelManager _levelManager;
     [SerializeField] private GameObject _testEnemyPrefab;
     private Dictionary<EnemyType, BaseEnemy> _enemyMap;
 
@@ -18,8 +19,7 @@ public class GameManager : UnitySingleton<GameManager>
     protected override void SingletonAwake()
     {
         // PlayerPrefs.SetInt("IsPlayerInit", -1);
-
-
+        _levelManager = LevelManager.Instance;
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
     }
@@ -80,4 +80,26 @@ public class GameManager : UnitySingleton<GameManager>
     {
         playerController.gameObject.transform.position = checkpointData.CheckPointPos;
     }
+
+    public void SwitchScene(string sceneName, string switchName, Vector2 velocity, bool isVerticalSwitch)
+    {
+        _levelManager.SwitchScene(sceneName, switchName, velocity, isVerticalSwitch);
+    }
+
+    public Vector2 GetSwitchVelocity()
+    {
+        return _levelManager.Velocity;
+    }
+
+    public bool IsVerticalSwitch()
+    {
+        return _levelManager.IsVerticalSwitch;
+    }
+
+    public string GetLevelSwitchName()
+    {
+        return _levelManager.LevelSwitchName;
+    }
+
+
 }

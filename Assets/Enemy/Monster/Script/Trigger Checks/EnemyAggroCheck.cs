@@ -6,16 +6,17 @@ using UnityEngine;
 public class EnemyAggroCheck : MonoBehaviour
 {
     [SerializeField] public GameObject PlayerTarget;
-    private Enemy _enemy;
+    private ITriggerCheckable _enemy;
 
     private void Awake()
     {
-        _enemy = GetComponentInParent<Enemy>();
+        _enemy = GetComponentInParent<ITriggerCheckable>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == PlayerTarget)
+        Debug.Log("Aggro Check");
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
         {
             _enemy.SetAggroStatus(true);
         }   
@@ -23,7 +24,8 @@ public class EnemyAggroCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == PlayerTarget)
+        Debug.Log("Aggro Check Exit");  
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
         {
             _enemy.SetAggroStatus(false);
         }

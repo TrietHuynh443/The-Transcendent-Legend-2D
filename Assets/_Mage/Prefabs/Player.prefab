@@ -267,7 +267,7 @@ MonoBehaviour:
   _properties:
     Data:
       Speed: 5
-      JumpForce: 20
+      JumpForce: 16
       Attack: 0
       SpecialAttack: 0
       MaxJump: 2

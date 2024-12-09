@@ -1,15 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class Bullet : BulletBase
+public class Sword : BulletBase
 {
-protected override void OnTriggerEnter2D(Collider2D collision)
+    public override void Initialize()
+    {
+        base.Initialize();
+        damage = 10;
+    }
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
         {
+            collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
+
             // Debug.Log("Hi from Explde!!");
             _rb.velocity = Vector2.zero;
 
@@ -17,7 +23,7 @@ protected override void OnTriggerEnter2D(Collider2D collision)
             {
 
                 // Debug.Log("Explode!!!");
-                _animator.Play("BulletExplode", 0, 0);
+                _animator.Play("BulletExplode", 0   , 0);
 
                 float time = _animator.GetCurrentAnimatorStateInfo(0).length;
 
@@ -40,12 +46,12 @@ protected override void OnTriggerEnter2D(Collider2D collision)
     protected override void OnBecameInvisible()
     {
         // Destroy the object when it goes out of the camera's view
-        ObjectPooler.EnqueueObject(this, "Bullet"); // Change Name Here
+        ObjectPooler.EnqueueObject(this, "Sword");
     }
 
 
     protected override void EnqueueBullet()
     {
-        ObjectPooler.EnqueueObject(this, "Bullet"); // Change Name Here
+        ObjectPooler.EnqueueObject(this, "Sword");
     }
 }

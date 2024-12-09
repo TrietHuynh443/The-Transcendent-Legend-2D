@@ -4,14 +4,14 @@ using UnityEngine;
 
 public class Monster4 : Enemy
 {
-    private float _chaseSpeed = 3f;
+    [SerializeField] private float _chaseSpeed = 3f;
+    [SerializeField] private float _timerBetweenShots = 1.5f;
+    [SerializeField] private float _bulletSpeed = 10f;
     private bool _isFacingRight = false;
     private Vector3 _targetPoint;
 
-    private float _timerBetweenShots = 1.5f;
     //[SerializeField] public bool IsFacingRight { get; set; } = false;
 
-    private float _bulletSpeed = 10f;
     protected override void Start()
     {
         base.Start();
@@ -56,22 +56,32 @@ public class Monster4 : Enemy
     {
         Move(Vector2.zero);
 
-        if ((PlayerTransform.position.x > transform.position.x) && (!_isFacingRight))
-        {
-            Debug.Log("nhut Thanh");
-            Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            _isFacingRight = !_isFacingRight;
-            Debug.Log(this.transform.rotation.x + " " + this.transform.rotation.y);
-        }
+        // if ((PlayerTransform.position.x > transform.position.x) && (!_isFacingRight))
+        // {
+        //     Debug.Log("nhut Thanh");
+        //     Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
+        //     transform.rotation = Quaternion.Euler(rotator);
+        //     _isFacingRight = !_isFacingRight;
+        //     Debug.Log(this.transform.rotation.x + " " + this.transform.rotation.y);
+        // }
 
-        if ((PlayerTransform.position.x < transform.position.x) && _isFacingRight)
+        // if ((PlayerTransform.position.x < transform.position.x) && _isFacingRight)
+        // {
+        //     Debug.Log("Cong Triet");
+        //     Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
+        //     transform.rotation = Quaternion.Euler(rotator);
+        //     _isFacingRight = !_isFacingRight;
+        //     Debug.Log(this.transform.rotation.x + " " + this.transform.rotation.y);
+        // }
+
+        if ((PlayerTransform.position.x > transform.position.x && !_isFacingRight) ||
+    (PlayerTransform.position.x < transform.position.x && _isFacingRight))
         {
-            Debug.Log("Cong Triet");
-            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
             _isFacingRight = !_isFacingRight;
-            Debug.Log(this.transform.rotation.x + " " + this.transform.rotation.y);
+            Vector3 scale = transform.localScale;
+            scale.x *= -1;
+            transform.localScale = scale;
+            Debug.Log($"Rotation: {transform.eulerAngles}");
         }
 
 
@@ -79,29 +89,27 @@ public class Monster4 : Enemy
         {
             timer = 0;
 
-            Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
-
-            Vector2 dir = (PlayerTransform.position - transform.position).normalized;
-
-            instance.gameObject.SetActive(true);
-
-            Collider2D collider = instance.gameObject.GetComponent<Collider2D>();
-
-            // collider.enabled = false;
-
-            collider.enabled = true;
-
-            instance.Initialize();
-
-            instance.transform.position = transform.position;
-
-            instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
+            ShootBullet();
         }
     }
 
+    private void ShootBullet()
+    {
+        Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
+        Vector2 dir = (PlayerTransform.position - transform.position).normalized;
+        instance.gameObject.SetActive(true);
+        Collider2D collider = instance.gameObject.GetComponent<Collider2D>();
+        collider.enabled = true;
+        instance.Initialize();
+        instance.transform.position = transform.position;
+        instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
+    }
+
+
     public override void DieStateHandle()
     {
-        throw new System.NotImplementedException();
+        Debug.Log("Monster is dead.");
+        // Add death logic here (e.g., animation, destruction)
     }
 
     public override void CheckForLeftOrRightFacing(Vector2 velocity)

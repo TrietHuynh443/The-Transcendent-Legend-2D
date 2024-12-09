@@ -8,7 +8,7 @@ public class Boss_Walk : StateMachineBehaviour
     private Rigidbody2D _rb;
     private float _timeToSpawnBullet = 3f;
     [SerializeField] private float _chaseSpeed = 5f;
-    private float _timer = 0f;
+    private float _timer = 3f;
     Boss boss;
 
     // OnStateEnter is called when a transition starts and the state machine starts to evaluate this state

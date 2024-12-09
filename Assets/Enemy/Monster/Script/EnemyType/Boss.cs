@@ -7,16 +7,16 @@ using UnityEngine;
 
 public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
 {
-    [SerializeField] public float MaxHealth { get; set; } = 500f;
+    [SerializeField] public float MaxHealth { get; set; } = 100f;
 
     LayerMask _playerLayer;
     public Transform PlayerTransform;
-    [SerializeField] private float _chaseSpeed = 3f;
-    [SerializeField] private float _bulletSpeed = 10f;
-    [SerializeField] private GameObject _bulletPrefab;
-    [SerializeField] private int _attack1CountBeforeDefence = 2;
-    [SerializeField] private float _timerBetweenAttack = 1.5f;
-    private float _timer = 0f;
+    // [SerializeField] private float _chaseSpeed = 3f;
+    // [SerializeField] private float _bulletSpeed = 10f;
+    // [SerializeField] private GameObject _bulletPrefab;
+    // [SerializeField] private int _attack1CountBeforeDefence = 2;
+    // [SerializeField] private float _timerBetweenAttack = 1.5f;
+    // private float _timer = 0f;
     public float CurrentHealth { get; set; }
     public Rigidbody2D Rigidbody { get; set; }
     public Animator Animator { get; set; }
@@ -92,12 +92,13 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
     // Destroy object after animation Die
     private IEnumerator DestroyObjectAfterDie()
     {
-        yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+        yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length + 2f);
         Destroy(gameObject);
     }
 
     public override void TakeDamage(float damage)
     {   
+        Debug.Log("Current Health: " + CurrentHealth);
         Animator.SetTrigger("OnHit");
         CurrentHealth -= damage;
         if (CurrentHealth <= 0f)
@@ -127,10 +128,10 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
     void Update()
     {
         // Get mouse click event
-        if (Input.GetMouseButtonDown(0))
-        {
-            TakeDamage(10f);
-        }
+        // if (Input.GetMouseButtonDown(0))
+        // {
+        //     TakeDamage(10f);
+        // }
     }
 
     // void IdleStateHandle()

@@ -84,11 +84,21 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     public override void Die()
     {
-        Debug.Log("Boss is dead.");
+        Move(Vector2.zero);
+        Animator.Play("Die");
+        StartCoroutine(DestroyObjectAfterDie());
+    }
+    
+    // Destroy object after animation Die
+    private IEnumerator DestroyObjectAfterDie()
+    {
+        yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject);
     }
 
     public override void TakeDamage(float damage)
     {   
+        Animator.SetTrigger("OnHit");
         CurrentHealth -= damage;
         if (CurrentHealth <= 0f)
         {
@@ -102,7 +112,6 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
         Animator = GetComponent<Animator>();
         CurrentHealth = MaxHealth;
         _playerLayer = LayerMask.NameToLayer("Player");
-        // PlayerTransform = GameObject.FindAnyObjectByType<GameObject>();
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
         foreach (GameObject obj in allObjects)
         {

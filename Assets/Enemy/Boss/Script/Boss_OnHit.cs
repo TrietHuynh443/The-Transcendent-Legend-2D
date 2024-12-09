@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Boss_Attack1 : StateMachineBehaviour
+public class Boss_OnHit : StateMachineBehaviour
 {
     private Rigidbody2D _rb;
     private Boss _boss;
@@ -17,29 +17,18 @@ public class Boss_Attack1 : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        _boss.Move(Vector2.zero);
+       _boss.Move(Vector2.zero);
 
-        if (!_boss.IsWithInStrikingDistance)
-        {
+       if (_boss.IsWithInStrikingDistance){
+            animator.SetTrigger("Attack1");
+       } else {
             animator.SetTrigger("Walk");
-        }
+       }
     }
 
     // OnStateExit is called when a transition ends and the state machine finishes evaluating this state
     override public void OnStateExit(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
-        animator.ResetTrigger("Attack1");
+       animator.ResetTrigger("OnHit");
     }
-
-    // OnStateMove is called right after Animator.OnAnimatorMove()
-    //override public void OnStateMove(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that processes and affects root motion
-    //}
-
-    // OnStateIK is called right after Animator.OnAnimatorIK()
-    //override public void OnStateIK(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
-    //{
-    //    // Implement code that sets up animation IK (inverse kinematics)
-    //}
 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3078333969657730360}
   - component: {fileID: 3161313210008652775}
   - component: {fileID: 1369929684282343111}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: AggroArea
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a23aeae8b8500748a8d7b5db0ffcf27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerTarget: {fileID: 0}
 --- !u!61 &1369929684282343111
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -78,7 +77,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.1273103, y: -0.1909654}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -89,7 +88,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 3.5, y: 1.25}
+  m_Size: {x: 4.613965, y: 3.509757}
   m_EdgeRadius: 0
 --- !u!1 &4030094810018318185
 GameObject:
@@ -134,10 +133,11 @@ GameObject:
   m_Component:
   - component: {fileID: 3913053689574237470}
   - component: {fileID: 765073525546433668}
-  - component: {fileID: 4357492709878766668}
   - component: {fileID: 2448592562059712849}
   - component: {fileID: 4493503714189153705}
   - component: {fileID: 8144995146029607823}
+  - component: {fileID: 7748530334953379361}
+  - component: {fileID: 7521589241918214512}
   m_Layer: 9
   m_Name: Monster4Pack_0
   m_TagString: Untagged
@@ -199,12 +199,12 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -1313981973
+  m_SortingLayer: 2
   m_SortingOrder: 6
   m_Sprite: {fileID: -166028424, guid: a23ddd7b0ddde544892eae4a598cf286, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 1.25, y: 1.21875}
@@ -213,27 +213,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!95 &4357492709878766668
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4409201631093418636}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: aea034aa68023c4429006ff561e544fc, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &2448592562059712849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -246,10 +225,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e7cb4dff103874b816fe1508fd3d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _coolDown: 1.2
   PlayerTransform: {fileID: 0}
-  BulletPrefabs: {fileID: 1531097533473949252, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
-  MoveRange: 5
+  MoveRange: 3
   MoveSpeed: 1
+  _health: 2
 --- !u!50 &4493503714189153705
 Rigidbody2D:
   serializedVersion: 4
@@ -265,7 +245,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -275,7 +255,7 @@ Rigidbody2D:
     m_Bits: 0
   m_Interpolate: 0
   m_SleepingMode: 1
-  m_CollisionDetection: 0
+  m_CollisionDetection: 1
   m_Constraints: 4
 --- !u!61 &8144995146029607823
 BoxCollider2D:
@@ -313,7 +293,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.25, y: 1.21875}
+    oldSize: {x: 2.5, y: 2.4375}
     newSize: {x: 1.25, y: 1.21875}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -322,6 +302,40 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1.25, y: 1.21875}
   m_EdgeRadius: 0
+--- !u!95 &7748530334953379361
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4409201631093418636}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: aea034aa68023c4429006ff561e544fc, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7521589241918214512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4409201631093418636}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c52e8027cd1ab945bb5c8288d7e459f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  BulletPrefabs: {fileID: 8724849509713126283, guid: 778c49007bd30ce47aa34de7a4e72cfa, type: 3}
 --- !u!1 &8397133383523331799
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,7 +347,7 @@ GameObject:
   - component: {fileID: 919689481252056236}
   - component: {fileID: 5902907138605684728}
   - component: {fileID: 1568569711266379663}
-  m_Layer: 9
+  m_Layer: 10
   m_Name: StrikingDistance
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -367,7 +381,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8e58f59ca4d381e48b5bae8196c1d74c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PlayerTarget: {fileID: 0}
 --- !u!61 &1568569711266379663
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -400,7 +413,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.21128774, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0, y: 0}
@@ -411,5 +424,5 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 2.5, y: 1.25}
+  m_Size: {x: 2.9225755, y: 1.25}
   m_EdgeRadius: 0

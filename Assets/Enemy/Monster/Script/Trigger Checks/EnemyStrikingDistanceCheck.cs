@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class EnemyStrikingDistanceCheck : MonoBehaviour
 {
-    [SerializeField] public GameObject PlayerTarget;
     private Enemy _enemy;
 
     private void Awake()

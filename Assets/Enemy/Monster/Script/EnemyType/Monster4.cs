@@ -1,87 +1,97 @@
 using System.Collections;
-using System.Collections.Generic;
+using Factory;
 using UnityEngine;
 
 public class Monster4 : Enemy
 {
     private float _chaseSpeed = 3f;
     private bool _isFacingRight = false;
+    private bool _needTurnBack = false;
     private Vector3 _targetPoint;
 
     private float _timerBetweenShots = 1.5f;
-    //[SerializeField] public bool IsFacingRight { get; set; } = false;
 
     private float _bulletSpeed = 10f;
+
+    // private GameObject _target;
+    private Vector3 _originPostion;
+    private float _startAttackTime;
+
+    private float _exitTimer;
+    private float _timeTillExit = 3f;
+    private float _distanceToCountExit = 3f;
+    [SerializeField] private float _health = 5f;
+
     protected override void Start()
     {
         base.Start();
-        _targetPoint = transform.position + new Vector3(-MoveRange, 0, 0);
+        _originPostion = transform.position;
+        _targetPoint = transform.position + new Vector3(MoveRange * transform.right.x, 0, 0);
+        type = EnemyType.Flying;
+        _needTurnBack = false;
+        animator.Play("Idle", 0, 0);
+        _startAttackTime = Time.time;
     }
 
     public override void IdleStateHandle()
     {
-        Vector2 direction;
-        if (_isFacingRight)
+        if(Vector2.Distance(transform.position, _originPostion) >= MoveRange || _isStuck)
         {
-            direction = Vector2.right;
+            _needTurnBack = true;
+            _originPostion = transform.position;
         }
-        else
-        {
-            direction = Vector2.left;
-        }
-        Move(direction * MoveSpeed);
-
-        if ((transform.position - _targetPoint).sqrMagnitude < 0.01f)
-        {
-            if (_isFacingRight)
-            {
-                _targetPoint = transform.position + new Vector3(-MoveRange, 0, 0) * 2;
-            }
-            else
-            {
-                _targetPoint = transform.position + new Vector3(MoveRange, 0, 0) * 2;
-            }
-            _isFacingRight = !_isFacingRight;
-        }
+        Move(transform.right * MoveSpeed);
     }
 
     public override void MoveStateHandle()
     {
-        Vector2 moveDirection = (PlayerTransform.position - transform.position).normalized;
+        if(_target == null) return;
+        Vector2 moveDirection = (_target.transform.position - transform.position).normalized;
 
         Move(moveDirection * _chaseSpeed);
     }
 
     public override void AttackStateHandle(ref float timer)
     {
+        if(_target == null) return;
+
+        if (Vector2.Distance(_target.transform.position, transform.position) > _distanceToCountExit)
+        {
+            _exitTimer += Time.deltaTime;
+
+            if (_exitTimer > _timeTillExit)
+            {
+                EnemyStateMachine.ChangeState(MoveState);
+
+                Animator animator = GetComponent<Animator>();
+
+                animator.Play("Move", 0, 0);
+            }
+        }
+        else
+        {
+            _exitTimer = 0f;
+        }
         Move(Vector2.zero);
-
-        if ((PlayerTransform.position.x > transform.position.x) && (!_isFacingRight))
+        var targetPoint = _target.transform.position;
+        targetPoint.y = transform.position.y;
+        targetPoint.z = 0;
+        Vector2 direction = (targetPoint - transform.position).normalized;
+        // Calculate the angle in degrees
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (Mathf.Abs(angle) < 0) // Check absolute value for both left and right cases
         {
-            Debug.Log("nhut Thanh");
-            Vector3 rotator = new Vector3(transform.rotation.x, 180f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            _isFacingRight = !_isFacingRight;
-            Debug.Log(this.transform.rotation.x + " " + this.transform.rotation.y);
+            _needTurnBack = true;
         }
 
-        if ((PlayerTransform.position.x < transform.position.x) && _isFacingRight)
+        if ((Time.time - _startAttackTime) > _coolDown)
         {
-            Debug.Log("Cong Triet");
-            Vector3 rotator = new Vector3(transform.rotation.x, 0f, transform.rotation.z);
-            transform.rotation = Quaternion.Euler(rotator);
-            _isFacingRight = !_isFacingRight;
-            Debug.Log(this.transform.rotation.x + " " + this.transform.rotation.y);
-        }
-
-
-        if (timer > _timerBetweenShots)
-        {
-            timer = 0;
+            animator.Play("Attack",0 ,0);
+            _startAttackTime = Time.time;
 
             Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
 
-            Vector2 dir = (PlayerTransform.position - transform.position).normalized;
+            Vector2 dir = (_target.transform.position - transform.position).normalized;
 
             instance.gameObject.SetActive(true);
 
@@ -101,7 +111,7 @@ public class Monster4 : Enemy
 
     public override void DieStateHandle()
     {
-        throw new System.NotImplementedException();
+        // throw new System.NotImplementedException();
     }
 
     public override void CheckForLeftOrRightFacing(Vector2 velocity)
@@ -128,6 +138,51 @@ public class Monster4 : Enemy
     public override void Move(Vector2 velocity)
     {
         Rigidbody.velocity = velocity;
-        CheckForLeftOrRightFacing(velocity);
+    }
+
+    protected override void Update()
+    {
+        base.Update();
+
+    }
+
+    protected override void FixedUpdate()
+    {
+        base.FixedUpdate();
+        if(_needTurnBack)
+        {
+            _needTurnBack = false;
+            // animator.enabled = false;
+            TurnBack();
+            StartCoroutine(TurnBackBlockAnimation());
+
+        }
+
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        PlayGetHitAnimation();
+        _health -= damage;
+        if (_health <= 0)
+        {
+            _isDead = true;
+        }
+    }
+
+    private IEnumerator TurnBackBlockAnimation()
+    {
+        yield return new WaitForSeconds(0.1f);
+        // animator.enabled = true;
+    }
+
+    private void OnCollisionStay2D(Collision2D other) 
+    {
+        if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && EnemyStateMachine.CurrentState != IdleState)
+        {
+            Debug.Log("stuck ground");
+            EnemyStateMachine.ChangeState(IdleState);
+            animator.Play("Idle", 0, 0);
+        }
     }
 }

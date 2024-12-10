@@ -5,7 +5,6 @@ using UnityEngine;
 
 public class EnemyAggroCheck : MonoBehaviour
 {
-    [SerializeField] public GameObject PlayerTarget;
     private Enemy _enemy;
 
     private void Awake()
@@ -15,15 +14,16 @@ public class EnemyAggroCheck : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == PlayerTarget)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
+            _enemy.SetTarget(collision.gameObject);
             _enemy.SetAggroStatus(true);
-        }   
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (collision.gameObject == PlayerTarget)
+        if (collision.gameObject.layer == LayerMask.NameToLayer("Player"))
         {
             _enemy.SetAggroStatus(false);
         }

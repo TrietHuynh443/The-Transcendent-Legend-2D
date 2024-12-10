@@ -163,7 +163,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         {
             if(currentInAirTime > 4f)
             {
-                Die();
+                // Die();
                 return;
             }
 

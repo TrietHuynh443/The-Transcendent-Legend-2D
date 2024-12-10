@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameEvent;
 using UnityEngine;
 
 public class LevelBound : MonoBehaviour
@@ -8,7 +9,14 @@ public class LevelBound : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            // GameManager.Instance.RespawnPlayer(collision.gameObject);
+            PlayerController player = collision.GetComponent<PlayerController>();
+            GameManager.Instance.RespawnPlayer(GameManager.Instance.PlayerQuickRespawnData, player);
+            EventAggregator.RaiseEvent<OnHitEvent>(
+                new OnHitEvent()
+                {
+                }
+            );
+            player.TakeDamage(10);
         }
     }
 }

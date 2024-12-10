@@ -17,6 +17,7 @@ public class Boss_Attack1 : StateMachineBehaviour
     // OnStateUpdate is called on each Update frame between OnStateEnter and OnStateExit callbacks
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
+        _boss.LookAtPLayer();
         _boss.Move(Vector2.zero);
 
         if (!_boss.IsWithInStrikingDistance)

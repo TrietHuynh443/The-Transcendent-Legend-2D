@@ -99,7 +99,7 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public override void TakeDamage(float damage)
     {   
         Debug.Log("Current Health: " + CurrentHealth);
-        Animator.SetTrigger("OnHit");
+        Animator.Play("OnHit");
         CurrentHealth -= damage;
         if (CurrentHealth <= 0f)
         {

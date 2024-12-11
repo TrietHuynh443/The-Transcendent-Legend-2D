@@ -13,7 +13,7 @@ public class Stats : MonoBehaviour
     private float _maxHealth => _playerDataSO.OriginalStats.Health;
     
     private float _currentHealth => _playerDataSO.CurrentStats.Health;
-    PlayerDataSO _playerDataSO;
+    [SerializeField] PlayerDataSO _playerDataSO;
     
     // Start is called before the first frame update
     void Start()

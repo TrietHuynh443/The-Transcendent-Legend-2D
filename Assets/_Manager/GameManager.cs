@@ -49,6 +49,7 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
         EventAggregator.Unregister<StartGameEvent>(this);
     }
 
+
     private IEnumerator PlayMainThemeMusic()
     {
         var loadOperation = Resources.LoadAsync<AudioClip>(ResourcesRoute.MainThemePath);

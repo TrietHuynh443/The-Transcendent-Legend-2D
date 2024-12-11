@@ -246,6 +246,7 @@ MonoBehaviour:
   _bulletExpodeSFX: {fileID: 8300000, guid: 9c286bbae7ff9a0448a792a0e916c471, type: 3}
   _monster4GrowlSFX: {fileID: 8300000, guid: f1a782bff3f2e9a4d9c0f1b1e88248d9, type: 3}
   _monster4OnHitSFX: {fileID: 8300000, guid: a76b306d7ecb0374a998c192b027dbdd, type: 3}
+  _bossGrowlSFX: {fileID: 8300000, guid: b194bcad8590e104aa99e7a1d328582a, type: 3}
   _musicVolume: 0.072
   _sfxVolume: 1
   _maxSfxPoolSize: 20

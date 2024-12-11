@@ -1,13 +1,15 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using GameEvent;
+
 // using System.Numerics;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
+public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable, IGameEventListener<PlayerDieEvent>
 {
-    [SerializeField] public float MaxHealth { get; set; } = 100f;
+    [SerializeField] public float MaxHealth { get; set; } = 200f;
 
     LayerMask _playerLayer;
     public Transform PlayerTransform;
@@ -111,6 +113,7 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
     {
         Rigidbody = GetComponent<Rigidbody2D>();
         Animator = GetComponent<Animator>();
+        PlayerTransform = GameObject.FindGameObjectWithTag("Player").transform;
         CurrentHealth = MaxHealth;
         _playerLayer = LayerMask.NameToLayer("Player");
         GameObject[] allObjects = FindObjectsOfType<GameObject>();
@@ -125,6 +128,11 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     }
 
+    void OnEnable()
+    {
+        SoundManager.Instance.PlayBossGrowlSFX();
+    }
+
     void Update()
     {
         // Get mouse click event
@@ -133,6 +141,12 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable
         //     TakeDamage(10f);
         // }
     }
+
+    public void Handle(PlayerDieEvent @event)
+    {
+        Animator.Play("Die");
+    }
+    
 
     // void IdleStateHandle()
     // {

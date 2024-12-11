@@ -25,7 +25,7 @@ public class SoundManager: UnitySingleton<SoundManager>,
     [Header("SFX Enemy")]
     [SerializeField] private AudioClip _monster4GrowlSFX;
     [SerializeField] private AudioClip _monster4OnHitSFX;
-    
+    [SerializeField] private AudioClip _bossGrowlSFX;
     [Header("Audio Sources")]
     private AudioSource _musicSource;
     private AudioSource _sfxSource;
@@ -159,6 +159,12 @@ public class SoundManager: UnitySingleton<SoundManager>,
     {
         PlaySfx(_monster4GrowlSFX);
     }
+
+    public void PlayBossGrowlSFX()
+    {
+        PlaySfx(_bossGrowlSFX);
+    }
+
 
     public void PlayMonster4OnHitSFX()
     {

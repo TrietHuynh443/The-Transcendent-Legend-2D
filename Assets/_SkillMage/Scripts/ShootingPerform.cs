@@ -2,6 +2,8 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using DG.Tweening;
 
 public class ShootingPerform : MonoBehaviour
 {
@@ -10,6 +12,8 @@ public class ShootingPerform : MonoBehaviour
 
     [SerializeField] private GameObject _objectShootingPrefab;
 
+    [SerializeField] private Image _cooldownUI;
+
     private Queue<GameObject> _objectsShootingPool = new();
     private Rigidbody2D _objectShootingBody;
 
@@ -17,12 +21,15 @@ public class ShootingPerform : MonoBehaviour
     private Action _shoot;
     private bool _isShooting;
     private Animator _animator;
+    private float _coolDown = 7f;
+    private float _startSkillTime;
 
     private void OnEnable()
     {
         _animator = GetComponent<Animator>();
         _objectsShootingPool.Enqueue(SpawnShootingObject());
         _shoot += Shooting;
+        _startSkillTime = float.MinValue;
 
     }
 
@@ -35,8 +42,11 @@ public class ShootingPerform : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Q) && !_isShooting){
+        if(Input.GetKeyDown(KeyCode.Q) && !_isShooting && (Time.time - _startSkillTime) >= _coolDown){
             _isShooting = true;
+            _startSkillTime = Time.time;
+            _cooldownUI.fillAmount = 1;
+            _cooldownUI.DOFillAmount(0, _coolDown);
             EventAggregator.RaiseEvent<PlayerSkillEvent>(new PlayerSkillEvent(){Type=PlayerSkillType.Toxic});
             _animator.Play("Attack", 0);
         }

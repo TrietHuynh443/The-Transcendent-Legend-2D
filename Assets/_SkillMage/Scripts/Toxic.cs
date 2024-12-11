@@ -50,7 +50,7 @@ public class Toxic : MonoBehaviour, IBaseSkill
     }
 
     // Start is called before the first frame update
-    private void OnEnable()
+    private void Start()
     {
         _vfx = transform.GetComponentInChildren<ParticleSystem>();
         if (_vfx != null)
@@ -60,6 +60,8 @@ public class Toxic : MonoBehaviour, IBaseSkill
         }
         _animator = GetComponent<Animator>();
         _rigidbody = GetComponent<Rigidbody2D>();
+        SetData();
+
     }
 
     public void SetData()
@@ -72,7 +74,6 @@ public class Toxic : MonoBehaviour, IBaseSkill
         {
             _skillData = (SkillData)res[0];
         }
-        Debug.Log(_skillData.Name);
     }
 
     public void Hit(BaseEntity entity)
@@ -89,13 +90,8 @@ public class Toxic : MonoBehaviour, IBaseSkill
 
     public void EndSkill()
     {
-        transform.parent.gameObject.SetActive(false);
         _animator.SetBool("IsExplode", false);
-    }
-
-    private void Start()
-    {
-        SetData();
+        transform.parent.gameObject.SetActive(false);
     }
 
     public void Hit()

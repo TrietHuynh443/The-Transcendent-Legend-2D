@@ -459,7 +459,7 @@ MonoBehaviour:
   PlayerTransform: {fileID: 0}
   MoveRange: 3
   MoveSpeed: 1
-  _health: 2
+  _health: 10
   _healthBar: {fileID: 8652960605312529968}
 --- !u!50 &4493503714189153705
 Rigidbody2D:

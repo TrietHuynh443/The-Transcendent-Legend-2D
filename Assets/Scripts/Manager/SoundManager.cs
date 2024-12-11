@@ -9,7 +9,8 @@ public class SoundManager: UnitySingleton<SoundManager>,
                             IGameEventListener<PlayerJumpEvent>,
                             IGameEventListener<PlayerDieEvent>,
                             IGameEventListener<PlayerSkillEvent>,
-                            IGameEventListener<OnHitEvent>
+                            IGameEventListener<OnHitEvent>,
+                            IGameEventListener<ExplodeSoundRaiseEvent>
                             
 {
     [Header("SFX")]
@@ -19,7 +20,11 @@ public class SoundManager: UnitySingleton<SoundManager>,
     [SerializeField] private AudioClip _playerJumpOneSFX;
     [SerializeField] private AudioClip _playerJumpTwoSFX;
     [SerializeField] private AudioClip _playerPerformSkillSFX;
+    [SerializeField] private AudioClip _bulletExpodeSFX;
 
+    [Header("SFX Enemy")]
+    [SerializeField] private AudioClip _monster4GrowlSFX;
+    [SerializeField] private AudioClip _monster4OnHitSFX;
     
     [Header("Audio Sources")]
     private AudioSource _musicSource;
@@ -51,6 +56,8 @@ public class SoundManager: UnitySingleton<SoundManager>,
         EventAggregator.Register<PlayerJumpEvent>(this);
         EventAggregator.Register<PlayerDieEvent>(this);
         EventAggregator.Register<PlayerSkillEvent>(this);
+        EventAggregator.Register<ExplodeSoundRaiseEvent>(this);
+        EventAggregator.Register<OnHitEvent>(this);
     }
 
     protected override void SingletonOnDestroy()
@@ -60,6 +67,8 @@ public class SoundManager: UnitySingleton<SoundManager>,
         EventAggregator.Unregister<PlayerJumpEvent>(this);
         EventAggregator.Unregister<PlayerDieEvent>(this);
         EventAggregator.Unregister<PlayerSkillEvent>(this);
+        EventAggregator.Unregister<ExplodeSoundRaiseEvent>(this);
+        EventAggregator.Unregister<OnHitEvent>(this);
     }
 
     public void PlaySfx(AudioClip audio)
@@ -138,6 +147,21 @@ public class SoundManager: UnitySingleton<SoundManager>,
 
     public void Handle(OnHitEvent @event)
     {
-        
+        PlaySfx(_playerOnHitSFX);
+    }
+
+    public void Handle(ExplodeSoundRaiseEvent @event)
+    {
+        PlaySfx(_bulletExpodeSFX);
+    }
+
+    public void PlayMonster4GrowlSFX()
+    {
+        PlaySfx(_monster4GrowlSFX);
+    }
+
+    public void PlayMonster4OnHitSFX()
+    {
+        PlaySfx(_monster4OnHitSFX);
     }
 }

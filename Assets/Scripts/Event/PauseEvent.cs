@@ -5,10 +5,22 @@ using UnityEngine;
 public class PauseEvent 
 {
     public static bool IsPaused;
-    public void Pause()
+    
+    public void TogglePause()
     {
         IsPaused = !IsPaused;
         Time.timeScale = IsPaused ? 0 : 1;
+    }
+    public void Pause()
+    {
+        IsPaused = true;
+        Time.timeScale = 0;
+    }
+
+    public void Resume()
+    {
+        IsPaused = false;
+        Time.timeScale = 1;
     }
 
 

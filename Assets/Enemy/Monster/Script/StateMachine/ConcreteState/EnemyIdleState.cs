@@ -18,7 +18,7 @@ public class EnemyIdleState : EnemyState
     {
         base.EnterState();
 
-        _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0);
+        // _targetPoint = enemy.transform.position + new Vector3(-enemy.MoveRange, 0, 0);
         // Debug.Log(_targetPoint);
     }
 
@@ -31,6 +31,11 @@ public class EnemyIdleState : EnemyState
     {
         base.FrameUpdate();
 
+    }
+
+    public override void PhysicsUpdate()
+    {
+        base.PhysicsUpdate();
         if (enemy.IsAggroed)
         {
             // Debug.Log("Hello from Idle to Move");
@@ -41,12 +46,6 @@ public class EnemyIdleState : EnemyState
             animator.Play("Move", 0, 0);
 
         }
-
         enemy.IdleStateHandle();
-    }
-
-    public override void PhysicsUpdate()
-    {
-        base.PhysicsUpdate();
     }
 }

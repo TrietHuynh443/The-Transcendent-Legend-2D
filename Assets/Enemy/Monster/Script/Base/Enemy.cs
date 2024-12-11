@@ -16,7 +16,9 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     [SerializeField] protected float _coolDown = 1f;
     protected bool _isAttackCoolDown = false;
 
-    [SerializeField] public Transform PlayerTransform;
+    [HideInInspector] public Transform PlayerTransform;
+    protected GameObject _target;
+
     public float CurrentHealth { get; set; }
     public Rigidbody2D Rigidbody { get; set; }
 
@@ -29,9 +31,9 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     protected EnemyType type = EnemyType.OnGrounded;
     #region IdleVariable
-    [SerializeField] public float MoveRange = 5f;
-    [SerializeField] public float MoveSpeed = 1f;
-    private bool _onHit = false;
+    public float MoveRange = 5f;
+    [SerializeField] protected float MoveSpeed = 1f;
+    protected bool _onHit = false;
     protected bool _isStuck = false;
     private bool _isGrounded;
 
@@ -72,7 +74,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
         AnimatorStateInfo currentState = animator.GetCurrentAnimatorStateInfo(0);
         if (!_onHit)
         {
-            animator.Play("OnHit");
+            animator.Play("OnHit", 0, 0);
             StartCoroutine(ReturnToPreviousState(currentState));
         }
     }
@@ -83,8 +85,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
             Debug.LogWarning("Animator not assigned!");
             return;
         }
-
-        animator.Play("Die");
+        animator.SetTrigger("Die");
 
     }
     private IEnumerator ReturnToPreviousState(AnimatorStateInfo previousState)
@@ -113,7 +114,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     #region Animation Trigger Events
 
-    private void AnimationTriggerEvent(AnimationTriggerType triggerType)
+    public void AnimationTriggerEvent(AnimationTriggerType triggerType)
     {
         EnemyStateMachine.CurrentState.AnimationTriggerEvent(triggerType);
     }
@@ -196,7 +197,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
     public void TurnBack()
     {
-        transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(
+        Rigidbody.transform.SetPositionAndRotation(transform.position, Quaternion.Euler(new Vector3(
                                                                                     transform.rotation.eulerAngles.x,
                                                                                     transform.rotation.eulerAngles.y + 180,
                                                                                     transform.rotation.eulerAngles.z
@@ -207,5 +208,11 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     public void SelfDestroy()
     {
         Destroy(gameObject);
+    }
+
+    public void SetTarget(GameObject gameObject)
+    {
+        PlayerTransform = gameObject.transform;
+        _target = gameObject;
     }
 }

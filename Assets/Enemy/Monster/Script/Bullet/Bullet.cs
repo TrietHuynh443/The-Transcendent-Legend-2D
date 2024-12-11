@@ -14,6 +14,8 @@ public class Bullet : MonoBehaviour
 
     // private float _lifetime = 5f;
 
+    [SerializeField] private float _damage = 4f;
+
     public void Initialize()
     {
         _bulletCollider = GetComponent<BoxCollider2D>();
@@ -33,13 +35,12 @@ public class Bullet : MonoBehaviour
         {
             // Debug.Log("Hi from Explde!!");
             _rb.velocity = Vector2.zero;
-
+            collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
             if (_animator != null)
             {
-               
                 // Debug.Log("Explode!!!");
                 _animator.Play("BulletExplode", 0, 0);
-
+                EventAggregator.RaiseEvent<ExplodeSoundRaiseEvent>(new ExplodeSoundRaiseEvent());
                 float time = _animator.GetCurrentAnimatorStateInfo(0).length;
 
                 Invoke(nameof(EnqueueBullet), time);

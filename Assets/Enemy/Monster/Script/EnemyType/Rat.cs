@@ -29,12 +29,21 @@ public class Rat : Enemy
     }
     public override void TakeDamage(float damage)
     {
-        PlayGetHitAnimation();
         _health -= damage;
         if (_health <= 0f)
         {
-            _isDead = true;
+            StartCoroutine(MakeSmoothDie());
         }
+        else
+        {
+            PlayGetHitAnimation();
+        }
+    }
+
+    private IEnumerator MakeSmoothDie()
+    {
+        yield return new WaitForSeconds(0.5f);
+        _isDead = true;
     }
 
     public void OnAnimationAttackTrigger()

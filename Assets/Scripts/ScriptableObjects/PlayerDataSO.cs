@@ -83,7 +83,7 @@ public class PlayerDataSO : ScriptableObject
         {
             EventAggregator.RaiseEvent(new PlayerDieEvent
             {
-                DieAnimationTime = 2f
+                DieAnimationTime = 1f
             });
         }
     }

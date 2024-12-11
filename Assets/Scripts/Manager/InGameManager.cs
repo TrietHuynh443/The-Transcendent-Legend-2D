@@ -7,7 +7,8 @@ public class InGameManager : UnitySingleton<InGameManager>,
     IGameEventListener<PlayerDieEvent>,
     IGameEventListener<PauseEvent>,
     IGameEventListener<RespawnEvent>,
-    IGameEventListener<QuitToMenuEvent>
+    IGameEventListener<QuitToMenuEvent>,
+    IGameEventListener<ResumeEvent>
 
 {
     [SerializeField] private GameObject _gameOverUIPrefab;
@@ -20,12 +21,14 @@ public class InGameManager : UnitySingleton<InGameManager>,
     private GameObject _outGameUIParent;
     private GameObject _mainMenuUI;
     private GameObject _player;
+    
 
-    public GameObject Player {
+    public GameObject Player
+    {
         get => _player;
         set => _player = value;
     }
-    
+
     public void Handle(PlayerDieEvent @event)
     {
         StartCoroutine(CheckDieAnimationFinished(@event));
@@ -34,25 +37,24 @@ public class InGameManager : UnitySingleton<InGameManager>,
     private IEnumerator CheckDieAnimationFinished(PlayerDieEvent @event)
     {
         yield return new WaitForSeconds(@event.DieAnimationTime);
-        if (_gameOverUI == null)
-        {
-            _gameOverUI = Instantiate(_gameOverUIPrefab, GetOutGameUIHolder().transform);
-            // DontDestroyOnLoad(_gameOverUI);
-        }
-
-        _gameOverUI.SetActive(true);
+        GetGameOverUI().SetActive(true);
     }
 
     public void Handle(PauseEvent @event)
     {
-        if (_gamePauseUI == null)
+        if (GetGameOverUI().activeSelf)
         {
-            _gamePauseUI = Instantiate(_gamePauseUIPrefab, GetOutGameUIHolder().transform);
-            // DontDestroyOnLoad(_gamePauseUI);
+            _gameOverUI.SetActive(false);
+            return;
+        }
+
+        if (GetMainMenuUI().activeSelf)
+        {
+            return; //Don't show pause menu (on ESC button) when showing main menu
         }
 
         @event.Pause();
-        _gamePauseUI.SetActive(PauseEvent.IsPaused);
+        GetGamePauseUI().SetActive(true);
     }
 
     protected override void SingletonStarted()
@@ -62,8 +64,30 @@ public class InGameManager : UnitySingleton<InGameManager>,
         EventAggregator.Register<PauseEvent>(this);
         EventAggregator.Register<RespawnEvent>(this);
         EventAggregator.Register<QuitToMenuEvent>(this);
-        GetMainMenuUI().gameObject.SetActive(false); //spawn UI
-        GetOutGameUIHolder().gameObject.SetActive(false); //spawn UI
+        EventAggregator.Register<ResumeEvent>(this);
+        GetMainMenuUI();//.gameObject.SetActive(false); //spawn UI
+        GetOutGameUIHolder();//.gameObject.SetActive(false); //spawn UI
+    }
+
+    private GameObject GetGameOverUI()
+    {
+        if (_gameOverUI == null)
+        {
+            _gameOverUI = Instantiate(_gameOverUIPrefab, GetOutGameUIHolder().transform);
+            // DontDestroyOnLoad(_gameOverUI);
+        }
+        return _gameOverUI;
+    }
+
+    private GameObject GetGamePauseUI()
+    {
+        if (_gamePauseUI == null)
+        {
+            _gamePauseUI = Instantiate(_gamePauseUIPrefab, GetOutGameUIHolder().transform);
+            // DontDestroyOnLoad(_gamePauseUI);
+        }
+
+        return _gamePauseUI;
     }
 
     private GameObject GetOutGameUIHolder()
@@ -86,7 +110,7 @@ public class InGameManager : UnitySingleton<InGameManager>,
             DontDestroyOnLoad(_mainMenuUI);
         }
 
-        _mainMenuUI.SetActive(true);
+        // _mainMenuUI.SetActive(true);
         return _mainMenuUI;
     }
 
@@ -96,19 +120,30 @@ public class InGameManager : UnitySingleton<InGameManager>,
     // }
     public void Handle(RespawnEvent @event)
     {
-        _gameOverUI.SetActive(false);
+        GetGameOverUI().SetActive(false);
         if (_player != null)
         {
-            _player.GetComponent<Animator>().enabled = false;
             _player.SetActive(true);
-            _player.GetComponent<Animator>().enabled = true;
-
-        };
+        }
     }
 
     public void Handle(QuitToMenuEvent @event)
     {
-        GetMainMenuUI().gameObject.SetActive(true);
-        GetOutGameUIHolder().gameObject.SetActive(false);
+        GetMainMenuUI().SetActive(true);
+        GetGameOverUI().SetActive(false);
+        GetGamePauseUI().SetActive(false);
+
+        PauseEvent pauseEvent = new PauseEvent();
+        pauseEvent.Resume();
+    }
+
+    public void Handle(ResumeEvent @event)
+    {
+        GetMainMenuUI().SetActive(false);
+        GetGameOverUI().SetActive(false);
+        GetGamePauseUI().SetActive(false);
+
+        PauseEvent pauseEvent = new PauseEvent();
+        pauseEvent.Resume();
     }
 }

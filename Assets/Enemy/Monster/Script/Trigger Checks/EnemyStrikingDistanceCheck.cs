@@ -8,7 +8,7 @@ public class EnemyStrikingDistanceCheck : MonoBehaviour
 
     private void Awake()
     {
-        _enemy = GetComponentInParent<Enemy>();
+        _enemy = GetComponentInParent<ITriggerCheckable>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

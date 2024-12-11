@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class EnemyAttackState : EnemyState {
     // private UnityEngine.Transform _playerTransform;
-    private float _timer;
+    private float _timer = 0;
     [SerializeField] public bool IsFacingRight { get; set; } = false;
 
     private float _bulletSpeed = 10f;

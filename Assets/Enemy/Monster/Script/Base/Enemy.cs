@@ -163,6 +163,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
         );
         _isStuck = hitRight.collider != null;
         _isGrounded = hitDown.collider != null;
+        
     }
 
     protected virtual void FixedUpdate()
@@ -186,6 +187,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
 
         Rigidbody = GetComponent<Rigidbody2D>();
 
+        // Debug.Log("Hello from Enemy Start");
         EnemyStateMachine.Initialize(IdleState);
     }
 

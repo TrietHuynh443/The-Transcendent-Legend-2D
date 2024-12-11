@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class Monster4 : Enemy
 {
-    private float _chaseSpeed = 3f;
+    [SerializeField] private float _chaseSpeed = 3f;
+    [SerializeField] private float _timerBetweenShots = 1.5f;
+    [SerializeField] private float _bulletSpeed = 10f;
     private bool _isFacingRight = false;
     private bool _needTurnBack = false;
     private Vector3 _targetPoint;
@@ -65,7 +67,6 @@ public class Monster4 : Enemy
     public override void AttackStateHandle(ref float timer)
     {
         if(_target == null) return;
-
         Move(Vector2.zero);
         var targetPoint = _target.transform.position;
         targetPoint.y = transform.position.y;
@@ -83,6 +84,7 @@ public class Monster4 : Enemy
         }
         else if ((Time.time - _startAttackTime) > _coolDown)
         {
+
             animator.Play("Attack");
             _startAttackTime = Time.time;
             //Handle in animation
@@ -108,9 +110,21 @@ public class Monster4 : Enemy
         }
     }
 
+    private void ShootBullet()
+    {
+        Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
+        Vector2 dir = (PlayerTransform.position - transform.position).normalized;
+        instance.gameObject.SetActive(true);
+        Collider2D collider = instance.gameObject.GetComponent<Collider2D>();
+        collider.enabled = true;
+        instance.Initialize();
+        instance.transform.position = transform.position;
+        instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
+    }
+
+
     public override void DieStateHandle()
     {
-        // throw new System.NotImplementedException();
     }
 
     public override void CheckForLeftOrRightFacing(Vector2 velocity)

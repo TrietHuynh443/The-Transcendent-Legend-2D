@@ -96,6 +96,10 @@ public class Boss : BaseEntity, IEnemyMoveable, ITriggerCheckable, IGameEventLis
     {
         yield return new WaitForSeconds(Animator.GetCurrentAnimatorStateInfo(0).length + 2f);
         Destroy(gameObject);
+        EventAggregator.RaiseEvent<QuitToMenuEvent>(new QuitToMenuEvent()
+        {
+            
+        });
     }
 
     public override void TakeDamage(float damage)

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics.Tracing;
+using Achievement;
 using DG.Tweening;
 using GameEvent;
 using Player.PlayerProperties;
@@ -10,7 +11,9 @@ using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>, IGameEventListener<OnHitEvent>, IGameEventListener<RespawnEvent>
+public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>,
+    IGameEventListener<PassCheckpointEvent>, IGameEventListener<OnHitEvent>, IGameEventListener<RespawnEvent>,
+    IGameEventListener<AchievementSastifaction>
 {
     [SerializeField]
     private float _onJumpGravityScale = 3f;
@@ -73,6 +76,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         EventAggregator.Register<PassCheckpointEvent>(this);
         EventAggregator.Register<OnHitEvent>(this);
         EventAggregator.Register<RespawnEvent>(this);
+        EventAggregator.Register<AchievementSastifaction>(this);
     }
     private void Start()
     {
@@ -96,6 +100,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         EventAggregator.Unregister<PassCheckpointEvent>(this);
         EventAggregator.Unregister<OnHitEvent>(this);
         EventAggregator.Unregister<RespawnEvent>(this);
+        EventAggregator.Unregister<AchievementSastifaction>(this);
     }
     public void Reset()
     {
@@ -271,6 +276,11 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         }
         else
             _rigidbody.velocity = newVelocity;
+        
+        EventAggregator.RaiseEvent<JumpAchievementProgress>(new JumpAchievementProgress()
+        {
+            Count = 1,
+        });
     }
 
     public void ResetJump()
@@ -341,5 +351,15 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     {
         yield return new WaitForSeconds(0.15f);
         _isHit = false;
+    }
+
+    public void Handle(AchievementSastifaction @event)
+    {
+        EAchievementType type = @event.Type;
+        if (!_playerDataSO.HasAchievement((int)type))
+        {
+            _playerDataSO.AddAchievement((int)type);
+            GameManager.Instance.DisplayAchievement(type);
+        }
     }
 }

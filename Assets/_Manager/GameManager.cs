@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using Achievement;
 using Factory;
+using GameEvent;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -14,6 +16,7 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
     // private GameEventManager _gameEventManagerInstance;
     private SoundManager _soundManager;
     private LevelManager _levelManager;
+    private AchievementManager _achievementManager;
     [SerializeField] private GameObject _testEnemyPrefab;
     private Dictionary<EnemyType, BaseEnemy> _enemyMap;
 
@@ -25,6 +28,7 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
     {
         // PlayerPrefs.SetInt("IsPlayerInit", -1);
         _levelManager = LevelManager.Instance;
+        _achievementManager = AchievementManager.Instance;
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
         routes = GetComponentInChildren<ResourcesRoute>();
@@ -136,5 +140,15 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
         }
 
         SceneManager.LoadScene(name, LoadSceneMode.Single);
+    }
+
+    public void DisplayAchievement(EAchievementType type)
+    {
+        AchievementData data = _achievementManager.GetAchievementData(type);
+        EventAggregator.RaiseEvent<DisplayAchievement>(new DisplayAchievement()
+        {
+            Type = type,
+            Data = data,
+        });
     }
 }

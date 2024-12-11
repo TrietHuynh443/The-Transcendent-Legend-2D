@@ -87,7 +87,7 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
 
         playerQuickRespawnData = ScriptableObject.CreateInstance<SceneSaveDataSO>();
         playerQuickRespawnData.SceneName = SceneManager.GetActiveScene().name;
-        playerQuickRespawnData.CheckPointPos = new Vector3(transform.position.x, transform.position.y + 0.5f);
+        playerQuickRespawnData.CheckPointPos = pos;
     }
 
     public void RespawnPlayer(SceneSaveDataSO checkpointData, PlayerController playerController)

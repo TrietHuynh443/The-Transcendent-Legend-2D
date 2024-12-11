@@ -79,7 +79,10 @@ public class PlayerDataSO : ScriptableObject
         Debug.Log($"Player: {_currentStats.Health}");
         if(_currentStats.Health < 0)
         {
-            EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent());
+            EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent()
+            {
+                DieAnimationTime = 2f
+            });
         }
     }
 

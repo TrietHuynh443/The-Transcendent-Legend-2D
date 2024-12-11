@@ -6,6 +6,6 @@ namespace GameEvent
 {
     public class PlayerDieEvent
     {
-
+        public float DieAnimationTime = 2f;
     }
 }

@@ -730,7 +730,7 @@ Transform:
   m_GameObject: {fileID: 211524938}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -13.7165, y: -0.6736252, z: -10}
+  m_LocalPosition: {x: -13.7165, y: -0.67362523, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -12978,23 +12978,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2405336426576195145, guid: cae78a252c734bb4d864ff22f0e1d6cc, type: 3}
   m_PrefabInstance: {fileID: 6397336748210318557}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &702253526 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1356973739618250716, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
-  m_PrefabInstance: {fileID: 2620287869736309860}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &702253530
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 702253526}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
 --- !u!1001 &713670616
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13206,7 +13189,7 @@ Transform:
   m_GameObject: {fileID: 721118917}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.708562, y: -0.023039997, z: -10}
+  m_LocalPosition: {x: -2.710041, y: -0.023039997, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -15295,6 +15278,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: UIStartMenu
       objectReference: {fileID: 0}
+    - target: {fileID: 2891500790467809909, guid: 097d5dfd1ecfdf94b9000c89e86b4110, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8926035136266721860, guid: 097d5dfd1ecfdf94b9000c89e86b4110, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -16735,6 +16722,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1213315719}
     m_Modifications:
+    - target: {fileID: 344939971492968834, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1356973739618250716, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
       propertyPath: m_Name
       value: InGame UI
@@ -16742,10 +16733,6 @@ PrefabInstance:
     - target: {fileID: 1356973739618250716, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
       propertyPath: m_IsActive
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2678466012865469843, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
-      propertyPath: m_VertexColorAlwaysGammaSpace
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3302124922807766005, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
       propertyPath: m_IsActive
@@ -16835,10 +16822,7 @@ PrefabInstance:
     m_RemovedGameObjects:
     - {fileID: 3302124922807766005, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1356973739618250716, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 702253530}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 005a78c5a5df8fd45b2bbcb0cbb9bf77, type: 3}
 --- !u!1001 &3255911492809457754
 PrefabInstance:
@@ -17197,6 +17181,10 @@ PrefabInstance:
     - target: {fileID: 8682324778788910125, guid: 3a6a5ce8b46219d4086c5e5a0953b363, type: 3}
       propertyPath: m_Name
       value: Level Bound
+      objectReference: {fileID: 0}
+    - target: {fileID: 8726662861876393919, guid: 3a6a5ce8b46219d4086c5e5a0953b363, type: 3}
+      propertyPath: _voidDamage
+      value: 1000
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

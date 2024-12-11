@@ -2,24 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stats : MonoBehaviour
+public class BossHealth : MonoBehaviour
 {
-    private RectTransform healthBarTransform;
+   private RectTransform healthBarTransform;
     
     
     private int maxHealthImgWidth;
     private int minHealthImgWidth = 0;
     
-    private float _maxHealth => _playerDataSO.OriginalStats.Health;
+    public Boss boss;
+    private float _maxHealth => boss.MaxHealth;
     
-    private float _currentHealth => _playerDataSO.CurrentStats.Health;
-    [SerializeField] PlayerDataSO _playerDataSO;
-    
-    // Start is called before the first frame update
+    private float _currentHealth => boss.CurrentHealth;
+
     void Start()
     {
-        _playerDataSO = ResourcesRoute.Instance.PlayerDataSO;
-        healthBarTransform = transform.Find("Health Bar").gameObject.GetComponent<RectTransform>();
+        healthBarTransform = transform.Find("Boss Health Bar").gameObject.GetComponent<RectTransform>();
         maxHealthImgWidth = (int)healthBarTransform.rect.width;
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class GamePoolerManager : MonoBehaviour
 {
-    public Bullet BulletPrefabs;
+    public BulletBase BulletPrefabs;
     private void Awake()
     {
         SetupPool();

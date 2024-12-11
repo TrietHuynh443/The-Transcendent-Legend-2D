@@ -1,38 +1,30 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 
-public class Bullet : BulletBase
+public class Sword : BulletBase
 {
-    [SerializeField] private float _damage = 4f;
-
     public override void Initialize()
     {
-        _bulletCollider = GetComponent<BoxCollider2D>();
-        _animator = GetComponent<Animator>();
-        _rb = GetComponent<Rigidbody2D>();
+        base.Initialize();
+        damage = 10;
     }
-
-    protected override void OnBecameInvisible()
-    {
-        // Destroy the object when it goes out of the camera's view
-        ObjectPooler.EnqueueObject(this, "Bullet");
-    }
-
     protected override void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.name == "Player")
+        if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
         {
+            collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);
+
             // Debug.Log("Hi from Explde!!");
             _rb.velocity = Vector2.zero;
-            collision.gameObject.GetComponent<PlayerController>().TakeDamage(_damage);
+
             if (_animator != null)
             {
+
                 // Debug.Log("Explode!!!");
-                _animator.Play("BulletExplode", 0, 0);
-                EventAggregator.RaiseEvent<ExplodeSoundRaiseEvent>(new ExplodeSoundRaiseEvent());
+                _animator.Play("BulletExplode", 0   , 0);
+
                 float time = _animator.GetCurrentAnimatorStateInfo(0).length;
 
                 Invoke(nameof(EnqueueBullet), time);
@@ -50,6 +42,13 @@ public class Bullet : BulletBase
 
         }
     }
+
+    protected override void OnBecameInvisible()
+    {
+        // Destroy the object when it goes out of the camera's view
+        ObjectPooler.EnqueueObject(this, "Bullet");
+    }
+
 
     protected override void EnqueueBullet()
     {

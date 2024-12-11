@@ -33,7 +33,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     #region IdleVariable
     public float MoveRange = 5f;
     [SerializeField] protected float MoveSpeed = 1f;
-    private bool _onHit = false;
+    protected bool _onHit = false;
     protected bool _isStuck = false;
     private bool _isGrounded;
 
@@ -85,8 +85,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
             Debug.LogWarning("Animator not assigned!");
             return;
         }
-
-        animator.Play("Die");
+        animator.SetTrigger("Die");
 
     }
     private IEnumerator ReturnToPreviousState(AnimatorStateInfo previousState)

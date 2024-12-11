@@ -21,6 +21,7 @@ public class Monster4 : Enemy
     private float _timeTillExit = 3f;
     private float _distanceToCountExit = 3f;
     [SerializeField] private float _health = 5f;
+    private bool _isFirstAttackTime = true;
 
     protected override void Start()
     {
@@ -47,7 +48,17 @@ public class Monster4 : Enemy
     {
         if(_target == null) return;
         Vector2 moveDirection = (_target.transform.position - transform.position).normalized;
+        var targetPoint = _target.transform.position;
 
+        targetPoint.y = transform.position.y;
+        targetPoint.z = 0;
+        Vector2 direction = (targetPoint - transform.position).normalized;
+        // Calculate the angle in degrees
+        float angle = Vector2.Angle(transform.right, direction);
+        if (Mathf.Abs(angle) > 0) // Check absolute value for both left and right cases
+        {
+            _needTurnBack = true;
+        }
         Move(moveDirection * _chaseSpeed);
     }
 
@@ -77,35 +88,22 @@ public class Monster4 : Enemy
         targetPoint.y = transform.position.y;
         targetPoint.z = 0;
         Vector2 direction = (targetPoint - transform.position).normalized;
-        // Calculate the angle in degrees
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (Mathf.Abs(angle) < 0) // Check absolute value for both left and right cases
+        float angle = Vector2.Angle(transform.right, direction);
+        if (Mathf.Abs(angle) > 0) // Check absolute value for both left and right cases
         {
             _needTurnBack = true;
         }
-
-        if ((Time.time - _startAttackTime) > _coolDown)
+        if(_isFirstAttackTime)
         {
+            _isFirstAttackTime = false;
+            _startAttackTime = Time.time;
+        }
+        else if ((Time.time - _startAttackTime) > _coolDown)
+        {
+            SoundManager.Instance.PlayMonster4GrowlSFX();
             animator.Play("Attack",0 ,0);
             _startAttackTime = Time.time;
-
-            Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
-
-            Vector2 dir = (_target.transform.position - transform.position).normalized;
-
-            instance.gameObject.SetActive(true);
-
-            Collider2D collider = instance.gameObject.GetComponent<Collider2D>();
-
-            // collider.enabled = false;
-
-            collider.enabled = true;
-
-            instance.Initialize();
-
-            instance.transform.position = transform.position;
-
-            instance.GetComponent<Rigidbody2D>().velocity = dir * _bulletSpeed;
+            //Handle in animation
         }
     }
 
@@ -162,11 +160,15 @@ public class Monster4 : Enemy
 
     public override void TakeDamage(float damage)
     {
-        PlayGetHitAnimation();
         _health -= damage;
-        if (_health <= 0)
+        if (_health <= 0f)
         {
+            
             _isDead = true;
+        }
+        else
+        {
+            PlayGetHitAnimation();
         }
     }
 
@@ -178,6 +180,7 @@ public class Monster4 : Enemy
 
     private void OnCollisionStay2D(Collision2D other) 
     {
+        if(_isDead || _onHit) return;
         if (other.gameObject.layer == LayerMask.NameToLayer("Ground") && EnemyStateMachine.CurrentState != IdleState)
         {
             Debug.Log("stuck ground");

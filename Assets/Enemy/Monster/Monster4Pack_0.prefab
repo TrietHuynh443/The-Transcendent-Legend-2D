@@ -225,7 +225,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7e7cb4dff103874b816fe1508fd3d5e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _coolDown: 1.2
+  _coolDown: 2
   PlayerTransform: {fileID: 0}
   MoveRange: 3
   MoveSpeed: 1

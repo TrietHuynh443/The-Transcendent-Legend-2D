@@ -158,7 +158,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
         RaycastHit2D hitRight = Physics2D.Raycast(
             transform.position,
             transform.right,
-            1f,
+            1.5f,
             LayerMask.GetMask("Ground")
         );
         _isStuck = hitRight.collider != null;

@@ -66,23 +66,6 @@ public class Monster4 : Enemy
     {
         if(_target == null) return;
 
-        if (Vector2.Distance(_target.transform.position, transform.position) > _distanceToCountExit)
-        {
-            _exitTimer += Time.deltaTime;
-
-            if (_exitTimer > _timeTillExit)
-            {
-                EnemyStateMachine.ChangeState(MoveState);
-
-                Animator animator = GetComponent<Animator>();
-
-                animator.Play("Move", 0, 0);
-            }
-        }
-        else
-        {
-            _exitTimer = 0f;
-        }
         Move(Vector2.zero);
         var targetPoint = _target.transform.position;
         targetPoint.y = transform.position.y;
@@ -100,10 +83,28 @@ public class Monster4 : Enemy
         }
         else if ((Time.time - _startAttackTime) > _coolDown)
         {
-            SoundManager.Instance.PlayMonster4GrowlSFX();
-            animator.Play("Attack",0 ,0);
+            animator.Play("Attack");
             _startAttackTime = Time.time;
             //Handle in animation
+        }
+
+        if (Vector2.Distance(_target.transform.position, transform.position) > _distanceToCountExit)
+        {
+            _exitTimer += Time.deltaTime;
+
+            if (_exitTimer > _timeTillExit)
+            {
+                EnemyStateMachine.ChangeState(MoveState);
+
+                Animator animator = GetComponent<Animator>();
+
+                animator.Play("Move", 0, 0);
+                _isFirstAttackTime = true;
+            }
+        }
+        else
+        {
+            _exitTimer = 0f;
         }
     }
 

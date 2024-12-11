@@ -6743,6 +6743,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6869400828777821063, guid: a61d96374fec1274ebd096b286f81cde, type: 3}
+      propertyPath: _monster4GrowlSFX
+      value: 
+      objectReference: {fileID: 8300000, guid: f1a782bff3f2e9a4d9c0f1b1e88248d9, type: 3}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -72655,6 +72659,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2448592562059712849, guid: b5d6536a698e0a040a6cf1d646e55165, type: 3}
+      propertyPath: _coolDown
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3913053689574237470, guid: b5d6536a698e0a040a6cf1d646e55165, type: 3}
       propertyPath: m_LocalPosition.x
       value: -7.03

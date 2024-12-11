@@ -15,6 +15,8 @@ public class EnemyAttackState : EnemyState {
     public override void AnimationTriggerEvent(Enemy.AnimationTriggerType triggerType)
     {
         base.AnimationTriggerEvent(triggerType);
+        SoundManager.Instance.PlayMonster4GrowlSFX();
+
         Bullet instance = ObjectPooler.DequeueObject<Bullet>("Bullet");
         Vector2 dir = (enemy.PlayerTransform.position - enemy.gameObject.transform.position).normalized;
         instance.gameObject.SetActive(true);

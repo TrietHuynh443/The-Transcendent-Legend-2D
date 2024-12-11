@@ -279,6 +279,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     public override void TakeDamage(float damage)
     {
+        _isHit = true;
          _animator.Play("OnHit");
         //Handle health
         _playerDataSO.LoseHealth(damage);
@@ -325,7 +326,6 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     private IEnumerator GetHit()
     {
-        _isHit = true;
         yield return new WaitForSeconds(0.15f);
         _isHit = false;
     }

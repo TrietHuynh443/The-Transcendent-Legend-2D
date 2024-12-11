@@ -26,6 +26,7 @@ public class PlayerDataSO : ScriptableObject
             Speed = playerOriginalData.BaseSpeed,
             CritRate = playerOriginalData.BaseCritRate,
             Health = playerOriginalData.BaseHealth,
+            _ownedAchievements = new HashSet<int>(_currentStats._ownedAchievements)
         };
 
         OriginalStats = new PlayerStats
@@ -82,7 +83,7 @@ public class PlayerDataSO : ScriptableObject
         {
             EventAggregator.RaiseEvent(new PlayerDieEvent
             {
-                DieAnimationTime = 2f
+                DieAnimationTime = 1f
             });
         }
     }

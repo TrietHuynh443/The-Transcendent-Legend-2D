@@ -92,6 +92,7 @@ MonoBehaviour:
   _gamePauseUIPrefab: {fileID: 699269931019586866, guid: 8ab71ec5f1426764bb7d1df1cecd6e20, type: 3}
   _outGameUIParentPrefab: {fileID: 1807717830571251770, guid: 2638a8f05ab34b24b8ba9e59f34461fe, type: 3}
   _mainMenuGameUIPrefab: {fileID: 2891500790467809909, guid: 097d5dfd1ecfdf94b9000c89e86b4110, type: 3}
+  _achievementDisplayPrefab: {fileID: 7190226445065246839, guid: 030671b553be84c4cad660bcc3bce4ca, type: 3}
 --- !u!1 &2119381453441324128
 GameObject:
   m_ObjectHideFlags: 0

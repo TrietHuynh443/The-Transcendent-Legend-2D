@@ -17808,6 +17808,7 @@ GameObject:
   - component: {fileID: 5879990848564933042}
   - component: {fileID: 1920190146274054476}
   - component: {fileID: 3440185201644541266}
+  - component: {fileID: 3141374250122745061}
   m_Layer: 5
   m_Name: Quit Button
   m_TagString: Untagged
@@ -17916,7 +17917,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 5879990848564933042}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 3141374250122745061}
+        m_TargetAssemblyTypeName: ExitButton, Assembly-CSharp
+        m_MethodName: doExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 1
 --- !u!95 &3440185201644541266
 Animator:
   serializedVersion: 5
@@ -17938,6 +17951,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &3141374250122745061
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7978198208602869915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 812e4f936ec61fd4796ce1a40f344ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8150637916447236108
 GameObject:
   m_ObjectHideFlags: 0

@@ -51,7 +51,7 @@ public class DialoguePrompt : MonoBehaviour
                 _dialogueText.SetText(_dialogueLines[_currentLine]);
                 _currentLine++;
                 _dialogueBubble.SetActive(true);
-                _promptObject.SetActive(false);
+                // _promptObject.SetActive(false);
             }
         }
         else _dialogueBubble.SetActive(false);

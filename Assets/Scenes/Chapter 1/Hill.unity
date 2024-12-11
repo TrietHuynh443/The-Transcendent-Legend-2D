@@ -14536,7 +14536,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2462300694841674969, guid: c9d9817e40c725947ad30378aec5add9, type: 3}
       propertyPath: _nextSceneName
-      value: Scenes/Boss
+      value: Scenes/Chapter 1/Boss
       objectReference: {fileID: 0}
     - target: {fileID: 5329450360664206599, guid: c9d9817e40c725947ad30378aec5add9, type: 3}
       propertyPath: m_Name

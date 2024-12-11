@@ -1,6 +1,8 @@
 using System.Collections;
+using DG.Tweening;
 using Factory;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Monster4 : Enemy
 {
@@ -21,6 +23,7 @@ public class Monster4 : Enemy
     private float _timeTillExit = 3f;
     private float _distanceToCountExit = 3f;
     [SerializeField] private float _health = 5f;
+    [SerializeField] private Image _healthBar;
     private bool _isFirstAttackTime = true;
 
     protected override void Start()
@@ -148,11 +151,12 @@ public class Monster4 : Enemy
     protected override void FixedUpdate()
     {
         base.FixedUpdate();
-        if(_needTurnBack)
+        if(_needTurnBack || _isStuck)
         {
             _needTurnBack = false;
             // animator.enabled = false;
             TurnBack();
+            _healthBar.fillOrigin = (_healthBar.fillOrigin + 1) % 2;
             StartCoroutine(TurnBackBlockAnimation());
 
         }
@@ -161,11 +165,13 @@ public class Monster4 : Enemy
 
     public override void TakeDamage(float damage)
     {
+        _healthBar.DOFillAmount(Mathf.Max(0, (_health - damage)/_health), 0.1f);
         _health -= damage;
+
         if (_health <= 0f)
         {
-            
             _isDead = true;
+            Rigidbody.gravityScale = 4.5f;
         }
         else
         {

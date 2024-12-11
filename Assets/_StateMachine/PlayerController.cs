@@ -211,7 +211,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
         RaycastHit2D hitRight = Physics2D.BoxCast(
             transform.position,
-            new Vector2(0.6f, 1.45f),
+            new Vector2(0.6f, 1.35f),
             0f,
             transform.right,
             0.5f,
@@ -307,7 +307,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     void OnDrawGizmos()
     {
-        Vector2 boxSize = new Vector2(0.6f, 1.45f);
+        Vector2 boxSize = new Vector2(0.6f, 1.35f);
         Gizmos.color = Color.red;
         Gizmos.matrix = transform.localToWorldMatrix;
         Gizmos.DrawWireCube(Vector3.right * 0.5f, boxSize);

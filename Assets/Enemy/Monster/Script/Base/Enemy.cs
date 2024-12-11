@@ -16,7 +16,7 @@ public abstract class Enemy : BaseEntity, IEnemyMoveable, ITriggerCheckable
     [SerializeField] protected float _coolDown = 1f;
     protected bool _isAttackCoolDown = false;
 
-    public Transform PlayerTransform;
+    [HideInInspector] public Transform PlayerTransform;
     protected GameObject _target;
 
     public float CurrentHealth { get; set; }

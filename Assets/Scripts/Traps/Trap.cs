@@ -5,13 +5,13 @@ using UnityEngine;
 
 public class Trap : MonoBehaviour
 {
-    [SerializeField] private GameObject _playerObject;
-
+    [SerializeField] private float _trapDamage = 5f;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == _playerObject)
+        if (collision.CompareTag("Player"))
         {
-            //Implement it again
+            PlayerController player = collision.GetComponent<PlayerController>();
+            player.TakeDamage(_trapDamage);
         }
     }
 }

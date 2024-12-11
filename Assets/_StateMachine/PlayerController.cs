@@ -86,7 +86,7 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
         InitPlayerStates();
         PlacePlayerOnSceneSwitch();
-        _playerDataSO.Init();
+        // _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
     }
 

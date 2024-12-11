@@ -6,11 +6,9 @@ using UnityEngine.SceneManagement;
 
 public class Checkpoint : MonoBehaviour
 {
-    [SerializeField] private GameObject _playerObject;
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == _playerObject)
+        if (collision.CompareTag("Player"))
         {
             GameManager.Instance.SetPlayerQuickRespawnLocation(new Vector3(transform.position.x, this.transform.position.y + 0.5f));
             EventAggregator.RaiseEvent<PassCheckpointEvent>(

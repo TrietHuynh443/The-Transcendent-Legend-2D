@@ -527,14 +527,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 3181865504818976992, guid: a61d96374fec1274ebd096b286f81cde, type: 3}
-      propertyPath: _playerDataSO
-      value: 
-      objectReference: {fileID: 11400000, guid: 356b6915aff972f4c82e6f145c8987e9, type: 2}
-    - target: {fileID: 3181865504818976992, guid: a61d96374fec1274ebd096b286f81cde, type: 3}
-      propertyPath: _sceneSaveDataSO
-      value: 
-      objectReference: {fileID: 11400000, guid: c6ae46aaecc67274dbcb6023f760feef, type: 2}
     - target: {fileID: 5400001835953872481, guid: a61d96374fec1274ebd096b286f81cde, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

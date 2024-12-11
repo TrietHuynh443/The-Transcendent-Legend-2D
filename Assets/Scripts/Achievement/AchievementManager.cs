@@ -41,14 +41,14 @@ namespace Achievement
     {
         private Dictionary<EAchievementType, AchievementData> achievementDictionary;
 
-        private Vector2 _movedDistance;
-        private int _jumpCount;
-        private int _attackCount;
-        private float _accumulatedAttackDamage;
-        private int _toxicBallCount;
-        private float _accumulatedToxicBallDamage;
-        private int _getHurtByTrapCount;
-        private List<string> _completedScenes;
+        private Vector2 _movedDistance = new Vector2(0,0);
+        private int _jumpCount = 0;
+        private int _attackCount = 0;
+        private float _accumulatedAttackDamage = 0;
+        private int _toxicBallCount = 0;
+        private float _accumulatedToxicBallDamage = 0;
+        private int _getHurtByTrapCount = 0;
+        private List<string> _completedScenes = new List<string>();
 
 
         void Start()
@@ -101,7 +101,7 @@ namespace Achievement
         public void Handle(MoveAchievementProgress @event)
         {
             _movedDistance += @event.Distance;
-            if (_movedDistance.x >= 10000f)
+            if (_movedDistance.x >= 100000f)
             {
                 EventAggregator.RaiseEvent<AchievementSastifaction>(new AchievementSastifaction()
                 {

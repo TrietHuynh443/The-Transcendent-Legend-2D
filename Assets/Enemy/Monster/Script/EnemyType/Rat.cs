@@ -1,8 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using Factory;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Rat : Enemy
 {
@@ -11,6 +13,7 @@ public class Rat : Enemy
 
     [SerializeField] private GameObject _attackTrigger;
     [SerializeField] private float _health = 5f;
+    [SerializeField] private Image _healthBar;
 
     void Awake()
     {
@@ -29,6 +32,7 @@ public class Rat : Enemy
     }
     public override void TakeDamage(float damage)
     {
+        _healthBar.DOFillAmount(Mathf.Max(0, (_health - damage)/_health), 0.2f);
         _health -= damage;
         if (_health <= 0f)
         {
@@ -37,6 +41,7 @@ public class Rat : Enemy
         else
         {
             PlayGetHitAnimation();
+            
         }
     }
 
@@ -98,6 +103,8 @@ public class Rat : Enemy
         {
             _isTurnBack = false;
             TurnBack();
+            _healthBar.fillOrigin = (_healthBar.fillOrigin + 1) % 2;
+
         }
 
     }

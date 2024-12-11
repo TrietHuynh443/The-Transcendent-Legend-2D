@@ -37,8 +37,12 @@ public static class ObjectPooler
 
     public static void SetupPool<T>(T poolItemPrefab, int poolSize, string dictionaryEntry) where T : Component
     {
-        poolDictionary.Add(dictionaryEntry, new Queue<Component>());
-        poolLookup.Add(dictionaryEntry, poolItemPrefab);
+        if(!poolDictionary.TryAdd(dictionaryEntry, new Queue<Component>()) ||
+        !poolLookup.TryAdd(dictionaryEntry, poolItemPrefab))
+        {
+            //already added
+            return;
+        }
 
         for (int i = 0; i < poolSize; i++)
         {

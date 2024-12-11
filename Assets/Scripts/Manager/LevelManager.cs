@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using GameEvent;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class LevelManager : UnitySingleton<LevelManager>
@@ -22,6 +23,10 @@ public class LevelManager : UnitySingleton<LevelManager>
         levelSwitchName = switchName;
         velocity = vec;
         isVerticalSwitch = isVertSwitch;
+        EventAggregator.RaiseEvent<LevelCompletionAchievementProgress>(new LevelCompletionAchievementProgress()
+        {
+            LevelName = sceneName,
+        });
         LoadScene(sceneName);
     }
 

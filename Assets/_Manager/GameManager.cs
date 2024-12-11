@@ -27,19 +27,20 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
         _levelManager = LevelManager.Instance;
         _enemyMap = new Dictionary<EnemyType, BaseEnemy>();
         DontDestroyOnLoad(this);
+        routes = GetComponentInChildren<ResourcesRoute>();
+        routes.PlayerDataSO.Init();
+
     }
 
     protected override void SingletonStarted()
     {
         _gameDataManagerInstance = GameDataManager.Instance;
-        routes = GetComponentInChildren<ResourcesRoute>();
         _soundManager = GetComponentInChildren<SoundManager>();
         _gameDataManagerInstance.gameObject.transform.SetParent(transform);
         _soundManager.gameObject.transform.SetParent(transform);
         EventAggregator.Register<StartGameEvent>(this);
         //Play Main Theme
         StartCoroutine(PlayMainThemeMusic());
-        routes.PlayerDataSO.Init();
     }
 
     protected override void SingletonOnDestroy()
@@ -108,6 +109,16 @@ public class GameManager : UnitySingleton<GameManager>, IGameEventListener<Start
     public bool IsVerticalSwitch()
     {
         return _levelManager.IsVerticalSwitch;
+    }
+
+    public bool IsLevelSwitching()
+    {
+        return _levelManager.IsSwitching;
+    }
+
+    public void FinishLevelSwitch()
+    {
+        _levelManager.FinishSceneSwitch();
     }
 
     public string GetLevelSwitchName()

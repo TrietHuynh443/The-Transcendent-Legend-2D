@@ -43,7 +43,7 @@ public class Boss_Attack2 : StateMachineBehaviour
                 float bulletDirY = _rb.transform.position.y + Mathf.Cos((angle * Mathf.PI) / 180);
                 Vector3 bulletMoveVector = new Vector3(bulletDirX, bulletDirY, 0);
                 Vector2 bulletDir = (bulletMoveVector - _rb.transform.position).normalized;
-                Sword bullet = ObjectPooler.DequeueObject<Sword>("Sword");
+                Sword bullet = ObjectPooler.DequeueObject<Sword>("Bullet");
                 bullet.gameObject.SetActive(true);
                 Collider2D collider = bullet.gameObject.GetComponent<Collider2D>();
                 collider.enabled = true;

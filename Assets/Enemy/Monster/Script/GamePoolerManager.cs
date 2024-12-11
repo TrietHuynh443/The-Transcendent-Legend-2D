@@ -13,6 +13,6 @@ public class GamePoolerManager : MonoBehaviour
 
     private void SetupPool()
     {
-        ObjectPooler.SetupPool(BulletPrefabs, 10, "Sword");
+        ObjectPooler.SetupPool(BulletPrefabs, 10, "Bullet");
     }
 }

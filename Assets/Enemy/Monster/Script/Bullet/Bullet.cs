@@ -6,31 +6,22 @@ using UnityEngine;
 
 public class Bullet : BulletBase
 {
-    private Animator _animator;  // Reference to the Animator component
-    // private float _destroyDelay = 0.5f;  // Delay before bullet is destroyed after explosion animation
-
-    private BoxCollider2D _bulletCollider;  // Reference to the Bullet's Collider
-
-    private Rigidbody2D _rb;
-
-    // private float _lifetime = 5f;
-
     [SerializeField] private float _damage = 4f;
 
-    public void Initialize()
+    public override void Initialize()
     {
         _bulletCollider = GetComponent<BoxCollider2D>();
         _animator = GetComponent<Animator>();
         _rb = GetComponent<Rigidbody2D>();
     }
 
-    private void OnBecameInvisible()
+    protected override void OnBecameInvisible()
     {
         // Destroy the object when it goes out of the camera's view
         ObjectPooler.EnqueueObject(this, "Bullet");
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    protected override void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.name == "Player")
         {
@@ -60,7 +51,7 @@ public class Bullet : BulletBase
         }
     }
 
-    private void EnqueueBullet()
+    protected override void EnqueueBullet()
     {
         ObjectPooler.EnqueueObject(this, "Bullet");
     }

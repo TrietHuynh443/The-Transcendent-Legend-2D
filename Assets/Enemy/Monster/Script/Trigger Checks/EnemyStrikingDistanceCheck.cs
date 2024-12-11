@@ -5,15 +5,22 @@ using UnityEngine;
 public class EnemyStrikingDistanceCheck : MonoBehaviour
 {
     private Enemy _enemy;
+    private Boss _boss;
 
     private void Awake()
     {
-        _enemy = GetComponentInParent<ITriggerCheckable>();
+        _enemy = GetComponentInParent<Enemy>();
+        _boss = GetComponentInParent<Boss>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
+        if ((LayerMask.LayerToName(collision.gameObject.layer) == "Player") && _boss != null)
+        {
+            _boss.SetStrikingDistanceBool(true);
+        }
+
+        if ((LayerMask.LayerToName(collision.gameObject.layer) == "Player") && _enemy != null)
         {
             _enemy.SetStrikingDistanceBool(true);
         }
@@ -21,7 +28,11 @@ public class EnemyStrikingDistanceCheck : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-        if (LayerMask.LayerToName(collision.gameObject.layer) == "Player")
+        if ((LayerMask.LayerToName(collision.gameObject.layer) == "Player") && _boss != null)
+        {
+            _boss.SetStrikingDistanceBool(false);
+        }
+        if ((LayerMask.LayerToName(collision.gameObject.layer) == "Player") && _enemy != null)
         {
             _enemy.SetStrikingDistanceBool(false);
         }

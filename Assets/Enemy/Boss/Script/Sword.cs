@@ -46,12 +46,12 @@ public class Sword : BulletBase
     protected override void OnBecameInvisible()
     {
         // Destroy the object when it goes out of the camera's view
-        ObjectPooler.EnqueueObject(this, "Sword");
+        ObjectPooler.EnqueueObject(this, "Bullet");
     }
 
 
     protected override void EnqueueBullet()
     {
-        ObjectPooler.EnqueueObject(this, "Sword");
+        ObjectPooler.EnqueueObject(this, "Bullet");
     }
 }

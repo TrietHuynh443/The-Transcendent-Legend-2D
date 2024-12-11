@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using GameEvent;
 using Player.PlayerProperties;
 using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
@@ -18,6 +19,7 @@ public class AttackState : PlayerState
         _attackCollider.SetActive(true);
         _isAnimationFinished = false;
         EventAggregator.RaiseEvent<PlayerAttackEvent>(new PlayerAttackEvent());
+        EventAggregator.RaiseEvent<AttackAchievementProgress>(new AttackAchievementProgress(){Count = 1, Damage = 0});
     }
 
     public override void Exit()

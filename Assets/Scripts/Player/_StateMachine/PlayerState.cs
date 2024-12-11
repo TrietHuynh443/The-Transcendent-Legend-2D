@@ -1,4 +1,5 @@
 using System;
+using GameEvent;
 using Player.PlayerProperties;
 using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
@@ -76,6 +77,7 @@ public class PlayerState
         DoChecks();
         var horizontalMove = _properties.Input.HorizontalInput* _properties.Data.Speed;
         _controller.Rigidbody.velocity = new Vector2(horizontalMove, _controller.Rigidbody.velocity.y);
+        EventAggregator.RaiseEvent<MoveAchievementProgress>(new MoveAchievementProgress(){Distance = new Vector2(Math.Abs(horizontalMove), 0)});
     }
 
     public virtual void DoChecks() { 

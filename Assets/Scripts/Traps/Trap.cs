@@ -12,6 +12,10 @@ public class Trap : MonoBehaviour
         {
             PlayerController player = collision.GetComponent<PlayerController>();
             player.TakeDamage(_trapDamage);
+            EventAggregator.RaiseEvent<TrapEncounterAchievementProgress>(new TrapEncounterAchievementProgress()
+            {
+                Count = 1,
+            });
         }
     }
 }

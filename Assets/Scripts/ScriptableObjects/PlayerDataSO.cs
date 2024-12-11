@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using GameData.PlayerData;
 using GameEvent;
 using UnityEngine;
@@ -10,12 +11,12 @@ public class PlayerDataSO : ScriptableObject
 
     public PlayerStats CurrentStats => _currentStats;
 
-    public PlayerStats OriginalStats {get; private set;}
+    public PlayerStats OriginalStats { get; private set; }
 
     public void Init()
     {
         var playerOriginalData = GameDataManager.Instance.GetCurrentPlayerData();
-        _currentStats = new ()
+        _currentStats = new PlayerStats
         {
             Attack = playerOriginalData.BaseAttack,
             Defense = playerOriginalData.BaseDefense,
@@ -27,7 +28,7 @@ public class PlayerDataSO : ScriptableObject
             Health = playerOriginalData.BaseHealth,
         };
 
-        OriginalStats = new ()
+        OriginalStats = new PlayerStats
         {
             Attack = playerOriginalData.BaseAttack,
             Defense = playerOriginalData.BaseDefense,
@@ -77,13 +78,28 @@ public class PlayerDataSO : ScriptableObject
     {
         _currentStats.Health -= damage;
         Debug.Log($"Player: {_currentStats.Health}");
-        if(_currentStats.Health < 0)
+        if (_currentStats.Health < 0)
         {
-            EventAggregator.RaiseEvent<PlayerDieEvent>(new PlayerDieEvent()
+            EventAggregator.RaiseEvent(new PlayerDieEvent
             {
                 DieAnimationTime = 2f
             });
         }
+    }
+    
+    public void AddAchievement(int achievement)
+    {
+        _currentStats._ownedAchievements.Add(achievement);
+    }
+
+    public bool HasAchievement(int achievement)
+    {
+        return _currentStats._ownedAchievements.Contains(achievement);
+    }
+
+    public void ClearAchievements()
+    {
+        _currentStats._ownedAchievements.Clear();
     }
 
     [System.Serializable]
@@ -98,10 +114,19 @@ public class PlayerDataSO : ScriptableObject
         public float Speed;
         public float CritRate;
 
+        // HashSet to store achievements by their int values
+        internal HashSet<int> _ownedAchievements = new HashSet<int>();
+        public IReadOnlyCollection<int> OwnedAchievements => _ownedAchievements;
+
+        // Methods to manage achievements
+        
+
         // Clone method for creating a deep copy
         public PlayerStats Clone()
         {
-            return (PlayerStats)MemberwiseClone();
+            var clonedStats = (PlayerStats)MemberwiseClone();
+            clonedStats._ownedAchievements = new HashSet<int>(_ownedAchievements);
+            return clonedStats;
         }
     }
 }

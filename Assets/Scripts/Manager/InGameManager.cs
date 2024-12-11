@@ -8,18 +8,21 @@ public class InGameManager : UnitySingleton<InGameManager>,
     IGameEventListener<PauseEvent>,
     IGameEventListener<RespawnEvent>,
     IGameEventListener<QuitToMenuEvent>,
-    IGameEventListener<ResumeEvent>
+    IGameEventListener<ResumeEvent>,
+    IGameEventListener<DisplayAchievement>
 
 {
     [SerializeField] private GameObject _gameOverUIPrefab;
     [SerializeField] private GameObject _gamePauseUIPrefab;
     [SerializeField] private GameObject _outGameUIParentPrefab;
     [SerializeField] private GameObject _mainMenuGameUIPrefab;
+    [SerializeField] private GameObject _achievementDisplayPrefab;
 
     private GameObject _gameOverUI;
     private GameObject _gamePauseUI;
     private GameObject _outGameUIParent;
     private GameObject _mainMenuUI;
+    private GameObject _achievementDisplay;
     private GameObject _player;
     
 
@@ -65,6 +68,7 @@ public class InGameManager : UnitySingleton<InGameManager>,
         EventAggregator.Register<RespawnEvent>(this);
         EventAggregator.Register<QuitToMenuEvent>(this);
         EventAggregator.Register<ResumeEvent>(this);
+        EventAggregator.Register<DisplayAchievement>(this);
         GetMainMenuUI();//.gameObject.SetActive(false); //spawn UI
         GetOutGameUIHolder();//.gameObject.SetActive(false); //spawn UI
     }
@@ -77,6 +81,16 @@ public class InGameManager : UnitySingleton<InGameManager>,
             // DontDestroyOnLoad(_gameOverUI);
         }
         return _gameOverUI;
+    }
+
+    private GameObject GetAchievementDisplay()
+    {
+        if (_achievementDisplay == null)
+        {
+            _achievementDisplay = Instantiate(_achievementDisplayPrefab, GetOutGameUIHolder().transform);
+        }
+
+        return _achievementDisplay;
     }
 
     private GameObject GetGamePauseUI()
@@ -145,5 +159,12 @@ public class InGameManager : UnitySingleton<InGameManager>,
 
         PauseEvent pauseEvent = new PauseEvent();
         pauseEvent.Resume();
+    }
+
+    public void Handle(DisplayAchievement @event)
+    {
+        GetAchievementDisplay();
+        
+        _achievementDisplay.GetComponent<AchievementController>().DisplayAchievement(@event.Type, @event.Data);
     }
 }

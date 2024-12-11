@@ -12,7 +12,7 @@ public class Checkpoint : MonoBehaviour
     {
         if (collision.gameObject == _playerObject)
         {
-            // GameManager.Instance.SetPlayerRespawnLocation(new Vector3(transform.position.x, this.transform.position.y + 0.5f));
+            GameManager.Instance.SetPlayerQuickRespawnLocation(new Vector3(transform.position.x, this.transform.position.y + 0.5f));
             EventAggregator.RaiseEvent<PassCheckpointEvent>(
                 new PassCheckpointEvent()
                 {

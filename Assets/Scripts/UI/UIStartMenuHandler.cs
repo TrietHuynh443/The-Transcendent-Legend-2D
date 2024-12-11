@@ -40,7 +40,9 @@ public class UIStartMenuHandler : MonoBehaviour, IGameEventListener<RestartGameE
         _startMenuCanvas.GetComponent<CanvasGroup>()
             .DOFade(0, _fadeDuration)
             .OnComplete(
-                () => {
+                () =>
+                {
+                    _startMenuCanvas.GetComponent<CanvasGroup>().alpha = 1;
                     _startMenuCanvas.gameObject.SetActive(false);
                     StartGame();
                 }

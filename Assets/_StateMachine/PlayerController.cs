@@ -10,7 +10,7 @@ using Player.PlayerStates.PlayerStateMachine;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
-public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>, IGameEventListener<OnHitEvent>
+public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, IGameEventListener<PassCheckpointEvent>, IGameEventListener<OnHitEvent>, IGameEventListener<RespawnEvent>
 {
     [SerializeField]
     private float _onJumpGravityScale = 3f;
@@ -30,6 +30,8 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
 
     private Rigidbody2D _rigidbody;
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
+    private PlayerController _playerController;
 
     #region Player State Controller
     private PlayerStateMachine _playerStateMachine;
@@ -67,12 +69,18 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         _startInAirTime = Time.time;
         _isDead = false;
         _isHit = false;
+        EventAggregator.Register<PlayerDieEvent>(this);
+        EventAggregator.Register<PassCheckpointEvent>(this);
+        EventAggregator.Register<OnHitEvent>(this);
+        EventAggregator.Register<RespawnEvent>(this);
     }
     private void Start()
     {
         DontDestroyOnLoad(this);
         _rigidbody = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
+        _playerController = GetComponent<PlayerController>();
         _playerDataSO = ResourcesRoute.Instance.PlayerDataSO;
         _rigidbody.gravityScale = _originGravityScale;
 
@@ -80,16 +88,14 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         PlacePlayerOnSceneSwitch();
         _playerDataSO.Init();
         _normalAttack.AttackDamage = _playerDataSO.CurrentStats.Attack;
-        EventAggregator.Register<PlayerDieEvent>(this);
-        EventAggregator.Register<PassCheckpointEvent>(this);
-        EventAggregator.Register<OnHitEvent>(this);
     }
 
-    void OnDestroy()
+    void OnDisable()
     {
         EventAggregator.Unregister<PlayerDieEvent>(this);
         EventAggregator.Unregister<PassCheckpointEvent>(this);
         EventAggregator.Unregister<OnHitEvent>(this);
+        EventAggregator.Unregister<RespawnEvent>(this);
     }
     public void Reset()
     {
@@ -161,11 +167,6 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
         var currentInAirTime = Time.time - _startInAirTime;
         if (!_properties.Status.IsGrounded && _properties.Status.CurrentJump == 0 && currentInAirTime > 0.2f)
         {
-            if(currentInAirTime > 4f)
-            {
-                Die();
-                return;
-            }
 
             HandleInAir();
             StartCoroutine(StartCoyate());
@@ -295,13 +296,16 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     {
         _animator.SetTrigger("Die");
         _isDead = true;
-        StartCoroutine(OnDead());
+        StartCoroutine(OnDead(@event));
     }
 
-    public IEnumerator OnDead()
+
+    public IEnumerator OnDead(PlayerDieEvent @event)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(@event.DieAnimationTime);
         gameObject.SetActive(false);
+        InGameManager.Instance.Player = gameObject;
+        // _spriteRenderer.enabled = false;
         Reset();
     }
 
@@ -322,6 +326,15 @@ public class PlayerController : BaseEntity, IGameEventListener<PlayerDieEvent>, 
     public void Handle(OnHitEvent @event)
     {
         StartCoroutine(GetHit());
+    }
+
+    public void Handle(RespawnEvent @event)
+    {
+        Debug.Log("Hi");
+        _animator.ResetTrigger("Die");
+        _isDead = false;
+        // gameObject.SetActive(true);
+        GameManager.Instance.RespawnPlayer(_sceneSaveDataSO, _playerController);
     }
 
     private IEnumerator GetHit()

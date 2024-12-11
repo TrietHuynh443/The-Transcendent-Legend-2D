@@ -4,9 +4,12 @@ using GameEvent;
 using UnityEngine;
 
 public class InGameManager : UnitySingleton<InGameManager>,
-                             IGameEventListener<PlayerDieEvent>,
-                             IGameEventListener<PauseEvent>
-                             
+    IGameEventListener<PlayerDieEvent>,
+    IGameEventListener<PauseEvent>,
+    IGameEventListener<RespawnEvent>,
+    IGameEventListener<QuitToMenuEvent>,
+    IGameEventListener<ResumeEvent>
+
 {
     [SerializeField] private GameObject _gameOverUIPrefab;
     [SerializeField] private GameObject _gamePauseUIPrefab;
@@ -17,25 +20,41 @@ public class InGameManager : UnitySingleton<InGameManager>,
     private GameObject _gamePauseUI;
     private GameObject _outGameUIParent;
     private GameObject _mainMenuUI;
+    private GameObject _player;
+    
+
+    public GameObject Player
+    {
+        get => _player;
+        set => _player = value;
+    }
+
     public void Handle(PlayerDieEvent @event)
     {
-        if(_gameOverUI == null)
-        {
-            _gameOverUI = Instantiate(_gameOverUIPrefab,  GetOutGameUIHolder().transform);
-            DontDestroyOnLoad(_gameOverUI);
-        }
-        _gameOverUI.SetActive(true);
+        StartCoroutine(CheckDieAnimationFinished(@event));
+    }
+
+    private IEnumerator CheckDieAnimationFinished(PlayerDieEvent @event)
+    {
+        yield return new WaitForSeconds(@event.DieAnimationTime);
+        GetGameOverUI().SetActive(true);
     }
 
     public void Handle(PauseEvent @event)
     {
-        if(_gamePauseUI == null)
+        if (GetGameOverUI().activeSelf)
         {
-            _gamePauseUI = Instantiate(_gamePauseUIPrefab, GetOutGameUIHolder().transform);
-            DontDestroyOnLoad(_gamePauseUI);
+            _gameOverUI.SetActive(false);
+            return;
         }
+
+        if (GetMainMenuUI().activeSelf)
+        {
+            return; //Don't show pause menu (on ESC button) when showing main menu
+        }
+
         @event.Pause();
-        _gamePauseUI.SetActive(PauseEvent.IsPaused);
+        GetGamePauseUI().SetActive(true);
     }
 
     protected override void SingletonStarted()
@@ -43,27 +62,55 @@ public class InGameManager : UnitySingleton<InGameManager>,
         base.SingletonStarted();
         EventAggregator.Register<PlayerDieEvent>(this);
         EventAggregator.Register<PauseEvent>(this);
-        GetMainMenuUI().gameObject.SetActive(false); //spawn UI
-        GetOutGameUIHolder().gameObject.SetActive(false); //spawn UI
+        EventAggregator.Register<RespawnEvent>(this);
+        EventAggregator.Register<QuitToMenuEvent>(this);
+        EventAggregator.Register<ResumeEvent>(this);
+        GetMainMenuUI();//.gameObject.SetActive(false); //spawn UI
+        GetOutGameUIHolder();//.gameObject.SetActive(false); //spawn UI
+    }
+
+    private GameObject GetGameOverUI()
+    {
+        if (_gameOverUI == null)
+        {
+            _gameOverUI = Instantiate(_gameOverUIPrefab, GetOutGameUIHolder().transform);
+            // DontDestroyOnLoad(_gameOverUI);
+        }
+        return _gameOverUI;
+    }
+
+    private GameObject GetGamePauseUI()
+    {
+        if (_gamePauseUI == null)
+        {
+            _gamePauseUI = Instantiate(_gamePauseUIPrefab, GetOutGameUIHolder().transform);
+            // DontDestroyOnLoad(_gamePauseUI);
+        }
+
+        return _gamePauseUI;
     }
 
     private GameObject GetOutGameUIHolder()
     {
-        if(_outGameUIParent == null)
+        if (_outGameUIParent == null)
         {
             _outGameUIParent = Instantiate(_outGameUIParentPrefab);
             DontDestroyOnLoad(_outGameUIParent);
         }
+
+        _outGameUIParent.SetActive(true);
         return _outGameUIParent;
     }
 
     public GameObject GetMainMenuUI()
     {
-        if(_mainMenuUI == null)
+        if (_mainMenuUI == null)
         {
             _mainMenuUI = Instantiate(_mainMenuGameUIPrefab);
             DontDestroyOnLoad(_mainMenuUI);
         }
+
+        // _mainMenuUI.SetActive(true);
         return _mainMenuUI;
     }
 
@@ -71,4 +118,32 @@ public class InGameManager : UnitySingleton<InGameManager>,
     // {
     //     GetMainMenuUI().gameObject.SetActive(true);
     // }
+    public void Handle(RespawnEvent @event)
+    {
+        GetGameOverUI().SetActive(false);
+        if (_player != null)
+        {
+            _player.SetActive(true);
+        }
+    }
+
+    public void Handle(QuitToMenuEvent @event)
+    {
+        GetMainMenuUI().SetActive(true);
+        GetGameOverUI().SetActive(false);
+        GetGamePauseUI().SetActive(false);
+
+        PauseEvent pauseEvent = new PauseEvent();
+        pauseEvent.Resume();
+    }
+
+    public void Handle(ResumeEvent @event)
+    {
+        GetMainMenuUI().SetActive(false);
+        GetGameOverUI().SetActive(false);
+        GetGamePauseUI().SetActive(false);
+
+        PauseEvent pauseEvent = new PauseEvent();
+        pauseEvent.Resume();
+    }
 }

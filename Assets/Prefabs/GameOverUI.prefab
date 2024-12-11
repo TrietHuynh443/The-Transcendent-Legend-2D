@@ -346,7 +346,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1
+  m_PixelsPerUnitMultiplier: 32
 --- !u!1 &3634532794636966695
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,6 +360,7 @@ GameObject:
   - component: {fileID: 1288724134754642137}
   - component: {fileID: 4133465733836128147}
   - component: {fileID: 6220375537604808619}
+  - component: {fileID: 254159463864147723}
   m_Layer: 5
   m_Name: YesBtn
   m_TagString: Untagged
@@ -485,6 +486,18 @@ MonoBehaviour:
   _originAlpha: 0
   _hoverAlpha: 1
   _image: {fileID: 1906176183185027694}
+--- !u!114 &254159463864147723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3634532794636966695}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84d2a700275b40f49d9571470f03a456, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &5123290513469573040
 GameObject:
   m_ObjectHideFlags: 0
@@ -1008,6 +1021,7 @@ GameObject:
   - component: {fileID: 4411638309007791462}
   - component: {fileID: 3639225304672099269}
   - component: {fileID: 7031452370463151324}
+  - component: {fileID: 1504388433745967890}
   m_Layer: 5
   m_Name: NoBtn
   m_TagString: Untagged
@@ -1133,3 +1147,15 @@ MonoBehaviour:
   _originAlpha: 0
   _hoverAlpha: 1
   _image: {fileID: 8898743523855747829}
+--- !u!114 &1504388433745967890
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7249922225840840604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8b37ae2040a24be187ad427c7c21f380, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
